@@ -13,6 +13,7 @@ Estimation in a frictionless way.
 
    introduction/index
    architecture/index
+   requirements/index
 
 ..
     Indices and tables
