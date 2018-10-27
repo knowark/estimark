@@ -12,6 +12,7 @@ Estimation in a frictionless way.
    :maxdepth: 2
 
    introduction/index
+   architecture/index
 
 ..
     Indices and tables
