@@ -5,3 +5,4 @@ Architecture
    :maxdepth: 2
 
    domain
+   structure
