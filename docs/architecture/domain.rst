@@ -29,7 +29,7 @@ Domain
     estimate -> Schedule
 
     Task -> Executor [arrowhead=vee]
-    Task -> Effort [arrowhead=vee]
+    Classifier -> Effort [arrowhead=vee]
     Schedule -> Slot [arrowhead=crow]
 
     Slot -> Task [arrowhead=vee]
