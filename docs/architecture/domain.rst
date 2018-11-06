@@ -16,6 +16,7 @@ Domain
 
     Task [shape=box]
     Classifier [shape=box]
+    Classification [shape=box]
     Effort [shape=box]
     Executor [shape=box]
     Schedule [shape=box]
@@ -28,14 +29,14 @@ Domain
     
     estimate -> Schedule
 
-    Task -> Executor [arrowhead=vee]
+    Task -> Executor [arrowhead=vee, label=Nullable]
     Classifier -> Effort [arrowhead=vee]
-    Schedule -> Slot [arrowhead=crow]
-
+    
     Slot -> Task [arrowhead=vee]
     Slot -> Executor [arrowhead=vee]
+    Slot -> Schedule [arrowhead=vee]
 
-    Task -> Classifier [arrowhead=vee]
-    Classifier -> Task [arrowhead=vee]
+    Classification -> Task [arrowhead=vee]
+    Classification -> Classifier [arrowhead=vee]
 
     }
