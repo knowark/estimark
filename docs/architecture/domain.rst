@@ -28,6 +28,7 @@ Domain
     Task -> estimate [label=list]
     
     estimate -> Schedule
+    estimate -> Slot
 
     Task -> Executor [arrowhead=vee, label=Nullable]
     Classifier -> Effort [arrowhead=vee]
