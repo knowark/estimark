@@ -1,8 +1,7 @@
 from pytest import fixture
 from unittest.mock import Mock
 from fnmatch import fnmatchcase
-from estimark.application.repositories.expression_parser import (
-    ExpressionParser)
+from estimark.application.repositories import ExpressionParser
 
 
 @fixture
