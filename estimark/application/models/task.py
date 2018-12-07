@@ -4,3 +4,4 @@ class Task:
         self.name = attributes['name']
         self.previous = attributes.get('previous')
         self.next = attributes.get('next')
+        self.role_id = attributes.get('role_id')
