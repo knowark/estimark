@@ -23,4 +23,4 @@ class TrialFactory(MemoryFactory):
             "2": Task(id='2', name='Deploy Servers'),
             "3": Task(id='3', name='Design Website')
         })
-        return MemoryTaskRepository(expression_parser)
+        return memory_task_repository

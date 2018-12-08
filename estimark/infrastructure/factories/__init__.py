@@ -7,5 +7,5 @@ from ..config import Config
 def build_factories(config: Config) -> Dict[str, Any]:
     return {
         'MemoryFactory': MemoryFactory(config),
-        'TrialFactory': TrialFactory
+        'TrialFactory': TrialFactory(config)
     }
