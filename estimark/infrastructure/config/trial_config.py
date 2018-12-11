@@ -15,5 +15,8 @@ class TrialConfig(Config):
             },
             "EstimationCoordinator": {
                 "method": "estimation_coordinator"
+            },
+            "EstimarkInformer": {
+                "method": "standard_estimark_informer"
             }
         }
