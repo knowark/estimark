@@ -3,13 +3,14 @@ Authark entrypoint
 """
 
 import os
+import sys
 from .infrastructure.config import build_config
 from .infrastructure.factories import build_factories
 from .infrastructure.resolver import Resolver
 from .infrastructure.cli import Cli
 
 
-def main():  # pragma: no cover
+def main(args):  # pragma: no cover
     mode = os.environ.get('ESTIMARK_MODE', 'PROD')
     config_path = os.environ.get('ESTIMARK_CONFIG', 'estimark_config.json')
     config = build_config(config_path, mode)
@@ -19,8 +20,8 @@ def main():  # pragma: no cover
     providers = config['providers']
     registry = resolver.resolve(providers)
 
-    Cli(config, registry).run()
+    Cli(config, registry).run(args)
 
 
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    sys.exit(main(sys.argv[1:]))

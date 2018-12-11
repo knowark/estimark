@@ -1,5 +1,6 @@
 import sys
 from argparse import ArgumentParser, Namespace
+from typing import Dict
 from ..config import Config
 from ..resolver import Registry
 
@@ -9,13 +10,13 @@ class Cli:
         self.registry = registry
         self.config = config
 
-    def run(self):
-        args = self.parse()
-        args.func(args)
+    def run(self, args):
+        namespace = self.parse(args)
+        namespace.func(vars(namespace))
 
-    def parse(self) -> Namespace:
+    def parse(self, args) -> Namespace:
         parser = ArgumentParser('Estimark')
-        subparsers = parser.add_subparsers()
+        subparsers = parser.add_subparsers(dest='action')
 
         # Estimate
         estimate_parser = subparsers.add_parser('estimate')
@@ -25,16 +26,16 @@ class Cli:
         show_parser = subparsers.add_parser('show')
         show_parser.set_defaults(func=self.show)
 
-        if len(sys.argv[1:]) == 0:
+        if len(args) == 0:
             parser.print_help()
             parser.exit()
 
-        return parser.parse_args()
+        return parser.parse_args(args)
 
-    def estimate(self, args: Namespace) -> None:
-        print('...ESTIMATE:::', args)
-        estimation_coordinator = self.registry['estimation_coordinator']
+    def estimate(self, options_dict: Dict[str, str]) -> None:
+        print('...ESTIMATE:::', options_dict)
+        estimation_coordinator = self.registry['EstimationCoordinator']
 
-    def show(self, args: Namespace) -> None:
-        print('...SHOW:::', args)
-        estimark_informer = self.registry['estimark_informer']
+    def show(self, options_dict: Dict[str, str]) -> None:
+        print('...SHOW:::', options_dict)
+        # estimark_informer = self.registry['EstimarkInformer']
