@@ -9,6 +9,7 @@ class Cli:
         self.registry = registry
         self.config = config
 
+    def run(self):
         args = self.parse()
         args.func(args)
 

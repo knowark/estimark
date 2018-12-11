@@ -19,7 +19,7 @@ def main():  # pragma: no cover
     providers = config['providers']
     registry = resolver.resolve(providers)
 
-    Cli(config, registry)
+    Cli(config, registry).run()
 
 
 if __name__ == '__main__':  # pragma: no cover
