@@ -8,30 +8,35 @@ def test_resolver_resolve_dependencies(resolver, providers_dict):
     result = resolver._resolve_dependencies(providers_dict)
 
     assert isinstance(result, list)
-    assert len(result) == 3
+    assert len(result) == 4
     for provider in result:
         assert 'dependencies' in provider
         dependencies = provider['dependencies']
-        if provider['name'] == 'BazService':
-            assert len(dependencies) == 2
-        else:
+        if provider['name'] == 'ParHelper':
             assert len(dependencies) == 0
+        else:
+            assert len(dependencies) > 0
 
 
 def test_resolver_resolve_instance(resolver):
     registry = {}
+
     provider_dict = {
         'method': 'standard_baz_service',
         'name': 'BazService',
         'dependencies': [
             {'method': 'memory_foo_repository',
              'name': 'FooRepository',
-             'dependencies': []},
+             'dependencies': [
+                {'method': 'memory_par_helper',
+                 'name': 'ParHelper',
+                 'dependencies': []}]},
             {'method': 'memory_bar_repository',
              'name': 'BarRepository',
-             'dependencies': []}
-        ]
-    }
+             'dependencies': [
+                     {'method': 'memory_par_helper',
+                      'name': 'ParHelper',
+                      'dependencies': []}]}]}
 
     result = resolver._resolve_instance(provider_dict, registry)
 

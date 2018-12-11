@@ -2,12 +2,21 @@ from pytest import fixture
 from estimark.infrastructure.resolver import Resolver, Config
 
 
+class ParHelper:
+    pass
+
+
+class MemoryParHelper(ParHelper):
+    pass
+
+
 class FooRepository:
     pass
 
 
 class MemoryFooRepository(FooRepository):
-    pass
+    def __init__(self, par_helper: ParHelper) -> None:
+        pass
 
 
 class BarRepository:
@@ -15,7 +24,8 @@ class BarRepository:
 
 
 class MemoryBarRepository(BarRepository):
-    pass
+    def __init__(self, par_helper: ParHelper) -> None:
+        pass
 
 
 class StandardBazService:
@@ -37,18 +47,21 @@ def config():
 def mock_factory():
     class MockFactory:
 
-        def memory_foo_repository(self):
-            return MemoryFooRepository()
+        def memory_par_helper(self):
+            return MemoryParHelper()
 
-        def memory_bar_repository(self):
-            return MemoryBarRepository()
+        def memory_foo_repository(self, par_helper: ParHelper):
+            return MemoryFooRepository(par_helper)
+
+        def memory_bar_repository(self, par_helper: ParHelper):
+            return MemoryBarRepository(par_helper)
 
         def standard_baz_service(self, foo_repository: FooRepository,
                                  bar_repository: BarRepository):
             return StandardBazService(foo_repository, bar_repository)
 
-        def dedicated_foo_repository(self):
-            return MemoryFooRepository()
+        def dedicated_foo_repository(self, par_helper: ParHelper):
+            return MemoryFooRepository(par_helper)
 
     return MockFactory()
 
@@ -64,6 +77,9 @@ def providers_dict():
         },
         "BazService": {
             "method": "standard_baz_service"
+        },
+        "ParHelper": {
+            "method": "memory_par_helper"
         }
     }
 
@@ -82,7 +98,10 @@ def dedicated_providers_dict():
             "providers": {
                 "FooRepository": "dedicated_foo_repository"
             }
-        }
+        },
+        "ParHelper": {
+            "method": "memory_par_helper"
+        },
     }
 
 
