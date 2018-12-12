@@ -1,4 +1,5 @@
 import sys
+from json import dumps
 from argparse import ArgumentParser, Namespace
 from typing import Dict
 from ..config import Config
@@ -33,9 +34,12 @@ class Cli:
         return parser.parse_args(args)
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
-        print('...ESTIMATE:::', options_dict)
+        print('...ESTIMATE:::')
         estimation_coordinator = self.registry['EstimationCoordinator']
 
     def show(self, options_dict: Dict[str, str]) -> None:
-        print('...SHOW:::', options_dict)
-        # estimark_informer = self.registry['EstimarkInformer']
+        print('...SHOW:::')
+        estimark_informer = self.registry['EstimarkInformer']
+
+        tasks = estimark_informer.search_tasks([])
+        print(dumps(tasks, indent=4))
