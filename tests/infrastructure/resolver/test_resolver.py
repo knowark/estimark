@@ -1,62 +1,84 @@
+from .conftest import A, B, C, D, X, Y
 
 
 def test_resolver_instantiation(resolver):
     assert resolver is not None
 
 
-def test_resolver_resolve_dependencies(resolver, providers_dict):
-    result = resolver._resolve_dependencies(providers_dict)
-
-    assert isinstance(result, list)
-    assert len(result) == 4
-    for provider in result:
-        assert 'dependencies' in provider
-        dependencies = provider['dependencies']
-        if provider['name'] == 'ParHelper':
-            assert len(dependencies) == 0
-        else:
-            assert len(dependencies) > 0
+def test_resolver_attributes(resolver, standard_strategy, standard_factory):
+    assert resolver.parent is None
+    assert resolver.strategy == standard_strategy
+    assert resolver.factory == standard_factory
+    assert resolver.registry == {}
 
 
-def test_resolver_resolve_instance(resolver):
-    registry = {}
-
-    provider_dict = {
-        'method': 'standard_baz_service',
-        'name': 'BazService',
-        'dependencies': [
-            {'method': 'memory_foo_repository',
-             'name': 'FooRepository',
-             'dependencies': [
-                {'method': 'memory_par_helper',
-                 'name': 'ParHelper',
-                 'dependencies': []}]},
-            {'method': 'memory_bar_repository',
-             'name': 'BarRepository',
-             'dependencies': [
-                     {'method': 'memory_par_helper',
-                      'name': 'ParHelper',
-                      'dependencies': []}]}]}
-
-    result = resolver._resolve_instance(provider_dict, registry)
-
-    assert result.__class__.__name__ == 'StandardBazService'
+def test_resolver_resolves_resource_without_dependencies(resolver):
+    instance = resolver.resolve('A')
+    assert isinstance(instance, A)
+    instance = resolver.resolve('B')
+    assert isinstance(instance, B)
+    assert len(resolver.registry) == 2
 
 
-def test_resolver_resolve(resolver, providers_dict):
-    registry = resolver.resolve(providers_dict)
+def test_resolver_serves_resources_from_registry(resolver):
+    instance = resolver.resolve('A')
+    assert isinstance(instance, A)
+    registry_instance = resolver.resolve('A')
+    assert instance == registry_instance
+    assert len(resolver.registry) == 1
 
-    assert isinstance(registry, dict)
-    assert 'FooRepository' in registry
-    assert 'BarRepository' in registry
-    assert 'BazService' in registry
+
+def test_resolver_resolves_resource_with_dependencies(resolver):
+    instance = resolver.resolve('C')
+    assert isinstance(instance, C)
+    assert isinstance(instance.a, A)
+    assert isinstance(instance.b, B)
+    assert resolver.resolve('A') == instance.a
+    assert resolver.resolve('B') == instance.b
 
 
-def test_resolver_dedicated_providers(resolver, dedicated_providers_dict):
-    registry = resolver.resolve(dedicated_providers_dict)
+def test_resolver_doesnt_persist_ephemeral_dependencies(resolver):
+    resolver.strategy = {
+        'A': {
+            'method': 'standard_a',
+            'ephemeral': True
+        }
+    }
+    instance = resolver.resolve('A')
+    assert isinstance(instance, A)
+    assert len(resolver.registry) == 0
 
-    common_foo_repository = registry['FooRepository']
 
-    dedicated_foo_repository = registry['BazService'].foo_repository
+def test_resolver_forge(resolver, standard_strategy, standard_factory):
+    parent = resolver
 
-    assert id(common_foo_repository) != id(dedicated_foo_repository)
+    resolver = parent.forge(
+        strategy=standard_strategy, factory=standard_factory)
+
+    assert resolver is not None
+    assert resolver.parent is parent
+
+
+def test_resolver_resolves_a_resource_owned_by_its_parent(
+        resolver, parent_resolver):
+    parent_resolver.registry['X'] = X()
+    resolver.parent = parent_resolver
+
+    instance = resolver.resolve('X')
+    assert isinstance(instance, X)
+
+    assert instance == resolver.parent.registry['X']
+    assert len(resolver.parent.registry) == 1
+    assert len(resolver.registry) == 0
+
+
+def test_resolver_resolve_a_resource_its_parent_know(
+        resolver, parent_resolver):
+    resolver.parent = parent_resolver
+
+    instance = resolver.resolve('Y')
+    assert isinstance(instance, Y)
+    assert instance == resolver.parent.registry['Y']
+    # assert instance == resolver.registry['Y']
+    assert len(resolver.parent.registry) == 2
+    assert len(resolver.registry) == 0

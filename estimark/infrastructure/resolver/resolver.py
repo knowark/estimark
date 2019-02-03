@@ -5,67 +5,70 @@ from .types import (
 
 
 class Resolver:
-    def __init__(self, config: Config, factories: Factories) -> None:
-        self.config = config
-        self.factories = factories
-        self.default_factory = self.config['factory']
+    def __init__(self, strategy=None, factory=None,  parent=None) -> None:
+        self.parent = parent
+        self.factory = factory
+        self.strategy = strategy
+        self.registry = {}
 
-    def resolve(self, providers: ProvidersDict) -> Registry:
-        providers_list = self._resolve_dependencies(providers)
+    def resolve(self, resource: str):
+        fetched = self._registry_fetch(resource)
+        if fetched:
+            return fetched
 
-        registry = {}  # type: Registry
-        for provider in providers_list:
-            if provider['name'] in registry:
-                continue
-            self._resolve_instance(provider, registry)
-
-        return registry
-
-    def _resolve_dependencies(self, providers: ProvidersDict
-                              ) -> ProvidersList:
-
-        for key, value in providers.items():
-            factory = value.get('factory', self.default_factory)
-            method = value.get('method')
-
-            annotations = signature(getattr(
-                self.factories[factory], method)).parameters
-
-            dedicated_providers = value.get('providers', {})
-
-            providers[key]['name'] = key
-            providers[key]['dependencies'] = [
-                providers[value.annotation.__name__] for key, value in
-                annotations.items() if key != 'return'
-            ]
-
-        return list(providers.values())
-
-    def _resolve_instance(self, provider: ProviderDict,
-                          registry: Registry) -> object:
-
-        arguments = []
-        dedicated_dependencies = provider.get('providers', {})
-        for dependency in provider['dependencies']:
-            name = dependency['name']
-            if name in dedicated_dependencies:
-                dependency['method'] = dedicated_dependencies[name]
-                del dependency['name']
-                dependency_instance = self._resolve_instance(
-                    dependency, registry)
-            elif dependency['name'] in registry:
-                dependency_instance = registry[dependency['name']]
-            else:
-                dependency_instance = self._resolve_instance(
-                    dependency, registry)
-            arguments.append(dependency_instance)
-
-        factory = provider.get('factory', self.default_factory)
-        method = provider['method']
-
-        instance = getattr(self.factories[factory], method)(*arguments)
-
-        if provider.get('name'):
-            registry[provider['name']] = instance
+        resource_strategy = self.strategy.get(resource, {})
+        persist = not (resource_strategy.get('ephemeral') or
+                       resource_strategy.get('unique'))
+        instance = self._dependency_build(resource, persist)
 
         return instance
+
+    def forge(self, strategy, factory):
+        return Resolver(parent=self, strategy=strategy, factory=factory)
+
+    def _registry_fetch(self, resource: str):
+        fetched = False
+        rule = self.strategy.get(resource, {})
+        unique = rule if rule.get('unique') else False
+        if unique:
+            return fetched
+
+        if resource in self.registry:
+            fetched = self.registry[resource]
+        else:
+            parent = self.parent
+            fetched = parent._registry_fetch(resource) if parent else False
+
+        return fetched
+
+    def _dependency_build(self, resource: str, persist=True):
+        instance = None
+
+        rule = self.strategy.get(resource, {'method': ''})
+        print(self.factory)
+        builder = self.factory.extract(rule['method'])
+
+        if not builder:
+            parent = self.parent
+            return (parent._dependency_build(resource, persist) if parent
+                    else instance)
+        dependencies = [
+            value.annotation.__name__ for key, value in
+            signature(builder).parameters.items() if key != 'return']
+        dependency_instances = []
+        for dependency in dependencies:
+            dependency_instance = self.resolve(dependency)
+            dependency_instances.append(dependency_instance)
+
+        instance = builder(*dependency_instances)
+
+        if persist:
+            self.registry[resource] = instance
+
+        return instance
+
+    def _instance_hold(self, resource: str, instance: any):
+        if self.strategy.get(resource, {}).get('unique'):
+            self.registry[resource] = instance
+            return True
+        return False
