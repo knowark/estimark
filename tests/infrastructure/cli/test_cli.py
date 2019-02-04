@@ -4,8 +4,8 @@ from estimark.infrastructure.cli import Cli
 
 
 @fixture
-def cli(trial_config, trial_registry):
-    cli = Cli(trial_config, trial_registry)
+def cli(trial_config, trial_resolver):
+    cli = Cli(trial_config, trial_resolver)
     return cli
 
 

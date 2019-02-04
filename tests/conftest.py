@@ -1,7 +1,7 @@
 from pytest import fixture
 from estimark.infrastructure.resolver import Registry, Resolver
 from estimark.infrastructure.config import build_config, Config
-from estimark.infrastructure.factories import build_factories
+from estimark.infrastructure.factories import build_factory
 
 
 @fixture
@@ -10,11 +10,9 @@ def trial_config() -> Config:
 
 
 @fixture
-def trial_registry(trial_config) -> Registry:
+def trial_resolver(trial_config) -> Registry:
     config = trial_config
-    factories = build_factories(config)
-    resolver = Resolver(config, factories)
-    providers = config['providers']
-    registry = resolver.resolve(providers)
-
-    return registry
+    factory = build_factory(config)
+    strategy = config['strategy']
+    resolver = Resolver(strategy=strategy, factory=factory)
+    return resolver

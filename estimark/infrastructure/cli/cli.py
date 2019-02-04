@@ -2,12 +2,12 @@ import sys
 from argparse import ArgumentParser, Namespace
 from typing import Dict
 from ..config import Config
-from ..resolver import Registry
+from ..resolver import Resolver
 
 
 class Cli:
-    def __init__(self, config: Config, registry: Registry) -> None:
-        self.registry = registry
+    def __init__(self, config: Config, resolver: Resolver) -> None:
+        self.resolver = resolver
         self.config = config
 
     def run(self, args):
@@ -34,8 +34,7 @@ class Cli:
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
         print('...ESTIMATE:::', options_dict)
-        estimation_coordinator = self.registry['EstimationCoordinator']
+        estimation_coordinator = self.resolver.resolve('EstimationCoordinator')
 
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)
-        # estimark_informer = self.registry['EstimarkInformer']

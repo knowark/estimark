@@ -6,7 +6,7 @@ class TrialConfig(Config):
         super().__init__()
         self['mode'] = 'TEST'
         self['factory'] = 'TrialFactory'
-        self['providers'] = {
+        self['strategy'] = {
             "ExpressionParser": {
                 "method": "expression_parser"
             },

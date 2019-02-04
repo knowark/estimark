@@ -10,7 +10,8 @@ class MemoryFactory:
     def __init__(self, config: Config) -> None:
         self.config = config
 
-    # Repositories
+    def extract(self, method: str):
+        return getattr(self, "{0}".format(method), None)
 
     def expression_parser(self) -> ExpressionParser:
         return ExpressionParser()
