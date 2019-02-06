@@ -82,3 +82,14 @@ def test_resolver_resolve_a_resource_its_parent_know(
     # assert instance == resolver.registry['Y']
     assert len(resolver.parent.registry) == 2
     assert len(resolver.registry) == 0
+
+
+def test_resolver_registry_fetch_unique(resolver):
+    resolver.strategy = {
+        'B': {
+            'method': 'standard_b',
+            'unique': True
+        }
+    }
+    result = resolver._registry_fetch('B')
+    assert result is False
