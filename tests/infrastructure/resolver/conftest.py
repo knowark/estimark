@@ -11,13 +11,13 @@ class B:
 
 
 class C:
-    def __init__(self, a: A, b: B):
+    def __init__(self, a: A, b: B) -> None:
         self.a = a
         self.b = b
 
 
 class D:
-    def __init__(self, b: B, c: C):
+    def __init__(self, b: B, c: C) -> None:
         self.b = b
         self.c = c
 
@@ -66,7 +66,7 @@ class X:
 
 
 class Y:
-    def __init__(self, x: X):
+    def __init__(self, x: X) -> None:
         self.x = x
 
 

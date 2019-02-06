@@ -2,5 +2,5 @@ from pytest import fixture
 
 
 @fixture
-def estimark_informer(trial_registry):
-    return trial_registry['EstimarkInformer']
+def estimark_informer(trial_resolver):
+    return trial_resolver.resolve('EstimarkInformer')

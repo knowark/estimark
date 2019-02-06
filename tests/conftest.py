@@ -10,7 +10,7 @@ def trial_config() -> Config:
 
 
 @fixture
-def trial_resolver(trial_config) -> Registry:
+def trial_resolver(trial_config) -> Resolver:
     config = trial_config
     factory = build_factory(config)
     strategy = config['strategy']
