@@ -1,4 +1,5 @@
 import sys
+from json import dumps
 from argparse import ArgumentParser, Namespace
 from typing import Dict
 from ..config import Config
