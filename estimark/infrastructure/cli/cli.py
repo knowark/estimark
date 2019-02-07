@@ -39,3 +39,7 @@ class Cli:
 
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)
+        estimark_informer = self.resolver.resolve('EstimarkInformer')
+        tasks = estimark_informer.search_tasks([])
+        for task in tasks:
+            print('T:::', task)
