@@ -1,12 +1,12 @@
 from ..config import Config
-from .memory_factory import MemoryFactory
 from ...application.models import Task
 from ...application.repositories import (
     ExpressionParser,
     TaskRepository, MemoryTaskRepository)
+from .standard_factory import StandardFactory
 
 
-class TrialFactory(MemoryFactory):
+class TrialFactory(StandardFactory):
     def __init__(self, config: Config) -> None:
         self.config = config
 

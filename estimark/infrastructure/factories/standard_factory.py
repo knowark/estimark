@@ -5,9 +5,10 @@ from ...application.repositories import (
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
+from .factory import Factory
 
 
-class MemoryFactory:
+class StandardFactory(Factory):
     def __init__(self, config: Config) -> None:
         self.config = config
 

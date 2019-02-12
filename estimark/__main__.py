@@ -15,9 +15,13 @@ def main(args):  # pragma: no cover
     config_path = os.environ.get('ESTIMARK_CONFIG', 'estimark_config.json')
     config = build_config(config_path, mode)
 
+    print('CONFIG>>>>', config)
+
     factory = build_factory(config)
     strategy = config['strategy']
     resolver = Resolver(strategy=strategy, factory=factory)
+
+    print('FACTORY>>>', factory)
 
     Cli(config, resolver).run(args)
 

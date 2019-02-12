@@ -1,11 +1,14 @@
 from typing import Dict, Any
-from .memory_factory import MemoryFactory
+from .standard_factory import StandardFactory
 from .trial_factory import TrialFactory
+from .rst_factory import RstFactory
 from ..config import Config
+from .factory import Factory
 
 
-def build_factory(config: Config) -> Dict[str, Any]:
+def build_factory(config: Config) -> Factory:
     return {
-        'MemoryFactory': MemoryFactory(config),
+        'RstFactory': RstFactory(config),
+        'StandardFactory': StandardFactory(config),
         'TrialFactory': TrialFactory(config)
-    }.get(config.get('factory', 'MemoryFactory'))
+    }.get(config.get('factory', 'StandardFactory'))
