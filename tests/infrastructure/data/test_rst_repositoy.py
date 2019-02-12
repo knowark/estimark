@@ -1,5 +1,5 @@
 from typing import Dict
-from pytest import fixture
+from pytest import fixture, raises
 from estimark.application.repositories import Repository, ExpressionParser
 from estimark.infrastructure.data import RstRepository, RstAnalyzer
 
@@ -33,67 +33,41 @@ def test_rst_repository_get(rst_repository) -> None:
     assert item and item.field_1 == "value_1"
 
 
-# def test_memory_repository_add() -> None:
-#     parser = ExpressionParser()
-#     memory_repository = MemoryRepository[DummyEntity](parser)
+def test_rst_repository_add(rst_repository) -> None:
+    item = DummyEntity(id="1", field_1="value_1")
 
-#     item = DummyEntity("1", "value_1")
-
-#     is_saved = memory_repository.add(item)
-
-#     assert len(memory_repository.items) == 1
-#     assert is_saved
-#     assert "1" in memory_repository.items.keys()
-#     assert item in memory_repository.items.values()
+    with raises(NotImplementedError):
+        rst_repository.add(item)
 
 
-# def test_memory_repository_search(memory_repository):
-#     domain = [('field_1', '=', "value_3")]
+def test_rst_repository_remove(rst_repository) -> None:
+    item = DummyEntity(id="1", field_1="value_1")
 
-#     items = memory_repository.search(domain)
-
-#     assert len(items) == 1
-#     for item in items:
-#         assert item.id == '3'
-#         assert item.field_1 == "value_3"
+    with raises(NotImplementedError):
+        rst_repository.remove(item)
 
 
-# def test_memory_repository_search_all(memory_repository):
-#     items = memory_repository.search([])
+def test_rst_repository_search(rst_repository):
+    domain = [('field_1', '=', "value_3")]
 
-#     assert len(items) == 3
+    items = rst_repository.search(domain)
 
-
-# def test_memory_repository_search_limit(memory_repository):
-#     items = memory_repository.search([], limit=2)
-
-#     assert len(items) == 2
-
-
-# def test_memory_repository_search_limit_zero(memory_repository):
-#     items = memory_repository.search([], limit=0)
-
-#     assert len(items) == 3
+    assert len(items) == 1
+    for item in items:
+        assert item.id == '2.1.2.3'
+        assert item.field_1 == "value_3"
 
 
-# def test_memory_repository_search_offset(memory_repository):
-#     items = memory_repository.search([], offset=2)
-
-#     assert len(items) == 1
-
-
-# def test_memory_repository_remove_true(memory_repository):
-#     item = memory_repository.items["2"]
-#     deleted = memory_repository.remove(item)
-
-#     assert deleted is True
-#     assert len(memory_repository.items) == 2
-#     assert "2" not in memory_repository.items
+def test_rst_repository_search_all(rst_repository):
+    items = rst_repository.search([])
+    assert len(items) > 10
 
 
-# def test_memory_repository_remove_false(memory_repository):
-#     item = DummyEntity(**{'id': '6', 'field_1': 'MISSING'})
-#     deleted = memory_repository.remove(item)
+def test_rst_repository_search_limit(rst_repository):
+    items = rst_repository.search([], limit=2)
+    assert len(items) == 2
 
-#     assert deleted is False
-#     assert len(memory_repository.items) == 3
+
+def test_rst_repository_search_offset(rst_repository):
+    items = rst_repository.search([], offset=2)
+    assert len(rst_repository.items) - len(items) == 2
