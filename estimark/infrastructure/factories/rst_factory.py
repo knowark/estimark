@@ -15,5 +15,4 @@ class RstFactory(StandardFactory):
                             analyzer: RstAnalyzer) -> RstTaskRepository:
         root = self.config.get('root', '.')
 
-        print('ROOT>>>>', root)
         return RstTaskRepository(root, expression_parser, analyzer)

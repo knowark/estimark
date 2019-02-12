@@ -2,7 +2,7 @@ from typing import Callable
 from docutils.parsers.rst import Parser  # type: ignore
 from docutils.frontend import OptionParser
 from docutils.utils import new_document
-from docutils.nodes import Node, NodeVisitor, field  # type: ignore
+from docutils.nodes import Node, NodeVisitor, field, title  # type: ignore
 
 
 class RstAnalyzer:
@@ -20,7 +20,7 @@ class RstAnalyzer:
             entries = value.split('\n')
             for entry in entries:
                 key, value = entry.split('=')
-                result[key] = value
+                result[key.strip()] = value.strip()
 
         visitor = _RstVisitor(document, callback=assign_result)
         document.walk(visitor)
@@ -33,6 +33,11 @@ class _RstVisitor(NodeVisitor):
         super().__init__(*attrs)
         self.tag = tag
         self.callback = callback
+
+    def visit_title(self, node: title) -> None:
+        if self.callback:
+            value = "name={0}".format(node[0])
+            self.callback(value)
 
     def visit_field(self, node: field) -> None:
         """Called for "reference" nodes."""

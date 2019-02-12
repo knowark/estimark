@@ -9,4 +9,5 @@ def test_rst_analyzer_analyzes_rst_file(rst_analyzer, rst_file):
     result = rst_analyzer.analyze(rst_file)
 
     assert result is not None
-    assert result == {'classifiers': 'XS', 'role': 'PM'}
+    assert result == {'classifiers': 'XS', 'role': 'PM',
+                      'name': 'This is a Sample Task'}
