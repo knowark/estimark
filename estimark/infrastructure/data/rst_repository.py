@@ -58,7 +58,9 @@ class RstRepository(Repository, Generic[T]):
         return _id, item
 
     def _extract_id(self, name: str) -> str:
-        _id, *rest = name.split('_')
+        _id = '0'
+        if '_' in name:
+            _id, *rest = name.split('_')
         return _id
 
     def _extract_content(self, node: Path) -> Dict[str, Any]:
