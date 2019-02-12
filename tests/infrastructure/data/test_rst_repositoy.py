@@ -1,13 +1,13 @@
 from typing import Dict
 from pytest import fixture
-from estimark.application.repositories import Repository
-from estimark.infrastructure.data import RstRepository
+from estimark.application.repositories import Repository, ExpressionParser
+from estimark.infrastructure.data import RstRepository, RstAnalyzer
 
 
 class DummyEntity:
-    def __init__(self, id: str, field_1: str) -> None:
-        self.id = id
-        self.field_1 = field_1
+    def __init__(self, **attributes) -> None:
+        self.id = attributes.get('id', '')
+        self.field_1 = attributes.get('field_1', '')
 
 
 def test_rst_repository_implementation() -> None:
@@ -15,16 +15,22 @@ def test_rst_repository_implementation() -> None:
 
 
 @fixture
-def rst_repository() -> RstRepository:
+def rst_repository(root_directory: str) -> RstRepository:
     parser = ExpressionParser()
-    repository = RstRepository[DummyEntity](parser)
+    analyzer = RstAnalyzer()
+    repository = RstRepository[DummyEntity](root_directory, parser,
+                                            analyzer, DummyEntity)
     return repository
 
 
-# def test_memory_repository_get(memory_repository) -> None:
-#     item = memory_repository.get("1")
+def test_rst_repository_load(rst_repository) -> None:
+    rst_repository.load()
+    assert len(rst_repository.items) > 0
 
-#     assert item and item.field_1 == "value_1"
+
+def test_rst_repository_get(rst_repository) -> None:
+    item = rst_repository.get("2.1.1.1")
+    assert item and item.field_1 == "value_1"
 
 
 # def test_memory_repository_add() -> None:
