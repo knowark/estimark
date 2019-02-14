@@ -1,4 +1,4 @@
 Estimark
 ########
 
-Estimation in a frictionless way.
+Frictionless estimation.
