@@ -7,3 +7,4 @@ from .schedule import Schedule
 from .slot import Slot
 from .role import Role
 from .assignment import Assignment
+from .link import Link
