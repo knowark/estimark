@@ -15,6 +15,7 @@ Domain
     //////////
 
     Task [shape=box]
+    Link [shape=box]
     Classifier [shape=box]
     Classification [shape=box]
     Effort [shape=box]
@@ -31,6 +32,8 @@ Domain
     estimate -> Slot
 
     Task -> Executor [arrowhead=vee, label=Nullable]
+    Link -> Task [arrowhead=vee]
+    Link -> Task [arrowhead=vee]
     Classifier -> Effort [arrowhead=vee]
     
     Slot -> Task [arrowhead=vee]

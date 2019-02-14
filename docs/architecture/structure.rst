@@ -25,6 +25,14 @@ Structure
     <tr><td port="classifier_id">classifier_id</td></tr>
     </table>>];
 
+    Link [label=<
+    <table border="0" cellborder="1" cellspacing="0">
+    <tr><td><i>Link</i></td></tr>
+    <tr><td port="id">id</td></tr>
+    <tr><td port="predecessor_id">predecessor_id</td></tr>
+    <tr><td port="successor_id">successor_id</td></tr>
+    </table>>];
+
     Classifier [label=<
     <table border="0" cellborder="1" cellspacing="0">
     <tr><td><i>Classifier</i></td></tr>
@@ -61,13 +69,19 @@ Structure
 
     TaskClassifier:task_id -> Task:id;
     TaskClassifier:classifier_id -> Classifier:id;
-   
+
+    Link:predecessor_id -> Task:id;
+    Link:successor_id -> Task:id;
+    
     }
 
 
 **Tasks** are the central component of the estimation process. In the other
 hand we have **Executors** which are those responsible of fulfilling the work
 to be done, impacting directly the overall calculation.
+
+**Links** represent the dependencies between **Tasks**, declaring their
+predecessors and successors.
 
 Instead of being estimated directly, **Tasks** are assigned one or multiple
 **Classifiers** which have been assigned certain set of **Efforts** such as
