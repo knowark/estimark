@@ -28,7 +28,11 @@ def load_config(config_path: str) -> Config:
 
 def update_config(base_config: ProductionConfig, overlay_config: Config
                   ) -> ProductionConfig:
-    overlay_strategy = base_config.pop('strategy')
+    overlay_strategy = None
+    if 'strategy' in overlay_config:
+        overlay_strategy = overlay_config.pop('strategy')
     base_config.update(overlay_config)
-    base_config['strategy'].update(overlay_strategy)
+    if overlay_strategy:
+        base_config['strategy'].update(overlay_strategy)
+
     return base_config
