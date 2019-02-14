@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from pytest import fixture
-from estimark.infrastructure.data import RstAnalyzer
+from estimark.infrastructure.data import RstAnalyzer, RstLoader
 
 
 @fixture
@@ -14,8 +14,13 @@ def rst_file() -> str:
 
 
 @fixture
-def rst_analyzer() -> str:
+def rst_analyzer() -> RstAnalyzer:
     return RstAnalyzer()
+
+
+@fixture
+def rst_loader(root_directory, rst_analyzer) -> RstLoader:
+    return RstLoader(root_directory, rst_analyzer)
 
 
 @fixture
