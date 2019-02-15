@@ -108,3 +108,4 @@ venv.bak/
 
 # estimark
 estimark_config.json
+estimark_data.json
