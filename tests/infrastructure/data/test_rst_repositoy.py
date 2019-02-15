@@ -52,8 +52,6 @@ def test_rst_repository_search(rst_repository):
 
     items = rst_repository.search(domain)
 
-    print('Items>>>', items)
-
     assert len(items) == 1
     for item in items:
         assert item.id == '2.1.2.3'

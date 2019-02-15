@@ -21,11 +21,17 @@ class RstLoader:
 
         for node in path.rglob('*.rst'):
             data = self._analyze_node(node)
+
+            if 'index.rst' in node.name:
+                node = node.parent
+
             metadata = {
                 'file_name': node.name,
-                'parent_dir': node.parent.name
+                'parent_dir': node.parent.name,
+                'parent_absolute': str(node.parent.absolute())
             }
-            self._nodes[node.absolute()] = {**metadata, **data}
+
+            self._nodes[str(node.absolute())] = {**metadata, **data}
 
     def _analyze_node(self, node: Path) -> Dict[str, Any]:
         data_dict = self._extract_content(node)

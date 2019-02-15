@@ -11,6 +11,9 @@ class ProductionConfig(TrialConfig):
             "RstAnalyzer": {
                 "method": "rst_analyzer"
             },
+            "RstLoader": {
+                "method": "rst_loader"
+            },
             "TaskRepository": {
                 "method": "rst_task_repository"
             }

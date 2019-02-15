@@ -41,9 +41,11 @@ class RstRepository(Repository, Generic[T]):
 
     def load(self):
         nodes = self.loader.nodes
+
         for key, value in nodes.items():
             _id = self._extract_id(value)
             value['id'] = _id
+            value['parent_id'] = self._extract_parent_id(value)
             item = self.item_class(**value)
             self.items[_id] = item
 
@@ -61,3 +63,11 @@ class RstRepository(Repository, Generic[T]):
             _id, *rest = parent_dir.split('_')
 
         return _id
+
+    def _extract_parent_id(self, value: Dict[str, Any]) -> str:
+        nodes = self.loader.nodes
+        parent_value = nodes.get(value.get('parent_absolute'))
+        if not parent_value:
+            return ''
+
+        return self._extract_id(parent_value)
