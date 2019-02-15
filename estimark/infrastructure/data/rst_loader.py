@@ -12,6 +12,8 @@ class RstLoader:
 
     @property
     def nodes(self):
+        if not self._nodes:
+            self.load()
         return self._nodes
 
     def load(self):
@@ -20,10 +22,10 @@ class RstLoader:
         for node in path.rglob('*.rst'):
             data = self._analyze_node(node)
             metadata = {
-                'name': node.name,
-                'parent': node.parent.absolute
+                'file_name': node.name,
+                'parent_dir': node.parent.name
             }
-            self._nodes[node.absolute] = {**metadata, **data}
+            self._nodes[node.absolute()] = {**metadata, **data}
 
     def _analyze_node(self, node: Path) -> Dict[str, Any]:
         data_dict = self._extract_content(node)

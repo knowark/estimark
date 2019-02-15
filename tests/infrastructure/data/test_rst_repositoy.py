@@ -1,7 +1,7 @@
 from typing import Dict
 from pytest import fixture, raises
 from estimark.application.repositories import Repository, ExpressionParser
-from estimark.infrastructure.data import RstRepository, RstAnalyzer
+from estimark.infrastructure.data import RstRepository, RstAnalyzer, RstLoader
 
 
 class DummyEntity:
@@ -15,11 +15,11 @@ def test_rst_repository_implementation() -> None:
 
 
 @fixture
-def rst_repository(root_directory: str) -> RstRepository:
+def rst_repository(rst_loader) -> RstRepository:
     parser = ExpressionParser()
-    analyzer = RstAnalyzer()
-    repository = RstRepository[DummyEntity](root_directory, parser,
-                                            analyzer, DummyEntity)
+    repository = RstRepository[DummyEntity](
+        parser, rst_loader, DummyEntity)
+    repository.load()
     return repository
 
 
@@ -51,6 +51,8 @@ def test_rst_repository_search(rst_repository):
     domain = [('field_1', '=', "value_3")]
 
     items = rst_repository.search(domain)
+
+    print('Items>>>', items)
 
     assert len(items) == 1
     for item in items:

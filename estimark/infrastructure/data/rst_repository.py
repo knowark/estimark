@@ -4,26 +4,25 @@ from typing import List, Dict, Type, Callable, Optional, Generic, Tuple, Any
 from ...application.repositories import (
     T, QueryDomain, ExpressionParser, Repository)
 from .rst_analyzer import RstAnalyzer
+from .rst_loader import RstLoader
 
 
 class RstRepository(Repository, Generic[T]):
-    def __init__(self, root: str, parser: ExpressionParser,
-                 analyzer: RstAnalyzer, item_class: Type[T]) -> None:
+    def __init__(self, parser: ExpressionParser,
+                 loader: RstLoader,
+                 item_class: Type[T]) -> None:
         self.items: Dict[str, Any] = {}
-        self.root = root
         self.parser = parser
-        self.analyzer = analyzer
+        self.loader = loader
         self.item_class: Callable[..., T] = item_class
 
     def get(self, id: str) -> Optional[T]:
-        self.load()
         return self.items.get(id)
 
     def add(self, item: T) -> T:
         raise NotImplementedError('Implementation not available.')
 
     def search(self, domain: QueryDomain, limit=0, offset=0) -> List[T]:
-        self.load()
         items = []
         limit = int(limit) if limit > 0 else 100
         offset = int(offset) if offset > 0 else 0
@@ -41,28 +40,24 @@ class RstRepository(Repository, Generic[T]):
         raise NotImplementedError('Implementation not available.')
 
     def load(self):
-        path = Path(self.root)
-        for node in path.rglob('*.rst'):
-            _id, item = self._analyze_node(node)
+        nodes = self.loader.nodes
+        for key, value in nodes.items():
+            _id = self._extract_id(value)
+            value['id'] = _id
+            item = self.item_class(**value)
             self.items[_id] = item
 
-    def _analyze_node(self, node: Path) -> Tuple[str, T]:
-        name = node.name
-        if name == 'index.rst':
-            name = node.parent.name
+    def _extract_id(self, value: Dict[str, Any]) -> str:
+        _id = value.get('id', '')
+        if _id:
+            return _id
 
-        _id = self._extract_id(name)
-        data_dict = self._extract_content(node)
-        data_dict['id'] = _id
-        item = self.item_class(**data_dict)
-        return _id, item
+        file_name = value.get('file_name', '')
+        parent_dir = value.get('parent_dir', '')
 
-    def _extract_id(self, name: str) -> str:
-        _id = '0'
-        if '_' in name:
-            _id, *rest = name.split('_')
+        if '_' in file_name:
+            _id, *rest = file_name.split('_')
+        elif '_' in parent_dir:
+            _id, *rest = parent_dir.split('_')
+
         return _id
-
-    def _extract_content(self, node: Path) -> Dict[str, Any]:
-        content = node.read_text()
-        return self.analyzer.analyze(content)

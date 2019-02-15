@@ -1,6 +1,6 @@
 from ..config import Config
 from ...application.repositories import ExpressionParser
-from ..data import RstRepository, RstTaskRepository, RstAnalyzer
+from ..data import RstRepository, RstTaskRepository, RstAnalyzer, RstLoader
 from .standard_factory import StandardFactory
 
 
@@ -11,8 +11,12 @@ class RstFactory(StandardFactory):
     def rst_analyzer(self):
         return RstAnalyzer()
 
-    def rst_task_repository(self, expression_parser: ExpressionParser,
-                            analyzer: RstAnalyzer) -> RstTaskRepository:
+    def rst_loader(self, analyzer: RstAnalyzer):
         root = self.config.get('root', '.')
+        return RstLoader(root, analyzer)
 
-        return RstTaskRepository(root, expression_parser, analyzer)
+    def rst_task_repository(self, expression_parser: ExpressionParser,
+                            loader: RstLoader) -> RstTaskRepository:
+        repository = RstTaskRepository(expression_parser, loader)
+        repository.load()
+        return repository
