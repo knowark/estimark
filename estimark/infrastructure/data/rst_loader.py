@@ -20,11 +20,12 @@ class RstLoader:
         path = Path(self.root)
 
         nodes_dict = {}
-        for node in path.rglob('*.rst'):
+        for node in sorted(path.rglob('*.rst')):
             data = self._analyze_node(node)
 
             if 'index.rst' in node.name:
                 node = node.parent
+                data['summary'] = True
 
             metadata = {
                 'file_name': node.name,

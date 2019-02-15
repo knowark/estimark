@@ -20,7 +20,10 @@ class RstAnalyzer:
             entries = value.split('\n')
             for entry in entries:
                 key, value = entry.split('=')
-                result[key.strip()] = value.strip()
+                value = value.strip()
+                if ',' in value:
+                    value = [item.strip() for item in value.split(',')]
+                result[key.strip()] = value
 
         visitor = _RstVisitor(document, callback=assign_result)
         document.walk(visitor)

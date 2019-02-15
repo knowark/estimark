@@ -33,15 +33,12 @@ class RstRepository(Repository, Generic[T]):
 
         items = items[:limit]
         items = items[offset:]
-
         return items
 
     def remove(self, item: T) -> bool:
         raise NotImplementedError('Implementation not available.')
 
     def load(self):
-        nodes = self.loader.nodes
-
-        for value in nodes:
+        for value in self.loader.nodes:
             item = self.item_class(**value)
             self.items[value['id']] = item
