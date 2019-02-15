@@ -25,6 +25,8 @@ class Cli:
 
         # Show
         show_parser = subparsers.add_parser('show')
+        show_parser.add_argument('-t', '--tasks', action='store_true')
+        show_parser.add_argument('-l', '--links', action='store_true')
         show_parser.set_defaults(func=self.show)
 
         if len(args) == 0:
@@ -40,6 +42,12 @@ class Cli:
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)
         estimark_informer = self.resolver.resolve('EstimarkInformer')
-        tasks = estimark_informer.search_tasks([])
-        for task in tasks:
-            print('T:::', task)
+
+        if options_dict.get('tasks'):
+            tasks = estimark_informer.search_tasks([])
+            for task in tasks:
+                print('T:::', task)
+        elif options_dict.get('links'):
+            links = estimark_informer.search_links([])
+            for link in links:
+                print('L:::', link)

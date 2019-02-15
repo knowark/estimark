@@ -1,7 +1,7 @@
 from ..config import Config
 from ...application.repositories import (
-    ExpressionParser,
-    TaskRepository, MemoryTaskRepository, MemoryLinkRepository)
+    ExpressionParser, TaskRepository, MemoryTaskRepository,
+    LinkRepository, MemoryLinkRepository)
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
@@ -34,6 +34,7 @@ class StandardFactory(Factory):
         return EstimationCoordinator(task_repository)
 
     def standard_estimark_informer(
-            self, task_repository: TaskRepository
+            self, task_repository: TaskRepository,
+            link_repository: LinkRepository
     ) -> StandardEstimarkInformer:
-        return StandardEstimarkInformer(task_repository)
+        return StandardEstimarkInformer(task_repository, link_repository)

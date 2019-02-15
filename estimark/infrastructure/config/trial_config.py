@@ -13,6 +13,9 @@ class TrialConfig(Config):
             "TaskRepository": {
                 "method": "memory_task_repository"
             },
+            "LinkRepository": {
+                "method": "memory_link_repository"
+            },
             "EstimationCoordinator": {
                 "method": "estimation_coordinator"
             },

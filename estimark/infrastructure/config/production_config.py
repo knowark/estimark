@@ -16,5 +16,8 @@ class ProductionConfig(TrialConfig):
             },
             "TaskRepository": {
                 "method": "rst_task_repository"
+            },
+            "LinkRepository": {
+                "method": "rst_link_repository"
             }
         })
