@@ -6,7 +6,8 @@ class ProductionConfig(TrialConfig):
         super().__init__()
         self['mode'] = 'PROD'
         self['root'] = ''
-        self['data'] = ''
+        self['param'] = ''
+        self['result'] = ''
         self['factory'] = 'RstFactory'
         self['strategy'].update({
             "RstAnalyzer": {
@@ -20,5 +21,8 @@ class ProductionConfig(TrialConfig):
             },
             "LinkRepository": {
                 "method": "rst_link_repository"
+            },
+            "ClassifierRepository": {
+                "method": "json_classifier_repository"
             }
         })

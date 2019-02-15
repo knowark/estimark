@@ -1,7 +1,8 @@
 from ..config import Config
 from ...application.repositories import (
     ExpressionParser, TaskRepository, MemoryTaskRepository,
-    LinkRepository, MemoryLinkRepository)
+    LinkRepository, MemoryLinkRepository,
+    ClassifierRepository, MemoryClassifierRepository)
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
@@ -10,6 +11,7 @@ from .factory import Factory
 
 class StandardFactory(Factory):
     def __init__(self, config: Config) -> None:
+        super().__init__(config)
         self.config = config
 
     def extract(self, method: str):
@@ -28,6 +30,11 @@ class StandardFactory(Factory):
     ) -> MemoryLinkRepository:
         return MemoryLinkRepository(expression_parser)
 
+    def memory_classifier_repository(
+            self, expression_parser: ExpressionParser
+    ) -> MemoryClassifierRepository:
+        return MemoryClassifierRepository(expression_parser)
+
     def estimation_coordinator(
             self, task_repository: TaskRepository
     ) -> EstimationCoordinator:
@@ -35,6 +42,8 @@ class StandardFactory(Factory):
 
     def standard_estimark_informer(
             self, task_repository: TaskRepository,
-            link_repository: LinkRepository
+            link_repository: LinkRepository,
+            classifier_repository: ClassifierRepository
     ) -> StandardEstimarkInformer:
-        return StandardEstimarkInformer(task_repository, link_repository)
+        return StandardEstimarkInformer(
+            task_repository, link_repository, classifier_repository)

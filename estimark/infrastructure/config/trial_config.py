@@ -5,6 +5,9 @@ class TrialConfig(Config):
     def __init__(self):
         super().__init__()
         self['mode'] = 'TEST'
+        self['root'] = ''
+        self['param'] = ''
+        self['result'] = ''
         self['factory'] = 'TrialFactory'
         self['strategy'] = {
             "ExpressionParser": {
@@ -15,6 +18,9 @@ class TrialConfig(Config):
             },
             "LinkRepository": {
                 "method": "memory_link_repository"
+            },
+            "ClassifierRepository": {
+                "method": "memory_classifier_repository"
             },
             "EstimationCoordinator": {
                 "method": "estimation_coordinator"

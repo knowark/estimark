@@ -8,6 +8,7 @@ from .standard_factory import StandardFactory
 
 class TrialFactory(StandardFactory):
     def __init__(self, config: Config) -> None:
+        super().__init__(config)
         self.config = config
 
     # Repositories

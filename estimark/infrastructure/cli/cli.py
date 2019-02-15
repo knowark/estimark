@@ -27,6 +27,7 @@ class Cli:
         show_parser = subparsers.add_parser('show')
         show_parser.add_argument('-t', '--tasks', action='store_true')
         show_parser.add_argument('-l', '--links', action='store_true')
+        show_parser.add_argument('-c', '--classifiers', action='store_true')
         show_parser.set_defaults(func=self.show)
 
         if len(args) == 0:
@@ -51,3 +52,7 @@ class Cli:
             links = estimark_informer.search_links([])
             for link in links:
                 print('L:::', link)
+        elif options_dict.get('classifiers'):
+            classifiers = estimark_informer.search_classifiers([])
+            for classifier in classifiers:
+                print('C:::', classifier)

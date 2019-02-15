@@ -8,6 +8,7 @@ from .json_factory import JsonFactory
 
 class RstFactory(JsonFactory):
     def __init__(self, config: Config) -> None:
+        super().__init__(config)
         self.config = config
 
     def rst_analyzer(self):
