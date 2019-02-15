@@ -3,10 +3,10 @@ from ...application.repositories import ExpressionParser
 from ..data import (
     RstRepository, RstTaskRepository, RstLinkRepository,
     RstAnalyzer, RstLoader)
-from .standard_factory import StandardFactory
+from .json_factory import JsonFactory
 
 
-class RstFactory(StandardFactory):
+class RstFactory(JsonFactory):
     def __init__(self, config: Config) -> None:
         self.config = config
 

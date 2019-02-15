@@ -6,6 +6,7 @@ class ProductionConfig(TrialConfig):
         super().__init__()
         self['mode'] = 'PROD'
         self['root'] = ''
+        self['data'] = ''
         self['factory'] = 'RstFactory'
         self['strategy'].update({
             "RstAnalyzer": {

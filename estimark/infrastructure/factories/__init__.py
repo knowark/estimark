@@ -2,6 +2,7 @@ from typing import Dict, Any
 from .standard_factory import StandardFactory
 from .trial_factory import TrialFactory
 from .rst_factory import RstFactory
+from .json_factory import JsonFactory
 from ..config import Config
 from .factory import Factory
 
