@@ -2,7 +2,10 @@ from ..config import Config
 from ...application.repositories import (
     ExpressionParser, TaskRepository, MemoryTaskRepository,
     LinkRepository, MemoryLinkRepository,
-    ClassifierRepository, MemoryClassifierRepository)
+    ClassifierRepository, MemoryClassifierRepository,
+    ClassificationRepository, MemoryClassificationRepository,
+    SlotRepository, MemorySlotRepository
+)
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
@@ -35,10 +38,21 @@ class StandardFactory(Factory):
     ) -> MemoryClassifierRepository:
         return MemoryClassifierRepository(expression_parser)
 
+    def memory_classification_repository(
+            self, expression_parser: ExpressionParser
+    ) -> MemoryClassificationRepository:
+        return MemoryClassificationRepository(expression_parser)
+
     def estimation_coordinator(
-            self, task_repository: TaskRepository
+            self, task_repository: TaskRepository,
+            classifier_repository: ClassifierRepository,
+            classification_repository: ClassificationRepository,
+            link_repository: LinkRepository,
+            slot_repository: SlotRepository
     ) -> EstimationCoordinator:
-        return EstimationCoordinator(task_repository)
+        return EstimationCoordinator(
+            task_repository, classifier_repository,
+            classification_repository, link_repository, slot_repository)
 
     def standard_estimark_informer(
             self, task_repository: TaskRepository,
