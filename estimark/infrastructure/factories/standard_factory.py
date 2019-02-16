@@ -69,7 +69,10 @@ class StandardFactory(Factory):
     def standard_estimark_informer(
             self, task_repository: TaskRepository,
             link_repository: LinkRepository,
-            classifier_repository: ClassifierRepository
+            classifier_repository: ClassifierRepository,
+            schedule_repository: ScheduleRepository,
+            slot_repository: SlotRepository
     ) -> StandardEstimarkInformer:
         return StandardEstimarkInformer(
-            task_repository, link_repository, classifier_repository)
+            task_repository, link_repository, classifier_repository,
+            schedule_repository, slot_repository)

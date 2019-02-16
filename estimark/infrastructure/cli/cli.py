@@ -28,6 +28,8 @@ class Cli:
         show_parser.add_argument('-t', '--tasks', action='store_true')
         show_parser.add_argument('-l', '--links', action='store_true')
         show_parser.add_argument('-c', '--classifiers', action='store_true')
+        show_parser.add_argument('-s', '--schedules', action='store_true')
+        show_parser.add_argument('-o', '--slots', action='store_true')
         show_parser.set_defaults(func=self.show)
 
         if len(args) == 0:
@@ -58,3 +60,11 @@ class Cli:
             classifiers = estimark_informer.search_classifiers([])
             for classifier in classifiers:
                 print('C:::', classifier)
+        elif options_dict.get('schedules'):
+            schedules = estimark_informer.search_schedules([])
+            for schedule in schedules:
+                print('S:::', schedule)
+        elif options_dict.get('slots'):
+            slots = estimark_informer.search_slots([])
+            for slot in slots:
+                print('S:::', slot)
