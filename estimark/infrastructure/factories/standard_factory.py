@@ -6,6 +6,7 @@ from ...application.repositories import (
     ClassificationRepository, MemoryClassificationRepository,
     ScheduleRepository, MemoryScheduleRepository,
     SlotRepository, MemorySlotRepository)
+from ...application.services import PlotService, MemoryPlotService
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
@@ -53,18 +54,24 @@ class StandardFactory(Factory):
     ) -> MemorySlotRepository:
         return MemorySlotRepository(expression_parser)
 
+    def memory_plot_service(
+            self, slot_repository: SlotRepository
+    ) -> MemoryPlotService:
+        return MemoryPlotService(slot_repository)
+
     def estimation_coordinator(
             self, task_repository: TaskRepository,
             classifier_repository: ClassifierRepository,
             classification_repository: ClassificationRepository,
             link_repository: LinkRepository,
             schedule_repository: ScheduleRepository,
-            slot_repository: SlotRepository
+            slot_repository: SlotRepository,
+            plot_service: PlotService
     ) -> EstimationCoordinator:
         return EstimationCoordinator(
             task_repository, classifier_repository,
             classification_repository, link_repository,
-            schedule_repository, slot_repository)
+            schedule_repository, slot_repository, plot_service)
 
     def standard_estimark_informer(
             self, task_repository: TaskRepository,

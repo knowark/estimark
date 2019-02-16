@@ -28,6 +28,9 @@ class TrialConfig(Config):
             "SlotRepository": {
                 "method": "memory_slot_repository"
             },
+            "PlotService": {
+                "method": "memory_plot_service"
+            },
             "ScheduleRepository": {
                 "method": "memory_schedule_repository"
             },

@@ -31,6 +31,9 @@ class ProductionConfig(TrialConfig):
             "SlotRepository": {
                 "method": "json_slot_repository"
             },
+            "PlotService": {
+                "method": "memory_plot_service"
+            },
             "ScheduleRepository": {
                 "method": "json_schedule_repository"
             }

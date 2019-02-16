@@ -3,6 +3,7 @@ from ..models import Schedule, Slot, Task
 from ..repositories import (
     TaskRepository, ClassifierRepository, ClassificationRepository,
     LinkRepository, SlotRepository, ScheduleRepository)
+from ..services import PlotService
 
 
 class EstimationCoordinator:
@@ -11,7 +12,8 @@ class EstimationCoordinator:
                  classification_repository: ClassificationRepository,
                  link_repository: LinkRepository,
                  schedule_repository: ScheduleRepository,
-                 slot_repository: SlotRepository
+                 slot_repository: SlotRepository,
+                 plot_service: PlotService
                  ) -> None:
         self.task_repository = task_repository
         self.classifier_repository = classifier_repository
@@ -19,6 +21,7 @@ class EstimationCoordinator:
         self.link_repository = link_repository
         self.schedule_repository = schedule_repository
         self.slot_repository = slot_repository
+        self.plot_service = plot_service
 
     def estimate(self):
         slot_dict_list = self._calculate_slots()
@@ -29,6 +32,19 @@ class EstimationCoordinator:
         for slot_dict in slot_dict_list:
             slot_dict.update({'schedule_id': schedule.id})
             self.slot_repository.add(Slot(**slot_dict))
+
+    def plot(self, schedule_id: str = None) -> bool:
+        schedule = None
+        if schedule_id:
+            schedule = self.schedule_repository.get(schedule_id)
+        else:
+            schedules = self.schedule_repository.search([])
+            schedule = schedules[-1] if schedules else None
+        if not schedule:
+            return False
+
+        self.plot_service.plot(schedule)
+        return True
 
     def _calculate_slots(self) -> List[Dict[str, Any]]:
         effective_tasks = self.task_repository.search(

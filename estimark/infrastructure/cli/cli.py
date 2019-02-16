@@ -32,6 +32,10 @@ class Cli:
         show_parser.add_argument('-o', '--slots', action='store_true')
         show_parser.set_defaults(func=self.show)
 
+        # Plot
+        plot_parser = subparsers.add_parser('plot')
+        plot_parser.set_defaults(func=self.plot)
+
         if len(args) == 0:
             parser.print_help()
             parser.exit()
@@ -68,3 +72,9 @@ class Cli:
             slots = estimark_informer.search_slots([])
             for slot in slots:
                 print('S:::', slot)
+
+    def plot(self, options_dict: Dict[str, str]):
+        print('CLI PLOT |||||')
+        estimation_coordinator = self.resolver.resolve(
+            'EstimationCoordinator')
+        estimation_coordinator.plot()
