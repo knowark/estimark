@@ -24,5 +24,14 @@ class ProductionConfig(TrialConfig):
             },
             "ClassifierRepository": {
                 "method": "json_classifier_repository"
+            },
+            "ClassificationRepository": {
+                "method": "rst_classification_repository"
+            },
+            "SlotRepository": {
+                "method": "json_slot_repository"
+            },
+            "ScheduleRepository": {
+                "method": "json_schedule_repository"
             }
         })

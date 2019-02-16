@@ -4,7 +4,7 @@ from estimark.application.models import (
 from estimark.application.repositories import (
     ExpressionParser, MemoryTaskRepository, MemoryClassifierRepository,
     MemoryClassificationRepository, MemoryLinkRepository,
-    MemorySlotRepository)
+    MemoryScheduleRepository, MemorySlotRepository)
 from estimark.application.coordinators import EstimationCoordinator
 
 
@@ -119,6 +119,12 @@ def link_repository():
 
 
 @fixture
+def schedule_repository():
+    schedule_repository = MemoryScheduleRepository(ExpressionParser())
+    return schedule_repository
+
+
+@fixture
 def slot_repository():
     slot_repository = MemorySlotRepository(ExpressionParser())
     return slot_repository
@@ -127,8 +133,8 @@ def slot_repository():
 @fixture
 def estimation_coordinator(task_repository, classifier_repository,
                            classification_repository, link_repository,
-                           slot_repository):
+                           schedule_repository, slot_repository):
     estimation_coordinator = EstimationCoordinator(
         task_repository, classifier_repository, classification_repository,
-        link_repository, slot_repository)
+        link_repository, schedule_repository, slot_repository)
     return estimation_coordinator

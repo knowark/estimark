@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 from ..models import Schedule, Slot, Task
 from ..repositories import (
     TaskRepository, ClassifierRepository, ClassificationRepository,
-    LinkRepository, SlotRepository)
+    LinkRepository, SlotRepository, ScheduleRepository)
 
 
 class EstimationCoordinator:
@@ -10,16 +10,25 @@ class EstimationCoordinator:
                  classifier_repository: ClassifierRepository,
                  classification_repository: ClassificationRepository,
                  link_repository: LinkRepository,
+                 schedule_repository: ScheduleRepository,
                  slot_repository: SlotRepository
                  ) -> None:
         self.task_repository = task_repository
         self.classifier_repository = classifier_repository
         self.classification_repository = classification_repository
         self.link_repository = link_repository
+        self.schedule_repository = schedule_repository
         self.slot_repository = slot_repository
 
     def estimate(self):
-        return vars(Schedule())
+        slot_dict_list = self._calculate_slots()
+
+        schedule = self.schedule_repository.add(
+            Schedule(name='Project Schedule'))
+
+        for slot_dict in slot_dict_list:
+            slot_dict.update({'schedule_id': schedule.id})
+            self.slot_repository.add(Slot(**slot_dict))
 
     def _calculate_slots(self) -> List[Dict[str, Any]]:
         effective_tasks = self.task_repository.search(

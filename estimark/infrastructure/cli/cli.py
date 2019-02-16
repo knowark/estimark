@@ -38,7 +38,9 @@ class Cli:
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
         print('...ESTIMATE:::', options_dict)
-        estimation_coordinator = self.resolver.resolve('EstimationCoordinator')
+        estimation_coordinator = self.resolver.resolve(
+            'EstimationCoordinator')
+        estimation_coordinator.estimate()
 
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)

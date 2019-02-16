@@ -22,6 +22,15 @@ class TrialConfig(Config):
             "ClassifierRepository": {
                 "method": "memory_classifier_repository"
             },
+            "ClassificationRepository": {
+                "method": "memory_classification_repository"
+            },
+            "SlotRepository": {
+                "method": "memory_slot_repository"
+            },
+            "ScheduleRepository": {
+                "method": "memory_schedule_repository"
+            },
             "EstimationCoordinator": {
                 "method": "estimation_coordinator"
             },

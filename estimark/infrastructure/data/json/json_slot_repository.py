@@ -5,7 +5,7 @@ from estimark.infrastructure.data.json import JsonRepository
 
 
 class JsonSlotRepository(
-        JsonRepository[Slot], SlotrRepository):
+        JsonRepository[Slot], SlotRepository):
     """Json Slot Repository"""
 
     def __init__(self, file_path: str, parser: ExpressionParser,

@@ -26,3 +26,8 @@ def test_estimation_coordinator_calculate_slots(estimation_coordinator):
         {'task_id': '6.3', 'start': 35, 'end': 38},
         {'task_id': '6.4', 'start': 38, 'end': 43},
         {'task_id': '7.1', 'start': 43, 'end': 51}]
+
+
+def test_estimartion_coordinator_estimate(estimation_coordinator):
+    estimation_coordinator.estimate()
+    assert len(estimation_coordinator.schedule_repository.items) == 1

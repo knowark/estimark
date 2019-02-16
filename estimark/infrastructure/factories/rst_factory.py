@@ -2,7 +2,7 @@ from ..config import Config
 from ...application.repositories import ExpressionParser
 from ..data import (
     RstRepository, RstTaskRepository, RstLinkRepository,
-    RstAnalyzer, RstLoader)
+    RstAnalyzer, RstLoader, RstClassificationRepository)
 from .json_factory import JsonFactory
 
 
@@ -27,5 +27,12 @@ class RstFactory(JsonFactory):
     def rst_link_repository(self, expression_parser: ExpressionParser,
                             loader: RstLoader) -> RstLinkRepository:
         repository = RstLinkRepository(expression_parser, loader)
+        repository.load()
+        return repository
+
+    def rst_classification_repository(
+            self, expression_parser: ExpressionParser,
+            loader: RstLoader) -> RstClassificationRepository:
+        repository = RstClassificationRepository(expression_parser, loader)
         repository.load()
         return repository

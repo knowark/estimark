@@ -5,7 +5,7 @@ from estimark.infrastructure.data.json import JsonRepository
 
 
 class JsonScheduleRepository(
-        JsonRepository[Schedule], SchedulerRepository):
+        JsonRepository[Schedule], ScheduleRepository):
     """Json Schedule Repository"""
 
     def __init__(self, file_path: str, parser: ExpressionParser,
