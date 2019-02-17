@@ -31,3 +31,26 @@ def test_estimation_coordinator_calculate_slots(estimation_coordinator):
 def test_estimartion_coordinator_estimate(estimation_coordinator):
     estimation_coordinator.estimate()
     assert len(estimation_coordinator.schedule_repository.items) == 1
+
+
+def test_estimartion_coordinator_estimate_merged_tasks(
+        estimation_coordinator, merged_link_repository):
+    estimation_coordinator.link_repository = merged_link_repository
+    slots = estimation_coordinator._calculate_slots()
+
+    assert len(slots) > 0
+    assert slots == [
+        {'task_id': '1.1', 'start': 0, 'end': 3},
+        {'task_id': '1.2', 'start': 3, 'end': 8},
+        {'task_id': '1.3', 'start': 8, 'end': 10},
+        {'task_id': '1.4', 'start': 10, 'end': 11},
+        {'task_id': '2.1', 'start': 11, 'end': 14},
+        {'task_id': '3.1', 'start': 14, 'end': 19},
+        {'task_id': '3.2', 'start': 19, 'end': 21},
+        {'task_id': '4.1', 'start': 21, 'end': 24},
+        {'task_id': '5.1', 'start': 24, 'end': 29},
+        {'task_id': '6.1', 'start': 21, 'end': 26},
+        {'task_id': '6.2', 'start': 26, 'end': 27},
+        {'task_id': '6.3', 'start': 27, 'end': 30},
+        {'task_id': '6.4', 'start': 30, 'end': 35},
+        {'task_id': '7.1', 'start': 35, 'end': 43}]

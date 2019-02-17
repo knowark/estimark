@@ -120,6 +120,29 @@ def link_repository():
 
 
 @fixture
+def merged_link_repository():
+    link_repository = MemoryLinkRepository(ExpressionParser())
+    link_repository.load({
+        '1': Link(**{'id': '1', 'source': '', 'target': '1.1'}),
+        '2': Link(**{'id': '2', 'source': '1.1', 'target': '1.2'}),
+        '3': Link(**{'id': '3', 'source': '1.2', 'target': '1.3'}),
+        '4': Link(**{'id': '4', 'source': '1.3', 'target': '1.4'}),
+        '5': Link(**{'id': '5', 'source': '1.4', 'target': '2.1'}),
+        '6': Link(**{'id': '6', 'source': '2.1', 'target': '3.1'}),
+        '7': Link(**{'id': '7', 'source': '3.1', 'target': '3.2'}),
+        '8': Link(**{'id': '8', 'source': '3.2', 'target': '4.1'}),
+        '9': Link(**{'id': '9', 'source': '4.1', 'target': '5.1'}),
+        '10': Link(**{'id': '10', 'source': '3.1', 'target': '6.1'}),
+        '11': Link(**{'id': '10', 'source': '3.2', 'target': '6.1'}),
+        '12': Link(**{'id': '11', 'source': '6.1', 'target': '6.2'}),
+        '13': Link(**{'id': '12', 'source': '6.2', 'target': '6.3'}),
+        '14': Link(**{'id': '13', 'source': '6.3', 'target': '6.4'}),
+        '15': Link(**{'id': '14', 'source': '6.4', 'target': '7.1'}),
+    })
+    return link_repository
+
+
+@fixture
 def schedule_repository():
     schedule_repository = MemoryScheduleRepository(ExpressionParser())
     return schedule_repository
