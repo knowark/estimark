@@ -32,7 +32,7 @@ class ProductionConfig(TrialConfig):
                 "method": "json_slot_repository"
             },
             "PlotService": {
-                "method": "memory_plot_service"
+                "method": "altair_plot_service"
             },
             "ScheduleRepository": {
                 "method": "json_schedule_repository"
