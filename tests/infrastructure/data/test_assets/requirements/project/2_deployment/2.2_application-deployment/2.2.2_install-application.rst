@@ -1,0 +1,6 @@
+2.2.2 Install Application
+-------------------------
+
+:estimark:
+    classifiers=XS
+    role=DEV

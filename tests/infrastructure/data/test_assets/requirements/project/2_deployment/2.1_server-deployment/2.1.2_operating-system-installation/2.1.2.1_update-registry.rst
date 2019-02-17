@@ -1,0 +1,6 @@
+2.1.2.1 Update Registry
+-----------------------
+
+:estimark:
+    classifiers=M
+    role=DEV

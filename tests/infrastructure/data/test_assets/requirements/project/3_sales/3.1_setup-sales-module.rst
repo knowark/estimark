@@ -1,6 +1,6 @@
-2.2.1 Install Database
+3.1 Setup Sales Module
 ----------------------
 
 :estimark:
-    classifiers=L
+    classifiers=XL
     role=DEV

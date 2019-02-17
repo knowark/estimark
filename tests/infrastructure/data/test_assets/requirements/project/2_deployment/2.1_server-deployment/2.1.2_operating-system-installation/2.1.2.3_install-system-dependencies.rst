@@ -2,7 +2,6 @@
 -----------------------------------
 
 :estimark:
-    classifiers=XL
+    classifiers=M
     role=DEV
-    field_1=value_3
     predecessors=2.1.2.1, 1.1.2
