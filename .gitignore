@@ -110,4 +110,5 @@ venv.bak/
 estimark_config.json
 estimark_param.json
 estimark_result.json
+estimark_result_template.json
 !estimark.spec

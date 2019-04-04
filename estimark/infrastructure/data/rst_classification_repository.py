@@ -17,6 +17,9 @@ class RstClassificationRepository(
     def load(self):
         for value in self.loader.nodes:
             classifier_ids = value.get('classifiers', [])
+            if isinstance(classifier_ids, str):
+                classifier_ids = [classifier_ids]
+
             for classifier_id in classifier_ids:
                 self.counter += 1
                 item = self.item_class(
