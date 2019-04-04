@@ -16,5 +16,8 @@ coverage-infrastructure:
 coverage: 
 	pytest -x --cov=estimark tests/ --cov-report term-missing -s
 
+bundle:
+	pyinstaller estimark.spec
+
 run:
 	ESTIMARK_MODE=DEV; python -m estimark $(ARGS)

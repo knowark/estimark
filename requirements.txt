@@ -1,5 +1,6 @@
 alabaster==0.7.12
 altair==2.3.0
+altgraph==0.16.1
 argh==0.26.2
 atomicwrites==1.2.1
 attrs==18.2.0
@@ -9,11 +10,13 @@ chardet==3.0.4
 coverage==4.5.1
 docutils==0.14
 entrypoints==0.3
+future==0.17.1
 idna==2.7
 imagesize==1.1.0
 Jinja2==2.10
 jsonschema==2.6.0
 livereload==2.5.2
+macholib==1.11
 MarkupSafe==1.0
 more-itertools==4.3.0
 mypy==0.660
@@ -22,10 +25,12 @@ numpy==1.16.1
 packaging==18.0
 pandas==0.24.1
 pathtools==0.1.2
+pefile==2018.8.8
 pluggy==0.8.0
 port-for==0.3.1
 py==1.7.0
 Pygments==2.2.0
+PyInstaller==3.4
 pyparsing==2.2.2
 pytest==3.9.2
 pytest-cov==2.6.0

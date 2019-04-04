@@ -4,10 +4,10 @@ Authark entrypoint
 
 import os
 import sys
-from .infrastructure.config import build_config
-from .infrastructure.factories import build_factory
-from .infrastructure.resolver import Resolver
-from .infrastructure.cli import Cli
+from estimark.infrastructure.config import build_config
+from estimark.infrastructure.factories import build_factory
+from estimark.infrastructure.resolver import Resolver
+from estimark.infrastructure.cli import Cli
 
 
 def main(args):  # pragma: no cover
