@@ -8,6 +8,7 @@ reference_
 :estimark:
     classifiers=XS
     role=PM
+    state=done
 
 
 This is the main content of the file:
