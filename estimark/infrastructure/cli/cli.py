@@ -44,6 +44,7 @@ class Cli:
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
         print('...ESTIMATE:::', options_dict)
+        
         estimation_coordinator = self.resolver.resolve(
             'EstimationCoordinator')
         estimation_coordinator.estimate()

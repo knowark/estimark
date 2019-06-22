@@ -107,8 +107,8 @@ venv.bak/
 .vscode/
 
 # estimark
-estimark_config.json
-estimark_param.json
-estimark_result.json
-estimark_result_template.json
+config.json
+param.json
+result.json
+template.json
 !estimark.spec
