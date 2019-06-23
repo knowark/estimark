@@ -23,8 +23,8 @@ class EstimationCoordinator:
         self.slot_repository = slot_repository
         self.plot_service = plot_service
 
-    def estimate(self):
-        slot_dict_list = self._calculate_slots()
+    def estimate(self, state='open'):
+        slot_dict_list = self._calculate_slots(state)
 
         schedule = self.schedule_repository.add(
             Schedule(name='Project Schedule'))
@@ -46,9 +46,9 @@ class EstimationCoordinator:
         self.plot_service.plot(schedule)
         return True
 
-    def _calculate_slots(self) -> List[Dict[str, Any]]:
+    def _calculate_slots(self, state='open') -> List[Dict[str, Any]]:
         effective_tasks = self.task_repository.search(
-            [('summary', '=', False)])
+            [('summary', '=', False), ('state', '=', state)])
 
         slots = []
         task_amounts_dict = {}
