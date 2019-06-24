@@ -6,3 +6,4 @@ def test_schedule_instantiation():
 
     assert schedule.id == 'PR001'
     assert schedule.name == 'Project XYZ Schedule'
+    assert schedule.state == ''

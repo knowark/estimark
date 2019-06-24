@@ -2,12 +2,12 @@ import sys
 from json import dumps
 from argparse import ArgumentParser, Namespace
 from typing import Dict
+from injectark import Injectark
 from ..config import Config
-from ..resolver import Resolver
 
 
 class Cli:
-    def __init__(self, config: Config, resolver: Resolver) -> None:
+    def __init__(self, config: Config, resolver: Injectark) -> None:
         self.resolver = resolver
         self.config = config
 

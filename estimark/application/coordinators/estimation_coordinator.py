@@ -27,7 +27,7 @@ class EstimationCoordinator:
         slot_dict_list = self._calculate_slots(state)
 
         schedule = self.schedule_repository.add(
-            Schedule(name='Project Schedule'))
+            Schedule(name='Project Schedule', state=state))
 
         for slot_dict in slot_dict_list:
             slot_dict.update({'schedule_id': schedule.id})

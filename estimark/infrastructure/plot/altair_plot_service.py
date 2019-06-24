@@ -19,7 +19,8 @@ class AltairPlotService(PlotService):
         slots = self.slot_repository.search(
             [('schedule_id', '=', schedule.id)])
         slot_dict_list = [vars(slot) for slot in slots]
-        title = f"{schedule.name} - {date.today()}"
+        state = f"| State: <{schedule.state}> " if schedule.state else ""
+        title = f"{schedule.name} {state}| {date.today()}"
 
         source = pd.DataFrame(slot_dict_list)
         chart = alt.Chart(source).mark_bar().encode(

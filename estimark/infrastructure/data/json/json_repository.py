@@ -49,7 +49,7 @@ class JsonRepository(Repository, Generic[T]):
         items_dict[id] = vars(item)
 
         with open(self.file_path, 'w') as f:
-            dump(data, indent=2)
+            dump(data, f, indent=2)
         return True
 
     def search(self, domain: QueryDomain, limit=0, offset=0) -> List[T]:

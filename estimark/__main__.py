@@ -7,7 +7,6 @@ import sys
 from injectark import Injectark
 from estimark.infrastructure.config import build_config
 from estimark.infrastructure.factories import build_factory
-# from estimark.infrastructure.resolver import Resolver
 from estimark.infrastructure.cli import Cli
 
 
