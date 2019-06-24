@@ -5,3 +5,4 @@
     classifiers=XL
     role=DEV
     field_1=value_1
+    state=done

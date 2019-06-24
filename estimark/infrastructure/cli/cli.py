@@ -21,6 +21,7 @@ class Cli:
 
         # Estimate
         estimate_parser = subparsers.add_parser('estimate')
+        estimate_parser.add_argument('-s', '--state')
         estimate_parser.set_defaults(func=self.estimate)
 
         # Show
@@ -45,8 +46,9 @@ class Cli:
     def estimate(self, options_dict: Dict[str, str]) -> None:
         print('...ESTIMATE:::', options_dict)
 
+        state = options_dict.get('state')
         estimation_coordinator = self.resolver['EstimationCoordinator']
-        estimation_coordinator.estimate()
+        estimation_coordinator.estimate(state)
 
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)
