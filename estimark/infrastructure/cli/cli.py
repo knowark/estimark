@@ -44,14 +44,13 @@ class Cli:
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
         print('...ESTIMATE:::', options_dict)
-        
-        estimation_coordinator = self.resolver.resolve(
-            'EstimationCoordinator')
+
+        estimation_coordinator = self.resolver['EstimationCoordinator']
         estimation_coordinator.estimate()
 
     def show(self, options_dict: Dict[str, str]) -> None:
         print('...SHOW:::', options_dict)
-        estimark_informer = self.resolver.resolve('EstimarkInformer')
+        estimark_informer = self.resolver['EstimarkInformer']
 
         if options_dict.get('tasks'):
             tasks = estimark_informer.search_tasks([])
@@ -76,6 +75,5 @@ class Cli:
 
     def plot(self, options_dict: Dict[str, str]):
         print('CLI PLOT |||||')
-        estimation_coordinator = self.resolver.resolve(
-            'EstimationCoordinator')
+        estimation_coordinator = self.resolver['EstimationCoordinator']
         estimation_coordinator.plot()

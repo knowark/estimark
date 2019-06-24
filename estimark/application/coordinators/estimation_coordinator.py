@@ -53,12 +53,16 @@ class EstimationCoordinator:
         slots = []
         task_amounts_dict = {}
         for task in effective_tasks:
-            task_amounts_dict[task.id] = self._calculate_amount(task.id)
+            task_amounts_dict[task.id] = {
+                'name': task.name,
+                'amount':  self._calculate_amount(task.id)
+            }
 
-        for task_id, amount in task_amounts_dict.items():
+        for task_id, values in task_amounts_dict.items():
             start = self._calculate_start(task_amounts_dict, task_id)
-            end = start + amount
-            slots.append({'task_id': task_id, 'start': start, 'end': end})
+            end = start + values['amount']
+            slots.append({'name': values['name'], 'task_id': task_id,
+                          'start': start, 'end': end})
 
         return slots
 
@@ -69,7 +73,8 @@ class EstimationCoordinator:
             self.link_repository.search([('target', '=', task_id)])]
         for predecessor_id in predecessor_ids:
             duration = self._calculate_start(task_amounts_dict, predecessor_id)
-            duration += task_amounts_dict.get(predecessor_id, 0)
+            duration += task_amounts_dict.get(
+                predecessor_id, {}).get('amount', 0)
             durations.append(duration)
         return max(durations)
 

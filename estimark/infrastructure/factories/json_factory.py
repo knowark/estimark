@@ -12,7 +12,8 @@ class JsonFactory(AltairFactory):
         self.config = config
         self.param_path = self.config.get('param')
         self.result_path = self.config.get('result')
-        init_json_database(self.config['result'])
+        if self.result_path:
+            init_json_database(self.result_path)
 
     def json_classifier_repository(self, expression_parser: ExpressionParser,
                                    ) -> JsonClassifierRepository:

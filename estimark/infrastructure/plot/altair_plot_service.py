@@ -17,12 +17,13 @@ class AltairPlotService(PlotService):
         slots = self.slot_repository.search(
             [('schedule_id', '=', schedule.id)])
         slot_dict_list = [vars(slot) for slot in slots]
+        print('slote dict::::', slot_dict_list)
 
         source = pd.DataFrame(slot_dict_list)
         chart = alt.Chart(source).mark_bar().encode(
             x='start',
             x2='end',
-            y='task_id'
+            y='name'
         )
 
         output_file = str(Path(self.plot_dir).joinpath('chart.html'))
