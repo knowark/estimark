@@ -3,7 +3,7 @@ import pkgutil
 import pathlib
 
 schema_path = pathlib.Path(
-    pkgutil.get_loader('altair.vegalite.v2.schema').get_filename()).parent
+    pkgutil.get_loader('altair.vegalite.v3.schema').get_filename()).parent
 vegalite_schema = str(schema_path) + "/vega-lite-schema.json"
 
 
@@ -13,7 +13,7 @@ block_cipher = None
 a = Analysis(['estimark/__main__.py'],
              pathex=['/home/eecheverry/Workspace/dev/github.com/knowark/estimark'],
              binaries=[],
-             datas=[(vegalite_schema, 'altair/vegalite/v2/schema')],
+             datas=[(vegalite_schema, 'altair/vegalite/v3/schema')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
