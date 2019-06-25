@@ -19,6 +19,8 @@ coverage:
 bundle:
 	pyinstaller estimark.spec
 
+PART ?= patch
+
 version:
 	bump2version $(PART) estimark/__init__.py --tag --commit
 
