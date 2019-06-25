@@ -36,11 +36,12 @@ class _RstVisitor(NodeVisitor):
         super().__init__(*attrs)
         self.tag = tag
         self.callback = callback
+        self.title: str = None
 
     def visit_title(self, node: title) -> None:
-        if self.callback:
-            value = "name={0}".format(node[0])
-            self.callback(value)
+        if not self.title and self.callback:
+            self.title = "name={0}".format(node[0])
+            self.callback(self.title)
 
     def visit_field(self, node: field) -> None:
         """Called for "reference" nodes."""
