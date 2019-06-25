@@ -19,5 +19,12 @@ coverage:
 bundle:
 	pyinstaller estimark.spec
 
+version:
+	bump2version $(PART) serproser/__init__.py --tag --commit
+
+upgrade:
+	pip-review --local --auto
+	pip freeze > requirements.txt
+
 run:
 	ESTIMARK_MODE=DEV; python -m estimark $(ARGS)

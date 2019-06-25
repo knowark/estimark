@@ -1,0 +1,22 @@
+{
+    "mode": "PROD",
+    "root": "/home/eecheverry/Workspace/dev/github.com/knowark/estimark/tests/infrastructure/data/test_assets/requirements/project",
+    "param": "estimark_param.json",
+    "result": "estimark_result.json",
+    "plot_dir": "build",
+    "factory": "RstFactory",
+    "strategy": {
+        "RstAnalyzer": {
+            "method": "rst_analyzer"
+        },
+        "RstLoader": {
+            "method": "rst_loader"
+        },
+        "TaskRepository": {
+            "method": "rst_task_repository"
+        },
+        "LinkRepository": {
+            "method": "rst_link_repository"
+        }
+    }
+}
