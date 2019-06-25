@@ -3,6 +3,7 @@ from json import dumps
 from argparse import ArgumentParser, Namespace
 from typing import Dict
 from injectark import Injectark
+from ... import __version__
 from ..config import Config
 
 
@@ -36,6 +37,10 @@ class Cli:
         # Plot
         plot_parser = subparsers.add_parser('plot')
         plot_parser.set_defaults(func=self.plot)
+
+        # Version
+        version_parser = subparsers.add_parser('version')
+        version_parser.set_defaults(func=self.version)
 
         if len(args) == 0:
             parser.print_help()
@@ -79,3 +84,7 @@ class Cli:
         print('CLI PLOT |||||')
         estimation_coordinator = self.resolver['EstimationCoordinator']
         estimation_coordinator.plot()
+
+    def version(self, options_dict: Dict[str, str]):
+        print('VERSION:')
+        print(__version__)

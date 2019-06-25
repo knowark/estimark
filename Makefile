@@ -20,7 +20,7 @@ bundle:
 	pyinstaller estimark.spec
 
 version:
-	bump2version $(PART) serproser/__init__.py --tag --commit
+	bump2version $(PART) estimark/__init__.py --tag --commit
 
 upgrade:
 	pip-review --local --auto
