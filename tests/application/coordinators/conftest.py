@@ -135,11 +135,11 @@ def merged_link_repository():
 
 
         '10': Link(**{'id': '10', 'source': '3.1', 'target': '6.1'}),
-        '11': Link(**{'id': '10', 'source': '3.2', 'target': '6.1'}),
-        '12': Link(**{'id': '11', 'source': '6.1', 'target': '6.2'}),
-        '13': Link(**{'id': '12', 'source': '6.2', 'target': '6.3'}),
-        '14': Link(**{'id': '13', 'source': '6.3', 'target': '6.4'}),
-        '15': Link(**{'id': '14', 'source': '6.4', 'target': '7.1'}),
+        '11': Link(**{'id': '11', 'source': '3.2', 'target': '6.1'}),
+        '12': Link(**{'id': '12', 'source': '6.1', 'target': '6.2'}),
+        '13': Link(**{'id': '13', 'source': '6.2', 'target': '6.3'}),
+        '14': Link(**{'id': '14', 'source': '6.3', 'target': '6.4'}),
+        '15': Link(**{'id': '15', 'source': '6.4', 'target': '7.1'}),
     })
     return link_repository
 
