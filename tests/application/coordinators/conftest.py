@@ -132,8 +132,6 @@ def merged_link_repository():
         '7': Link(**{'id': '7', 'source': '3.1', 'target': '3.2'}),
         '8': Link(**{'id': '8', 'source': '3.2', 'target': '4.1'}),
         '9': Link(**{'id': '9', 'source': '4.1', 'target': '5.1'}),
-
-
         '10': Link(**{'id': '10', 'source': '3.1', 'target': '6.1'}),
         '11': Link(**{'id': '11', 'source': '3.2', 'target': '6.1'}),
         '12': Link(**{'id': '12', 'source': '6.1', 'target': '6.2'}),
