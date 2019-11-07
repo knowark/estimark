@@ -33,12 +33,12 @@ def test_estimation_coordinator_calculate_slots(estimation_coordinator):
         assert slot['end'] == expected_slot['end']
 
 
-def test_estimartion_coordinator_estimate(estimation_coordinator):
+def test_estimation_coordinator_estimate(estimation_coordinator):
     estimation_coordinator.estimate()
     assert len(estimation_coordinator.schedule_repository.items) == 1
 
 
-def test_estimartion_coordinator_estimate_merged_tasks(
+def test_estimation_coordinator_estimate_merged_tasks(
         estimation_coordinator, merged_link_repository):
     estimation_coordinator.link_repository = merged_link_repository
     slots = estimation_coordinator._calculate_slots()

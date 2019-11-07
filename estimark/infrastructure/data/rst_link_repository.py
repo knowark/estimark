@@ -24,6 +24,8 @@ class RstLinkRepository(RstRepository[Link], LinkRepository):
 
             if not predecessors:
                 predecessors.append(previous)
+            elif not isinstance(predecessors, list):
+                predecessors = [predecessors]
 
             for source in predecessors:
                 self.counter += 1
