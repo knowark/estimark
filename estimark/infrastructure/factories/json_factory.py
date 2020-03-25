@@ -1,5 +1,5 @@
 from ..config import Config
-from ...application.repositories import ExpressionParser
+from ...application.utilities import QueryParser
 from ..data.json import (
     init_json_database, JsonRepository, JsonClassifierRepository,
     JsonSlotRepository, JsonScheduleRepository)
@@ -15,20 +15,20 @@ class JsonFactory(AltairFactory):
         if self.result_path:
             init_json_database(self.result_path)
 
-    def json_classifier_repository(self, expression_parser: ExpressionParser,
+    def json_classifier_repository(self, query_parser: QueryParser,
                                    ) -> JsonClassifierRepository:
         repository = JsonClassifierRepository(
-            self.param_path, expression_parser)
+            self.param_path, query_parser)
         return repository
 
-    def json_schedule_repository(self, expression_parser: ExpressionParser,
+    def json_schedule_repository(self, query_parser: QueryParser,
                                  ) -> JsonScheduleRepository:
         repository = JsonScheduleRepository(
-            self.result_path, expression_parser)
+            self.result_path, query_parser)
         return repository
 
-    def json_slot_repository(self, expression_parser: ExpressionParser,
+    def json_slot_repository(self, query_parser: QueryParser,
                              ) -> JsonSlotRepository:
         repository = JsonSlotRepository(
-            self.result_path, expression_parser)
+            self.result_path, query_parser)
         return repository

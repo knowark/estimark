@@ -10,8 +10,8 @@ class TrialConfig(Config):
         self['result'] = ''
         self['factory'] = 'TrialFactory'
         self['strategy'] = {
-            "ExpressionParser": {
-                "method": "expression_parser"
+            "QueryParser": {
+                "method": "query_parser"
             },
             "TaskRepository": {
                 "method": "memory_task_repository"

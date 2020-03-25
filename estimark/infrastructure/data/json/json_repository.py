@@ -2,15 +2,15 @@ import os
 from json import load, dump
 from uuid import uuid4
 from typing import Dict, List, Optional, Any, Type, TypeVar, Callable, Generic
-from ....application.repositories import (
-    Repository, QueryDomain, ExpressionParser)
+from ....application.utilities import QueryParser
+from ....application.repositories import Repository, QueryDomain
 
 
 T = TypeVar('T')
 
 
 class JsonRepository(Repository, Generic[T]):
-    def __init__(self, file_path: str, parser: ExpressionParser,
+    def __init__(self, file_path: str, parser: QueryParser,
                  collection_name: str, item_class: Type[T]) -> None:
         self.file_path = file_path
         self.parser = parser

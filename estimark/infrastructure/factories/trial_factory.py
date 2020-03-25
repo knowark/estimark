@@ -1,7 +1,7 @@
 from ..config import Config
 from ...application.models import Task
+from ...application.utilities import QueryParser
 from ...application.repositories import (
-    ExpressionParser,
     TaskRepository, MemoryTaskRepository)
 from .standard_factory import StandardFactory
 
@@ -13,11 +13,11 @@ class TrialFactory(StandardFactory):
 
     # Repositories
     def memory_task_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryTaskRepository:
 
         memory_task_repository = super().memory_task_repository(
-            expression_parser)
+            query_parser)
 
         memory_task_repository.load({
             "1": Task(id='1', name='Define WBS'),

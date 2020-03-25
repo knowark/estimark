@@ -1,12 +1,13 @@
 from ...application.models import Link
-from ...application.repositories import LinkRepository, ExpressionParser
+from ...application.utilities import QueryParser
+from ...application.repositories import LinkRepository
 from .rst_repository import RstRepository, RstLoader
 
 
 class RstLinkRepository(RstRepository[Link], LinkRepository):
     """Restructuredtext Link Repository"""
 
-    def __init__(self, parser: ExpressionParser,
+    def __init__(self, parser: QueryParser,
                  loader: RstLoader) -> None:
         super().__init__(parser=parser, loader=loader, item_class=Link)
         self.counter = 0

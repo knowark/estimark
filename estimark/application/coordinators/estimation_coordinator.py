@@ -26,7 +26,7 @@ class EstimationCoordinator:
     def estimate(self, state=None):
         slot_dict_list = self._calculate_slots(state)
 
-        schedule = self.schedule_repository.add(
+        schedule, *_ = self.schedule_repository.add(
             Schedule(name='Project Schedule', state=state))
 
         for slot_dict in slot_dict_list:
@@ -34,15 +34,10 @@ class EstimationCoordinator:
             self.slot_repository.add(Slot(**slot_dict))
 
     def plot(self, schedule_id: str = None) -> bool:
-        schedule = None
-        if schedule_id:
-            schedule = self.schedule_repository.get(schedule_id)
-        else:
-            schedules = self.schedule_repository.search([])
-            schedule = schedules[-1] if schedules else None
+        domain = [('id', '=', schedule_id)] if schedule_id else []
+        schedule = next(iter(self.schedule_repository.search(domain)), None)
         if not schedule:
             return False
-
         self.plot_service.plot(schedule)
         return True
 

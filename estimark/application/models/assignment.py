@@ -1,5 +1,8 @@
-class Assignment:
+from .entity import Entity
+
+
+class Assignment(Entity):
     def __init__(self, **attributes) -> None:
-        self.id = attributes.get('id', '')
+        super().__init__(**attributes)
         self.executor_id = attributes['executor_id']
         self.role_id = attributes['role_id']

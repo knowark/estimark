@@ -1,5 +1,8 @@
-class Classification:
+from .entity import Entity
+
+
+class Classification(Entity):
     def __init__(self, **attributes):
-        self.id = attributes['id']
+        super().__init__(**attributes)
         self.classifier_id = attributes['classifier_id']
         self.task_id = attributes['task_id']

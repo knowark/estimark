@@ -1,5 +1,8 @@
-class Schedule:
+from .entity import Entity
+
+
+class Schedule(Entity):
     def __init__(self, **attributes):
-        self.id = attributes.get('id')
+        super().__init__(**attributes)
         self.name = attributes.get('name')
         self.state = attributes.get('state', '')

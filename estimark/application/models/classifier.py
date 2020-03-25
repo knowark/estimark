@@ -1,6 +1,9 @@
-class Classifier:
+from .entity import Entity
+
+
+class Classifier(Entity):
     def __init__(self, **attributes):
-        self.id = attributes['id']
+        super().__init__(**attributes)
         self.name = attributes['name']
         self.amount = attributes['amount']
         self.units = attributes.get('units', 'days')

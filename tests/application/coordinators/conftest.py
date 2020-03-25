@@ -1,8 +1,9 @@
 from pytest import fixture
 from estimark.application.models import (
     Task, Classifier, Classification, Link, Slot)
+from estimark.application.utilities import QueryParser
 from estimark.application.repositories import (
-    ExpressionParser, MemoryTaskRepository, MemoryClassifierRepository,
+    MemoryTaskRepository, MemoryClassifierRepository,
     MemoryClassificationRepository, MemoryLinkRepository,
     MemoryScheduleRepository, MemorySlotRepository)
 from estimark.application.services import MemoryPlotService
@@ -11,8 +12,8 @@ from estimark.application.coordinators import EstimationCoordinator
 
 @fixture
 def classifier_repository():
-    classifier_repository = MemoryClassifierRepository(ExpressionParser())
-    classifier_repository.load({
+    classifier_repository = MemoryClassifierRepository(QueryParser())
+    classifier_repository.load({'default': {
         "xs": Classifier(**{
             "id": "xs",
             "name": "Extra Small",
@@ -38,14 +39,14 @@ def classifier_repository():
             "name": "Extra Large",
             "amount": 8
         })
-    })
+    }})
     return classifier_repository
 
 
 @fixture
 def task_repository():
-    task_repository = MemoryTaskRepository(ExpressionParser())
-    task_repository.load({
+    task_repository = MemoryTaskRepository(QueryParser())
+    task_repository.load({'default': {
         '0': Task(id='', name='Bicycle Project', summary=True, parent_id=''),
         '1': Task(id='1', name='Frame Set', summary=True, parent_id='0'),
         '1.1': Task(id='1.1', name='Make Frame', parent_id='1'),
@@ -70,15 +71,15 @@ def task_repository():
         '7': Task(id='7', name='Project Management', summary=True,
                   parent_id='0'),
         '7.1': Task(id='7.1', name='Plan Project', parent_id='7')
-    })
+    }})
     return task_repository
 
 
 @fixture
 def classification_repository():
     classification_repository = MemoryClassificationRepository(
-        ExpressionParser())
-    classification_repository.load({
+        QueryParser())
+    classification_repository.load({'default': {
         "1": Classification(id="1", task_id="1.1", classifier_id="m"),
         "2": Classification(id="2", task_id="1.2", classifier_id="l"),
         "3": Classification(id="3", task_id="1.3", classifier_id="s"),
@@ -93,14 +94,14 @@ def classification_repository():
         "12": Classification(id="12", task_id="6.3", classifier_id="m"),
         "13": Classification(id="13", task_id="6.4", classifier_id="l"),
         "14": Classification(id="14", task_id="7.1", classifier_id="xl"),
-    })
+    }})
     return classification_repository
 
 
 @fixture
 def link_repository():
-    link_repository = MemoryLinkRepository(ExpressionParser())
-    link_repository.load({
+    link_repository = MemoryLinkRepository(QueryParser())
+    link_repository.load({'default': {
         '1': Link(**{'id': '1', 'source': '', 'target': '1.1'}),
         '2': Link(**{'id': '2', 'source': '1.1', 'target': '1.2'}),
         '3': Link(**{'id': '3', 'source': '1.2', 'target': '1.3'}),
@@ -115,14 +116,14 @@ def link_repository():
         '12': Link(**{'id': '12', 'source': '6.2', 'target': '6.3'}),
         '13': Link(**{'id': '13', 'source': '6.3', 'target': '6.4'}),
         '14': Link(**{'id': '14', 'source': '6.4', 'target': '7.1'}),
-    })
+    }})
     return link_repository
 
 
 @fixture
 def merged_link_repository():
-    link_repository = MemoryLinkRepository(ExpressionParser())
-    link_repository.load({
+    link_repository = MemoryLinkRepository(QueryParser())
+    link_repository.load({'default': {
         '1': Link(**{'id': '1', 'source': '', 'target': '1.1'}),
         '2': Link(**{'id': '2', 'source': '1.1', 'target': '1.2'}),
         '3': Link(**{'id': '3', 'source': '1.2', 'target': '1.3'}),
@@ -138,19 +139,19 @@ def merged_link_repository():
         '13': Link(**{'id': '13', 'source': '6.2', 'target': '6.3'}),
         '14': Link(**{'id': '14', 'source': '6.3', 'target': '6.4'}),
         '15': Link(**{'id': '15', 'source': '6.4', 'target': '7.1'}),
-    })
+    }})
     return link_repository
 
 
 @fixture
 def schedule_repository():
-    schedule_repository = MemoryScheduleRepository(ExpressionParser())
+    schedule_repository = MemoryScheduleRepository(QueryParser())
     return schedule_repository
 
 
 @fixture
 def slot_repository():
-    slot_repository = MemorySlotRepository(ExpressionParser())
+    slot_repository = MemorySlotRepository(QueryParser())
     return slot_repository
 
 

@@ -1,6 +1,7 @@
 from ..config import Config
+from ...application.utilities import QueryParser
 from ...application.repositories import (
-    ExpressionParser, TaskRepository, MemoryTaskRepository,
+    TaskRepository, MemoryTaskRepository,
     LinkRepository, MemoryLinkRepository,
     ClassifierRepository, MemoryClassifierRepository,
     ClassificationRepository, MemoryClassificationRepository,
@@ -21,38 +22,38 @@ class StandardFactory(Factory):
     def extract(self, method: str):
         return getattr(self, "{0}".format(method), None)
 
-    def expression_parser(self) -> ExpressionParser:
-        return ExpressionParser()
+    def query_parser(self) -> QueryParser:
+        return QueryParser()
 
     def memory_task_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryTaskRepository:
-        return MemoryTaskRepository(expression_parser)
+        return MemoryTaskRepository(query_parser)
 
     def memory_link_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryLinkRepository:
-        return MemoryLinkRepository(expression_parser)
+        return MemoryLinkRepository(query_parser)
 
     def memory_classifier_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryClassifierRepository:
-        return MemoryClassifierRepository(expression_parser)
+        return MemoryClassifierRepository(query_parser)
 
     def memory_classification_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryClassificationRepository:
-        return MemoryClassificationRepository(expression_parser)
+        return MemoryClassificationRepository(query_parser)
 
     def memory_schedule_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemoryScheduleRepository:
-        return MemoryScheduleRepository(expression_parser)
+        return MemoryScheduleRepository(query_parser)
 
     def memory_slot_repository(
-            self, expression_parser: ExpressionParser
+            self, query_parser: QueryParser
     ) -> MemorySlotRepository:
-        return MemorySlotRepository(expression_parser)
+        return MemorySlotRepository(query_parser)
 
     def memory_plot_service(
             self, slot_repository: SlotRepository

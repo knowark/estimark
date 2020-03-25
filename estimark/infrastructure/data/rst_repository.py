@@ -1,14 +1,15 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import List, Dict, Type, Callable, Optional, Generic, Tuple, Any
+from ...application.utilities import QueryParser
 from ...application.repositories import (
-    T, QueryDomain, ExpressionParser, Repository)
+    T, QueryDomain, Repository)
 from .rst_analyzer import RstAnalyzer
 from .rst_loader import RstLoader
 
 
 class RstRepository(Repository, Generic[T]):
-    def __init__(self, parser: ExpressionParser,
+    def __init__(self, parser: QueryParser,
                  loader: RstLoader,
                  item_class: Type[T]) -> None:
         self.items: Dict[str, Any] = {}

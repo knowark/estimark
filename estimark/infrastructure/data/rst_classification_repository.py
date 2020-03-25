@@ -1,6 +1,6 @@
 from ...application.models import Classification
-from ...application.repositories import (ClassificationRepository,
-                                         ExpressionParser)
+from ...application.utilities import QueryParser
+from ...application.repositories import ClassificationRepository
 from .rst_repository import RstRepository, RstLoader
 
 
@@ -8,8 +8,7 @@ class RstClassificationRepository(
         RstRepository[Classification], ClassificationRepository):
     """Restructuredtext Classification Repository"""
 
-    def __init__(self, parser: ExpressionParser,
-                 loader: RstLoader) -> None:
+    def __init__(self, parser: QueryParser, loader: RstLoader) -> None:
         super().__init__(parser=parser,
                          loader=loader, item_class=Classification)
         self.counter = 0

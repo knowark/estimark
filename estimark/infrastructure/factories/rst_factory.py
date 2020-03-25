@@ -1,5 +1,5 @@
 from ..config import Config
-from ...application.repositories import ExpressionParser
+from ...application.utilities import QueryParser
 from ..data import (
     RstRepository, RstTaskRepository, RstLinkRepository,
     RstAnalyzer, RstLoader, RstClassificationRepository)
@@ -18,21 +18,21 @@ class RstFactory(JsonFactory):
         root = self.config.get('root', '.')
         return RstLoader(root, analyzer)
 
-    def rst_task_repository(self, expression_parser: ExpressionParser,
+    def rst_task_repository(self, query_parser: QueryParser,
                             loader: RstLoader) -> RstTaskRepository:
-        repository = RstTaskRepository(expression_parser, loader)
+        repository = RstTaskRepository(query_parser, loader)
         repository.load()
         return repository
 
-    def rst_link_repository(self, expression_parser: ExpressionParser,
+    def rst_link_repository(self, query_parser: QueryParser,
                             loader: RstLoader) -> RstLinkRepository:
-        repository = RstLinkRepository(expression_parser, loader)
+        repository = RstLinkRepository(query_parser, loader)
         repository.load()
         return repository
 
     def rst_classification_repository(
-            self, expression_parser: ExpressionParser,
+            self, query_parser: QueryParser,
             loader: RstLoader) -> RstClassificationRepository:
-        repository = RstClassificationRepository(expression_parser, loader)
+        repository = RstClassificationRepository(query_parser, loader)
         repository.load()
         return repository

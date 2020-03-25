@@ -1,5 +1,8 @@
-class Link:
+from .entity import Entity
+
+
+class Link(Entity):
     def __init__(self, **attributes):
-        self.id = attributes['id']
+        super().__init__(**attributes)
         self.source = attributes['source']
         self.target = attributes['target']

@@ -1,43 +1,65 @@
-from abc import ABC, abstractmethod
-from typing import List, Dict, TypeVar, Optional, Generic, Union
+import time
+from uuid import uuid4
+from collections import defaultdict
+from typing import List, Dict, Generic, Union
+from ..models import T
+from ..utilities import (
+    QueryParser, QueryDomain, EntityNotFoundError)
 from .repository import Repository
-from .expression_parser import ExpressionParser
-from .types import T, QueryDomain
 
 
 class MemoryRepository(Repository, Generic[T]):
-    def __init__(self,  parser: ExpressionParser) -> None:
-        self.items = {}  # type: Dict[str, T]
-        self.parser = parser
+    def __init__(self,  parser: QueryParser) -> None:
+        self.data: Dict[str, Dict[str, T]] = defaultdict(dict)
+        self.parser: QueryParser = parser
+        self.max_items = 10_000
 
-    def get(self, id: str) -> Optional[T]:
-        return self.items.get(id)
+    def add(self, item: Union[T, List[T]]) -> List[T]:
+        items = item if isinstance(item, list) else [item]
+        for item in items:
+            item.id = item.id or str(uuid4())
+            item.created_at = int(time.time())
+            item.updated_at = item.created_at
+            self.data[self._location][item.id] = item
+        return items
 
-    def add(self, item: T) -> T:
-        id = getattr(item, 'id')
-        self.items[id] = item
-        return item
-
-    def search(self, domain: QueryDomain, limit=0, offset=0) -> List[T]:
+    def search(self, domain: QueryDomain,
+               limit=10_000, offset=0) -> List[T]:
         items = []
-        limit = int(limit) if limit > 0 else 100
-        offset = int(offset) if offset > 0 else 0
         filter_function = self.parser.parse(domain)
-        for item in list(self.items.values()):
+        for item in list(self.data[self._location].values()):
             if filter_function(item):
                 items.append(item)
 
-        items = items[:limit]
-        items = items[offset:]
+        if offset is not None:
+            items = items[offset:]
+
+        if limit is not None:
+            items = items[:min(limit, self.max_items)]
 
         return items
 
-    def remove(self, item: T) -> bool:
-        id = getattr(item, 'id')
-        if id not in self.items:
-            return False
-        del self.items[id]
-        return True
+    def remove(self, item: Union[T, List[T]]) -> bool:
+        items = item if isinstance(item, list) else [item]
+        deleted = False
+        for item in items:
+            deleted_item = self.data[self._location].pop(item.id, None)
+            deleted = bool(deleted_item) or deleted
 
-    def load(self, items: Dict[str, T]) -> None:
-        self.items = items
+        return deleted
+
+    def count(self, domain: QueryDomain = None) -> int:
+        count = 0
+        domain = domain or []
+        filter_function = self.parser.parse(domain)
+        for item in list(self.data[self._location].values()):
+            if filter_function(item):
+                count += 1
+        return count
+
+    def load(self, data: Dict[str, Dict[str, T]]) -> None:
+        self.data = data
+
+    @property
+    def _location(self) -> str:
+        return 'default'

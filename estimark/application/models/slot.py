@@ -1,6 +1,9 @@
-class Slot:
+from .entity import Entity
+
+
+class Slot(Entity):
     def __init__(self, **attributes):
-        self.id = attributes.get('id')
+        super().__init__(**attributes)
         self.name = attributes.get('name', '')
         self.task_id = attributes['task_id']
         self.schedule_id = attributes['schedule_id']

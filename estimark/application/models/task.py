@@ -1,6 +1,9 @@
-class Task:
+from .entity import Entity
+
+
+class Task(Entity):
     def __init__(self, **attributes):
-        self.id = attributes['id']
+        super().__init__(**attributes)
         self.name = attributes.get('name', '')
         self.summary = attributes.get('summary', False)
         self.parent_id = attributes.get('parent_id')

@@ -35,7 +35,21 @@ def test_estimation_coordinator_calculate_slots(estimation_coordinator):
 
 def test_estimation_coordinator_estimate(estimation_coordinator):
     estimation_coordinator.estimate()
-    assert len(estimation_coordinator.schedule_repository.items) == 1
+    assert len(
+        estimation_coordinator.schedule_repository.data['default']) == 1
+
+
+def test_estimation_coordinator_plot_empty(estimation_coordinator):
+    result = estimation_coordinator.plot()
+    assert result is False
+
+
+def test_estimation_coordinator_plot_schedule(estimation_coordinator):
+    estimation_coordinator.schedule_repository.load({'default': {
+        '1': Schedule(**{'id': '1', 'name': 'Sample'}),
+    }})
+    result = estimation_coordinator.plot()
+    assert result is True
 
 
 def test_estimation_coordinator_estimate_merged_tasks(
@@ -64,3 +78,9 @@ def test_estimation_coordinator_estimate_merged_tasks(
         expected_slot = expected_slots[slot['task_id']]
         assert slot['start'] == expected_slot['start']
         assert slot['end'] == expected_slot['end']
+
+
+def test_estimation_coordinator_calculate_slots_state_missing(
+        estimation_coordinator):
+    slots = estimation_coordinator._calculate_slots(state='missing')
+    assert slots == []
