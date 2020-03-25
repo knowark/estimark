@@ -16,8 +16,4 @@ class MemoryPlotService(PlotService):
         self.slot_repository = slot_repository
 
     def plot(self, schedule: Schedule) -> None:
-        print("::::SERVICE PLOT SCHEDULE: {}::::".format(schedule.name))
-        slots = self.slot_repository.search(
-            [('schedule_id', '=', schedule.id)])
-        for slot in slots:
-            print('||==', vars(slot))
+        print("MEMORY PLOT. SCHEDULE: {}".format(schedule.name))
