@@ -1,5 +1,5 @@
 from pytest import fixture
-from estimark.application.repositories import ExpressionParser
+from estimark.application.utilities import QueryParser
 from estimark.infrastructure.data import (
     RstAnalyzer, RstTaskRepository, RstLoader)
 from estimark.infrastructure.factories import RstFactory
@@ -17,7 +17,7 @@ def test_rst_factory_rst_analyzer(rst_factory):
 
 
 def test_rst_factory_rst_task_repository(rst_factory):
-    parser = ExpressionParser()
+    parser = QueryParser()
     analyzer = RstAnalyzer()
 
     class MockLoader:

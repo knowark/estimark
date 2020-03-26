@@ -1,6 +1,7 @@
 from json import dumps, loads
 from pytest import fixture
-from estimark.application.repositories import Repository, ExpressionParser
+from estimark.application.utilities import QueryParser
+from estimark.application.repositories import Repository
 from estimark.infrastructure.data.json import JsonRepository
 
 
@@ -28,22 +29,12 @@ def json_repository(tmpdir) -> JsonRepository:
         data = dumps({collection_name: item_dict})
         f.write(data)
 
-    parser = ExpressionParser()
+    parser = QueryParser()
     json_repository = JsonRepository(file_path=file_path,
                                      parser=parser,
                                      collection_name=collection_name,
                                      item_class=DummyEntity)
     return json_repository
-
-
-def test_json_repository_get(json_repository):
-    item = json_repository.get("1")
-    assert item and item.field_1 == "value_1"
-
-
-def test_json_repository_get_not_found(json_repository):
-    item = json_repository.get("99")
-    assert item is None
 
 
 def test_json_repository_add(json_repository):
@@ -72,10 +63,10 @@ def test_json_repository_add_no_id(json_repository) -> None:
             assert len(key) > 0
 
 
-def test_json_repository_update(json_repository) -> None:
+def test_json_repository_add_update(json_repository) -> None:
     updated_entity = DummyEntity("1", "New Value")
 
-    is_updated = json_repository.update(updated_entity)
+    json_repository.add(updated_entity)
 
     file_path = json_repository.file_path
     with open(file_path) as f:
@@ -83,22 +74,7 @@ def test_json_repository_update(json_repository) -> None:
         items = data.get("dummies")
 
         assert len(items) == 3
-        assert is_updated is True
         assert "New Value" in items['1']['field_1']
-
-
-def test_json_repository_update_false(json_repository):
-    missing_entity = DummyEntity("99", "New Value")
-
-    is_updated = json_repository.update(missing_entity)
-
-    file_path = json_repository.file_path
-    with open(file_path) as f:
-        data = loads(f.read())
-        items = data.get("dummies")
-
-        assert len(items) == 3
-        assert is_updated is False
 
 
 def test_json_repository_search(json_repository):

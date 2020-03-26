@@ -1,7 +1,7 @@
 import os
 from json import load, dump
 from uuid import uuid4
-from typing import Dict, List, Optional, Any, Type, TypeVar, Callable, Generic
+from typing import Dict, List, Union, Any, Type, TypeVar, Callable, Generic
 from ....application.utilities import QueryParser
 from ....application.repositories import Repository, QueryDomain
 
@@ -17,17 +17,7 @@ class JsonRepository(Repository, Generic[T]):
         self.collection_name = collection_name
         self.item_class = item_class  # type: Callable[..., T]
 
-    def get(self, id: str) -> Optional[T]:
-        item = None
-        with open(self.file_path) as f:
-            data = load(f)
-            items = data.get(self.collection_name, {})
-            item_dict = items.get(id)
-            if item_dict:
-                item = self.item_class(**item_dict)
-        return item
-
-    def add(self, item: T) -> T:
+    def add(self, item: Union[T, List[T]]) -> List[T]:
         data = {}  # type: Dict[str, Any]
         with open(self.file_path, 'r') as f:
             data = load(f)
@@ -36,21 +26,6 @@ class JsonRepository(Repository, Generic[T]):
         with open(self.file_path, 'w') as f:
             dump(data, f, indent=2)
         return item
-
-    def update(self, item: T) -> bool:
-        with open(self.file_path, 'r') as f:
-            data = load(f)
-            items_dict = data.get(self.collection_name)
-
-        id = getattr(item, 'id')
-        if id not in items_dict:
-            return False
-
-        items_dict[id] = vars(item)
-
-        with open(self.file_path, 'w') as f:
-            dump(data, f, indent=2)
-        return True
 
     def search(self, domain: QueryDomain, limit=0, offset=0) -> List[T]:
         with open(self.file_path, 'r') as f:
@@ -86,3 +61,12 @@ class JsonRepository(Repository, Generic[T]):
         with open(self.file_path, 'w') as f:
             dump(data, f)
         return True
+
+    def count(self, domain: QueryDomain = None) -> int:
+        count = 0
+        domain = domain or []
+        filter_function = self.parser.parse(domain)
+        for item in list(self.data[self._location].values()):
+            if filter_function(item):
+                count += 1
+        return count

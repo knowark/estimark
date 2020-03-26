@@ -1,14 +1,14 @@
 from typing import Dict
 from pytest import fixture, raises
 from estimark.application.models import Classification
-from estimark.application.repositories import ExpressionParser
+from estimark.application.utilities import QueryParser
 from estimark.infrastructure.data import RstLoader
 from estimark.infrastructure.data import RstClassificationRepository
 
 
 @fixture
 def rst_classification_repository(rst_loader) -> RstClassificationRepository:
-    parser = ExpressionParser()
+    parser = QueryParser()
     repository = RstClassificationRepository(parser, rst_loader)
     return repository
 

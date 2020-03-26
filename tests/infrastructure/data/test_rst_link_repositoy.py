@@ -1,14 +1,13 @@
 from typing import Dict
 from pytest import fixture, raises
 from estimark.application.models import Link
-from estimark.application.repositories import ExpressionParser
-from estimark.infrastructure.data import RstLoader
-from estimark.infrastructure.data import RstLinkRepository
+from estimark.application.utilities import QueryParser
+from estimark.infrastructure.data import RstLoader, RstLinkRepository
 
 
 @fixture
 def rst_link_repository(rst_loader) -> RstLinkRepository:
-    parser = ExpressionParser()
+    parser = QueryParser()
     repository = RstLinkRepository(parser, rst_loader)
     return repository
 
@@ -20,7 +19,7 @@ def test_rst_link_repository_instantiation(rst_link_repository) -> None:
 
 def test_rst_link_repository_load(rst_link_repository) -> None:
     rst_link_repository.load()
-    assert len(rst_link_repository.items) > 0
+    assert len(rst_link_repository.data['default']) > 0
 
 
 def test_rst_link_repository_search(rst_link_repository) -> None:

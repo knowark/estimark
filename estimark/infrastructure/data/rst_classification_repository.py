@@ -9,8 +9,8 @@ class RstClassificationRepository(
     """Restructuredtext Classification Repository"""
 
     def __init__(self, parser: QueryParser, loader: RstLoader) -> None:
-        super().__init__(parser=parser,
-                         loader=loader, item_class=Classification)
+        super().__init__(parser=parser, loader=loader,
+                         item_class=Classification)
         self.counter = 0
 
     def load(self):

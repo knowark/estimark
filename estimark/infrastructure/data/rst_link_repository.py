@@ -32,6 +32,6 @@ class RstLinkRepository(RstRepository[Link], LinkRepository):
                 self.counter += 1
                 item = self.item_class(
                     id=self.counter, source=source, target=target)
-                self.items[self.counter] = item
+                self.data[self._location][self.counter] = item
 
             previous = target
