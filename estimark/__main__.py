@@ -6,7 +6,7 @@ import os
 import sys
 from injectark import Injectark
 from estimark.infrastructure.config import build_config
-from estimark.infrastructure.factories import build_factory
+from estimark.infrastructure.factories import build_factory, build_strategy
 from estimark.infrastructure.cli import Cli
 
 
@@ -16,7 +16,7 @@ def main(args):  # pragma: no cover
     config = build_config(config_path, mode)
 
     factory = build_factory(config)
-    strategy = config['strategy']
+    strategy = build_strategy(config['strategies'], config['strategy'])
     resolver = Injectark(strategy=strategy, factory=factory)
 
     Cli(config, resolver).run(args)

@@ -1,13 +1,11 @@
 from pathlib import Path
 from json import load
-from .config import Config
-from .trial_config import TrialConfig
-from .production_config import ProductionConfig
+from .config import Config, DevelopmentConfig, ProductionConfig
 
 
-def build_config(config_path: str, mode: str) -> Config:
+def build_config(mode: str, config_path: str = "") -> Config:
     if mode != 'PROD':
-        return TrialConfig()
+        return DevelopmentConfig()
 
     config = ProductionConfig()
     loaded_config = load_config(config_path)

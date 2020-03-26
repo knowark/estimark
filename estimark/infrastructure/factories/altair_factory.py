@@ -1,10 +1,10 @@
 from ..config import Config
 from ...application.repositories import SlotRepository
 from ..plot import AltairPlotService
-from .standard_factory import StandardFactory
+from .memory_factory import MemoryFactory
 
 
-class AltairFactory(StandardFactory):
+class AltairFactory(MemoryFactory):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config

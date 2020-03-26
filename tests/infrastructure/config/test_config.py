@@ -1,7 +1,6 @@
 from estimark.infrastructure.config import (
-    Config, load_config, update_config, build_config)
-from estimark.infrastructure.config.production_config import ProductionConfig
-from estimark.infrastructure.config.trial_config import TrialConfig
+    Config, load_config, update_config, build_config,
+    ProductionConfig, DevelopmentConfig)
 
 
 def test_config_instantiation():
@@ -41,7 +40,7 @@ def test_update_config():
         }
     }
     overlay_config = {
-        'factory': 'TrialFactory',
+        'factory': 'CheckFactory',
         'strategy': {
             "TaskRepository": {
                 "method": "memory_task_repository"
@@ -50,7 +49,7 @@ def test_update_config():
     }
     new_config = update_config(base_config, overlay_config)
     assert new_config['mode'] == 'PROD'
-    assert new_config['factory'] == 'TrialFactory'
+    assert new_config['factory'] == 'CheckFactory'
     assert new_config['strategy']['RstAnalyzer']['method'] == 'rst_analyzer'
     assert new_config[
         'strategy']['TaskRepository']['method'] == 'memory_task_repository'
@@ -61,5 +60,5 @@ def test_build_config(tmpdir):
         "prod_config.json")
     config_file.write('{"mode": "PROD"}')
 
-    config = build_config(str(config_file), 'PROD')
+    config = build_config('PROD', str(config_file))
     assert isinstance(config, ProductionConfig)

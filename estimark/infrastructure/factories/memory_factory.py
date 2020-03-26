@@ -14,13 +14,10 @@ from ...application.informers import (
 from .factory import Factory
 
 
-class StandardFactory(Factory):
+class MemoryFactory(Factory):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config
-
-    def extract(self, method: str):
-        return getattr(self, "{0}".format(method), None)
 
     def query_parser(self) -> QueryParser:
         return QueryParser()

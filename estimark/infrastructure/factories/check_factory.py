@@ -3,10 +3,10 @@ from ...application.models import Task
 from ...application.utilities import QueryParser
 from ...application.repositories import (
     TaskRepository, MemoryTaskRepository)
-from .standard_factory import StandardFactory
+from .memory_factory import MemoryFactory
 
 
-class TrialFactory(StandardFactory):
+class CheckFactory(MemoryFactory):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config
