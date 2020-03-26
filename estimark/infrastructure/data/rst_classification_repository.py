@@ -25,4 +25,4 @@ class RstClassificationRepository(
                     **{'id': self.counter,
                         'classifier_id': classifier_id,
                        'task_id': value['id']})
-                self.items[self.counter] = item
+                self.data[self._location][self.counter] = item

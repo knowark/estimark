@@ -1,27 +1,29 @@
 import inspect
 from pytest import fixture
 from injectark import Injectark
-from estimark.infrastructure.config import build_config
+from estimark.infrastructure.config import Config
 from estimark.infrastructure.factories import build_strategy, build_factory
-from estimark.infrastructure.factories import rst_factory
 
 
 @fixture
 def mock_config():
-    config = build_config('DEV')
-    config['factory'] = 'RstFactory'
-    return config
+    class MockConfig(Config):
+        def __init__(self):
+            super().__init__()
+            self['factory'] = 'MemoryFactory'
+
+    return MockConfig()
 
 
 @fixture
 def mock_strategy(mock_config):
-    strategy = build_strategy(['base', 'rst'])
-    return strategy
+    return build_strategy(mock_config['strategies'])
 
 
-def test_rst_factory(mock_config, mock_strategy, monkeypatch):
+def test_memory_factory(mock_config, mock_strategy):
     factory = build_factory(mock_config)
     resolver = Injectark(strategy=mock_strategy, factory=factory)
+
     for resource in mock_strategy.keys():
         result = resolver.resolve(resource)
         classes = inspect.getmro(type(result))

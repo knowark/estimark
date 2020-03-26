@@ -3,23 +3,23 @@ from pytest import fixture
 from injectark import Injectark
 from estimark.infrastructure.config import build_config
 from estimark.infrastructure.factories import build_strategy, build_factory
-from estimark.infrastructure.factories import rst_factory
+from estimark.infrastructure.factories import check_factory
 
 
 @fixture
 def mock_config():
     config = build_config('DEV')
-    config['factory'] = 'RstFactory'
+    config['factory'] = 'CheckFactory'
     return config
 
 
 @fixture
 def mock_strategy(mock_config):
-    strategy = build_strategy(['base', 'rst'])
+    strategy = build_strategy(['base', 'check'])
     return strategy
 
 
-def test_rst_factory(mock_config, mock_strategy, monkeypatch):
+def test_check_factory(mock_config, mock_strategy, monkeypatch):
     factory = build_factory(mock_config)
     resolver = Injectark(strategy=mock_strategy, factory=factory)
     for resource in mock_strategy.keys():
