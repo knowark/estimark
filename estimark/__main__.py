@@ -17,9 +17,10 @@ def main(args):  # pragma: no cover
 
     factory = build_factory(config)
     strategy = build_strategy(config['strategies'], config['strategy'])
-    resolver = Injectark(strategy=strategy, factory=factory)
+    injector = Injectark(strategy=strategy, factory=factory)
+    injector['SetupSupplier'].setup()
 
-    Cli(config, resolver).run(args)
+    Cli(config, injector).run(args)
 
 
 if __name__ == '__main__':  # pragma: no cover
