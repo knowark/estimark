@@ -5,3 +5,4 @@
     id=custom_4.1
     classifiers=L
     role=DEV
+    predecessors=3.1

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 from collections import defaultdict
-from typing import List, Dict, Type, Callable, Optional, Generic, Tuple, Any
+from typing import List, Dict, Type, Callable, Union, Generic, Tuple, Any
 from ...application.utilities import QueryParser
 from ...application.repositories import (
     T, QueryDomain, Repository)
@@ -19,7 +19,7 @@ class RstRepository(Repository, Generic[T]):
         self.item_class: Callable[..., T] = item_class
         self.max_items = 10_000
 
-    def add(self, item: T) -> T:
+    def add(self, item: Union[T, List[T]]) -> List[T]:
         raise NotImplementedError('Implementation not available.')
 
     def search(self, domain: QueryDomain,
@@ -38,7 +38,7 @@ class RstRepository(Repository, Generic[T]):
 
         return items
 
-    def remove(self, item: T) -> bool:
+    def remove(self, item: Union[T, List[T]]) -> bool:
         raise NotImplementedError('Implementation not available.')
 
     def count(self, domain: QueryDomain = None) -> int:

@@ -1,7 +1,7 @@
 import time
 from uuid import uuid4
 from collections import defaultdict
-from typing import List, Dict, Generic, Union
+from typing import List, Dict, TypeVar, Optional, Type, Generic, Union, Any
 from ..models import T
 from ..utilities import (
     QueryParser, QueryDomain, EntityNotFoundError)
@@ -18,8 +18,13 @@ class MemoryRepository(Repository, Generic[T]):
         items = item if isinstance(item, list) else [item]
         for item in items:
             item.id = item.id or str(uuid4())
-            item.created_at = int(time.time())
-            item.updated_at = item.created_at
+            item.updated_at = int(time.time())
+            existing_item = self.data[self._location].get(item.id)
+            if existing_item:
+                item.created_at = existing_item.created_at
+            else:
+                item.created_at = item.updated_at
+
             self.data[self._location][item.id] = item
         return items
 

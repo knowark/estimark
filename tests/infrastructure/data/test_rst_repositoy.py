@@ -69,3 +69,14 @@ def test_rst_repository_search_limit(rst_repository):
 def test_rst_repository_search_offset(rst_repository):
     items = rst_repository.search([], offset=2)
     assert len(rst_repository.data['default']) - len(items) == 2
+
+
+def test_rst_repository_count(rst_repository):
+    count = rst_repository.count()
+    assert count == 21
+
+
+def test_rst_repository_count_domain(rst_repository):
+    domain = [('id', '=', "1.1.1")]
+    count = rst_repository.count(domain)
+    assert count == 1

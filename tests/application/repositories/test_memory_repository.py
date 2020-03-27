@@ -1,15 +1,18 @@
 from typing import Dict, List
+from time import sleep
 from pytest import fixture, raises
 from inspect import signature
-from estimark.application.utilities import QueryParser, EntityNotFoundError
+from estimark.application.utilities import (
+    QueryParser, EntityNotFoundError)
+from estimark.application.models import Entity
 from estimark.application.repositories import (
     Repository, MemoryRepository)
 
 
-class DummyEntity:
-    def __init__(self, id: str = "", field_1: str = "") -> None:
-        self.id = id
-        self.field_1 = field_1
+class DummyEntity(Entity):
+    def __init__(self, **attributes) -> None:
+        super().__init__(**attributes)
+        self.field_1 = attributes.get('field_1', "")
 
 
 def test_memory_repository_implementation() -> None:
@@ -28,9 +31,9 @@ def memory_repository() -> MemoryRepository:
 def filled_memory_repository(memory_repository) -> MemoryRepository:
     data_dict = {
         "default": {
-            "1": DummyEntity('1', 'value_1'),
-            "2": DummyEntity('2', 'value_2'),
-            "3": DummyEntity('3', 'value_3')
+            "1": DummyEntity(id='1', field_1='value_1'),
+            "2": DummyEntity(id='2', field_1='value_2'),
+            "3": DummyEntity(id='3', field_1='value_3')
         }
     }
     memory_repository.load(data_dict)
@@ -38,7 +41,7 @@ def filled_memory_repository(memory_repository) -> MemoryRepository:
 
 
 def test_memory_repository_add(memory_repository) -> None:
-    item = DummyEntity("1", "value_1")
+    item = DummyEntity(id="1", field_1="value_1")
 
     is_saved = memory_repository.add(item)
 
@@ -49,15 +52,15 @@ def test_memory_repository_add(memory_repository) -> None:
 
 
 def test_memory_repository_add_update(memory_repository) -> None:
-    memory_repository.data = {
-        "default": {
-            '1': DummyEntity("1", "value_1")
-        }
-    }
+    created_entity = DummyEntity(id="1", field_1="value_1")
+    created_entity, *_ = memory_repository.add(created_entity)
 
-    updated_entity = DummyEntity("1", "New Value")
+    sleep(1)
 
-    memory_repository.add(updated_entity)
+    updated_entity = DummyEntity(id="1", field_1="New Value")
+    updated_entity, *_ = memory_repository.add(updated_entity)
+
+    assert created_entity.created_at == updated_entity.created_at
 
     items = memory_repository.data['default']
     assert len(items) == 1

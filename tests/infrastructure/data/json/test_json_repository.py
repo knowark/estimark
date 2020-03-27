@@ -22,18 +22,19 @@ def json_repository(tmpdir) -> JsonRepository:
         "2": vars(DummyEntity('2', 'value_2')),
         "3": vars(DummyEntity('3', 'value_3'))
     }
-
-    file_path = str(tmpdir.mkdir("authark").join('authark_data.json'))
+    directory_path = tmpdir.mkdir("authark")
+    file_path = str(directory_path.join('default_data.json'))
     collection_name = 'dummies'
     with open(file_path, 'w') as f:
         data = dumps({collection_name: item_dict})
         f.write(data)
 
     parser = QueryParser()
-    json_repository = JsonRepository(file_path=file_path,
+    json_repository = JsonRepository(directory_path=str(directory_path),
                                      parser=parser,
                                      collection_name=collection_name,
-                                     item_class=DummyEntity)
+                                     item_class=DummyEntity,
+                                     file_suffix='data')
     return json_repository
 
 
@@ -99,7 +100,7 @@ def test_json_repository_search_limit(json_repository):
 
 def test_json_repository_search_limit_zero(json_repository):
     items = json_repository.search([], limit=0)
-    assert len(items) == 3
+    assert len(items) == 0
 
 
 def test_json_repository_search_offset(json_repository):
@@ -113,6 +114,8 @@ def test_json_repository_remove_true(json_repository):
         data = loads(f.read())
         items_dict = data.get("dummies")
         item_dict = items_dict.get('2')
+
+    assert len(items_dict) == 3
 
     item = DummyEntity(**item_dict)
     deleted = json_repository.remove(item)
@@ -137,3 +140,14 @@ def test_json_repository_remove_false(json_repository):
 
     assert deleted is False
     assert len(items_dict) == 3
+
+
+def test_json_repository_count(json_repository):
+    count = json_repository.count()
+    assert count == 3
+
+
+def test_json_repository_count_domain(json_repository):
+    domain = [('id', '=', "1")]
+    count = json_repository.count(domain)
+    assert count == 1
