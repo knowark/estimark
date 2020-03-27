@@ -6,30 +6,30 @@ def test_estimark_informer_instantiation(estimark_informer):
 
 
 def test_estimark_informer_search_tasks(estimark_informer):
-    result = estimark_informer.search_tasks([])
+    result = estimark_informer.search('task', [])
 
     assert len(result) == 3
 
 
 def test_estimark_informer_search_links(estimark_informer):
-    result = estimark_informer.search_links([])
+    result = estimark_informer.search('link', [])
 
     assert len(result) == 0
 
 
 def test_estimark_informer_search_classifiers(estimark_informer):
-    result = estimark_informer.search_classifiers([])
+    result = estimark_informer.search('classifier', [])
 
     assert len(result) == 0
 
 
 def test_estimark_informer_search_schedules(estimark_informer):
-    result = estimark_informer.search_schedules([])
+    result = estimark_informer.search('schedule', [])
 
     assert len(result) == 0
 
 
 def test_estimark_informer_search_slots(estimark_informer):
-    result = estimark_informer.search_slots([])
+    result = estimark_informer.search('slot', [])
 
     assert len(result) == 0

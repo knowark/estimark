@@ -4,6 +4,7 @@ Authark entrypoint
 
 import os
 import sys
+import logging
 from injectark import Injectark
 from estimark.infrastructure.config import build_config
 from estimark.infrastructure.factories import build_factory, build_strategy
@@ -14,6 +15,8 @@ def main(args):  # pragma: no cover
     mode = os.environ.get('ESTIMARK_MODE', 'PROD')
     config_path = os.environ.get('ESTIMARK_CONFIG', 'config.json')
     config = build_config(config_path, mode)
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
+                        format='%(message)s')
 
     factory = build_factory(config)
     strategy = build_strategy(config['strategies'], config['strategy'])

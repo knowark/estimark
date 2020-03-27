@@ -4,8 +4,8 @@ from estimark.infrastructure.cli import Cli
 
 
 @fixture
-def cli(trial_config, trial_resolver):
-    cli = Cli(trial_config, trial_resolver)
+def cli(trial_config, trial_injector):
+    cli = Cli(trial_config, trial_injector)
     return cli
 
 
@@ -60,5 +60,21 @@ def test_cli_estimate(cli):
 
 
 def test_cli_show(cli):
-    options_dict = {}
+    options_dict = {'model': 'task'}
     assert cli.show(options_dict) is None
+
+
+def test_cli_show_unknown(cli):
+    options_dict = {'model': 'unknowk'}
+    with raises(ValueError):
+        cli.show(options_dict)
+
+
+def test_cli_version(cli):
+    options_dict = {}
+    assert cli.version(options_dict) is None
+
+
+def test_cli_plot(cli):
+    options_dict = {}
+    assert cli.plot(options_dict) is None

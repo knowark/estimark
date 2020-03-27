@@ -1,4 +1,5 @@
 import sys
+import logging
 from json import dumps
 from argparse import ArgumentParser, Namespace
 from typing import Dict
@@ -7,9 +8,12 @@ from ... import __version__
 from ..config import Config
 
 
+logger = logging.getLogger(__name__)
+
+
 class Cli:
-    def __init__(self, config: Config, resolver: Injectark) -> None:
-        self.resolver = resolver
+    def __init__(self, config: Config, injector: Injectark) -> None:
+        self.injector = injector
         self.config = config
 
     def run(self, args):
@@ -27,11 +31,7 @@ class Cli:
 
         # Show
         show_parser = subparsers.add_parser('show')
-        show_parser.add_argument('-t', '--tasks', action='store_true')
-        show_parser.add_argument('-l', '--links', action='store_true')
-        show_parser.add_argument('-c', '--classifiers', action='store_true')
-        show_parser.add_argument('-s', '--schedules', action='store_true')
-        show_parser.add_argument('-o', '--slots', action='store_true')
+        show_parser.add_argument('-m', '--model', default='task')
         show_parser.set_defaults(func=self.show)
 
         # Plot
@@ -49,42 +49,31 @@ class Cli:
         return parser.parse_args(args)
 
     def estimate(self, options_dict: Dict[str, str]) -> None:
-        print('...ESTIMATE:::', options_dict)
-
+        logger.info('<< ESTIMATE >>')
         state = options_dict.get('state')
-        estimation_coordinator = self.resolver['EstimationCoordinator']
+        estimation_coordinator = self.injector['EstimationCoordinator']
         estimation_coordinator.estimate(state)
 
     def show(self, options_dict: Dict[str, str]) -> None:
-        print('...SHOW:::', options_dict)
-        estimark_informer = self.resolver['EstimarkInformer']
+        logger.info('<< SHOW >>')
+        estimark_informer = self.injector['EstimarkInformer']
+        models = ['task', 'link', 'classifier', 'schedule', 'slot']
+        model = options_dict.get('model')
+        if model not in models:
+            raise ValueError(
+                f"The model should be one of: {', '.join(models)}")
 
-        if options_dict.get('tasks'):
-            tasks = estimark_informer.search_tasks([])
-            for task in tasks:
-                print('T:::', task)
-        elif options_dict.get('links'):
-            links = estimark_informer.search_links([])
-            for link in links:
-                print('L:::', link)
-        elif options_dict.get('classifiers'):
-            classifiers = estimark_informer.search_classifiers([])
-            for classifier in classifiers:
-                print('C:::', classifier)
-        elif options_dict.get('schedules'):
-            schedules = estimark_informer.search_schedules([])
-            for schedule in schedules:
-                print('S:::', schedule)
-        elif options_dict.get('slots'):
-            slots = estimark_informer.search_slots([])
-            for slot in slots:
-                print('S:::', slot)
+        records = estimark_informer.search(model, [])
+
+        logger.info(f'{model} records:')
+        for record in records:
+            logger.info(record)
 
     def plot(self, options_dict: Dict[str, str]):
-        print('CLI PLOT |||||')
-        estimation_coordinator = self.resolver['EstimationCoordinator']
+        logger.info('<< PLOT >>')
+        estimation_coordinator = self.injector['EstimationCoordinator']
         estimation_coordinator.plot()
 
     def version(self, options_dict: Dict[str, str]):
-        print('VERSION:')
-        print(__version__)
+        logger.info('<< VERSION >>')
+        logger.info(__version__)
