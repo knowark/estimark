@@ -11,8 +11,8 @@ from ...application.services import PlotService
 class AltairPlotService(PlotService):
     def __init__(self, plot_dir: str,
                  slot_repository: SlotRepository) -> None:
-        self.plot_dir = plot_dir
         self.slot_repository = slot_repository
+        self.output_file = str(Path(plot_dir).joinpath('chart.html'))
 
     def plot(self, schedule: Schedule) -> None:
         print("::::ALTAIR PLOT SCHEDULE: {}::::".format(schedule.name))
@@ -30,5 +30,4 @@ class AltairPlotService(PlotService):
         ).properties(
             title=title)
 
-        output_file = str(Path(self.plot_dir).joinpath('chart.html'))
-        chart.save(output_file)
+        chart.save(self.output_file)
