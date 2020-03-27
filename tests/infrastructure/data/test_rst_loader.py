@@ -17,7 +17,6 @@ def test_rst_loader_load_if_not_initialized(rst_loader):
 
 
 def test_rst_loader_load_custom_id(rst_loader):
-    print(rst_loader.nodes)
     for node in rst_loader.nodes:
         if node.get('name') == '4.1 Close Project':
             assert node['id'] == 'custom_4.1'
