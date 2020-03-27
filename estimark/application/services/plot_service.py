@@ -1,8 +1,12 @@
 import json
+import logging
 from typing import Dict
 from abc import ABC, abstractmethod
 from ..models import Schedule, Slot
 from ..repositories import SlotRepository
+
+
+logger = logging.getLogger(__name__)
 
 
 class PlotService(ABC):
@@ -16,4 +20,4 @@ class MemoryPlotService(PlotService):
         self.slot_repository = slot_repository
 
     def plot(self, schedule: Schedule) -> None:
-        print("MEMORY PLOT. SCHEDULE: {}".format(schedule.name))
+        logging.info(f"MEMORY PLOT. SCHEDULE: {schedule.name}")

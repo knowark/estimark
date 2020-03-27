@@ -1,11 +1,15 @@
 
 import altair as alt
 import pandas as pd
+import logging
 from datetime import date
 from pathlib import Path
 from ...application.models import Schedule
 from ...application.repositories import SlotRepository
 from ...application.services import PlotService
+
+
+logger = logging.getLogger(__name__)
 
 
 class AltairPlotService(PlotService):
@@ -15,7 +19,7 @@ class AltairPlotService(PlotService):
         self.output_file = str(Path(plot_dir).joinpath('chart.html'))
 
     def plot(self, schedule: Schedule) -> None:
-        print("::::ALTAIR PLOT SCHEDULE: {}::::".format(schedule.name))
+        logging.info(f"ALTAIR PLOT SCHEDULE: {schedule.name}")
         slots = self.slot_repository.search(
             [('schedule_id', '=', schedule.id)])
         slot_dict_list = [vars(slot) for slot in slots]

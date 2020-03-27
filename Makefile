@@ -14,7 +14,7 @@ coverage-infrastructure:
 	ignore::DeprecationWarning --cov-report term-missing -s
 
 coverage: 
-	pytest -x --cov=estimark tests/ --cov-report term-missing -s -W \
+	pytest -x --cov=estimark tests/ --cov-report term-missing -W \
 	ignore::DeprecationWarning
 
 bundle:
