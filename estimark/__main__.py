@@ -12,9 +12,8 @@ from estimark.infrastructure.cli import Cli
 
 
 def main(args):  # pragma: no cover
-    mode = os.environ.get('ESTIMARK_MODE', 'PROD')
     config_path = os.environ.get('ESTIMARK_CONFIG', 'config.json')
-    config = build_config(config_path, mode)
+    config = build_config('PROD', config_path)
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(message)s')
 

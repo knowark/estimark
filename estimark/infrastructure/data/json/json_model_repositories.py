@@ -10,8 +10,10 @@ class JsonClassifierRepository(
     """Json Classifier Repository"""
 
     def __init__(self, file_path: str, parser: QueryParser,
-                 collection_name: str = 'classifiers') -> None:
-        super().__init__(file_path, parser, collection_name, Classifier)
+                 collection_name: str = 'classifiers',
+                 file_suffix: str = '') -> None:
+        super().__init__(file_path, parser, collection_name,
+                         Classifier, file_suffix)
 
 
 class JsonScheduleRepository(
@@ -19,8 +21,10 @@ class JsonScheduleRepository(
     """Json Schedule Repository"""
 
     def __init__(self, file_path: str, parser: QueryParser,
-                 collection_name: str = 'schedules') -> None:
-        super().__init__(file_path, parser, collection_name, Schedule)
+                 collection_name: str = 'schedules',
+                 file_suffix: str = '') -> None:
+        super().__init__(file_path, parser, collection_name,
+                         Schedule, file_suffix)
 
 
 class JsonSlotRepository(
@@ -28,5 +32,7 @@ class JsonSlotRepository(
     """Json Slot Repository"""
 
     def __init__(self, file_path: str, parser: QueryParser,
-                 collection_name: str = 'slots') -> None:
-        super().__init__(file_path, parser, collection_name, Slot)
+                 collection_name: str = 'slots',
+                 file_suffix: str = '') -> None:
+        super().__init__(file_path, parser, collection_name,
+                         Slot, file_suffix)

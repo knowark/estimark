@@ -18,9 +18,10 @@ class DevelopmentConfig(Config):
         super().__init__()
         self['mode'] = 'DEV'
         self['factory'] = 'CheckFactory'
-        self['root'] = ''
-        self['param'] = ''
-        self['result'] = ''
+        self['root_dir'] = ''
+        self['param_dir'] = ''
+        self['result_dir'] = ''
+        self['plot_dir'] = ''
         self['strategies'].extend(['check'])
 
 
@@ -28,8 +29,5 @@ class ProductionConfig(Config):
     def __init__(self):
         super().__init__()
         self['mode'] = 'PROD'
-        self['root'] = ''
-        self['param'] = ''
-        self['result'] = ''
         self['factory'] = 'RstFactory'
-        self['strategies'].extend(['rst'])
+        self['strategies'].extend(['altair', 'json',  'rst'])
