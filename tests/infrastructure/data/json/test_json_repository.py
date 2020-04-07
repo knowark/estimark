@@ -108,6 +108,12 @@ def test_json_repository_search_offset(json_repository):
     assert len(items) == 1
 
 
+def test_json_repository_search_non_existent_file(json_repository):
+    json_repository.directory_path = '/tmp/.non_existent'
+    items = json_repository.search([])
+    assert len(items) == 0
+
+
 def test_json_repository_remove_true(json_repository):
     file_path = json_repository.file_path
     with open(file_path) as f:
@@ -142,9 +148,22 @@ def test_json_repository_remove_false(json_repository):
     assert len(items_dict) == 3
 
 
+def test_json_repository_remove_non_existent_file(json_repository):
+    json_repository.directory_path = '/tmp/.non_existent'
+    item = DummyEntity(**{'id': '6', 'field_1': 'MISSING'})
+    deleted = json_repository.remove(item)
+    assert deleted is False
+
+
 def test_json_repository_count(json_repository):
     count = json_repository.count()
     assert count == 3
+
+
+def test_json_repository_count(json_repository):
+    json_repository.directory_path = '/tmp/.non_existent'
+    count = json_repository.count()
+    assert count == 0
 
 
 def test_json_repository_count_domain(json_repository):

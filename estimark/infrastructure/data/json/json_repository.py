@@ -1,6 +1,7 @@
 import os
 import time
-from json import load, dump
+from pathlib import Path
+from json import loads, load, dump
 from uuid import uuid4
 from typing import Dict, List, Union, Any, Type, TypeVar, Callable, Generic
 from ....application.utilities import QueryParser
@@ -24,8 +25,8 @@ class JsonRepository(Repository, Generic[T]):
     def add(self, item: Union[T, List[T]]) -> List[T]:
         items = item if isinstance(item, list) else [item]
         data = {}  # type: Dict[str, Any]
-        with open(self.file_path, 'r') as f:
-            data = load(f)
+        if self.file_path.exists():
+            data = loads(self.file_path.read_text())
 
         for item in items:
             item.id = item.id or str(uuid4())
@@ -35,14 +36,17 @@ class JsonRepository(Repository, Generic[T]):
 
             data[self.collection_name][item.id] = vars(item)
 
-        with open(self.file_path, 'w') as f:
+        with self.file_path.open('w') as f:
             dump(data, f, indent=2)
 
         return items
 
     def search(self, domain: QueryDomain,
                limit=10_000, offset=0) -> List[T]:
-        with open(self.file_path, 'r') as f:
+        if not self.file_path.exists():
+            return []
+
+        with self.file_path.open('r') as f:
             data = load(f)
             items_dict = data.get(self.collection_name, {})
 
@@ -63,7 +67,10 @@ class JsonRepository(Repository, Generic[T]):
 
     def remove(self, item: Union[T, List[T]]) -> bool:
         items = item if isinstance(item, list) else [item]
-        with open(self.file_path, 'r') as f:
+        if not self.file_path.exists():
+            return False
+
+        with self.file_path.open('r') as f:
             data = load(f)
 
         deleted = False
@@ -71,13 +78,16 @@ class JsonRepository(Repository, Generic[T]):
             deleted_item = data[self.collection_name].pop(item.id, None)
             deleted = bool(deleted_item) or deleted
 
-        with open(self.file_path, 'w') as f:
+        with self.file_path.open('w') as f:
             dump(data, f)
 
         return deleted
 
     def count(self, domain: QueryDomain = None) -> int:
-        with open(self.file_path, 'r') as f:
+        if not self.file_path.exists():
+            return 0
+
+        with self.file_path.open('r') as f:
             data = load(f)
 
         count = 0
@@ -94,8 +104,8 @@ class JsonRepository(Repository, Generic[T]):
         return 'default'
 
     @property
-    def file_path(self) -> str:
+    def file_path(self) -> Path:
         file_path = f'{self.directory_path}/{self._location}'
         if self.file_suffix:
             file_path = f'{file_path}_{self.file_suffix}'
-        return f'{file_path}.json'
+        return Path(f'{file_path}.json')

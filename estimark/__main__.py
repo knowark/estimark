@@ -20,7 +20,7 @@ def main(args):  # pragma: no cover
     factory = build_factory(config)
     strategy = build_strategy(config['strategies'], config['strategy'])
     injector = Injectark(strategy=strategy, factory=factory)
-    injector['SetupSupplier'].setup()
+    # injector['SetupSupplier'].setup()
 
     Cli(config, injector).run(args)
 
