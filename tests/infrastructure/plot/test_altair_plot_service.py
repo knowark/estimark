@@ -1,6 +1,6 @@
 from pytest import fixture
 from pathlib import Path
-from estimark.application.models import Schedule, Slot
+from estimark.application.models import Schedule, Slot, Task
 from estimark.application.utilities import QueryParser
 from estimark.application.repositories import MemorySlotRepository
 from estimark.infrastructure.plot import AltairPlotService
@@ -32,5 +32,16 @@ def test_altair_plot_service_plot(plot_service, tmpdir):
     schedule = Schedule(id='1', name='Test Schedule')
 
     plot_service.plot(schedule)
+
+    assert len(Path(output_file).read_bytes()) > 0
+
+
+def test_altair_plot_service_plot_kanban(plot_service, tmpdir):
+    output_file = str(tmpdir / 'kanban.html')
+    plot_service.plot_dir = str(tmpdir)
+
+    tasks = [Task(id='001', state='backlog'), Task(id='002', state='open')]
+
+    plot_service.plot_kanban(tasks)
 
     assert len(Path(output_file).read_bytes()) > 0
