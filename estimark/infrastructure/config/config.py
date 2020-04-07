@@ -10,6 +10,10 @@ class Config(dict, ABC):
     def __init__(self):
         self['mode'] = 'BASE'
         self['strategy'] = {}
+        self['root_dir'] = ''
+        self['param_dir'] = ''
+        self['result_dir'] = ''
+        self['plot_dir'] = ''
         self['strategies'] = ['base']
 
 
@@ -18,10 +22,6 @@ class DevelopmentConfig(Config):
         super().__init__()
         self['mode'] = 'DEV'
         self['factory'] = 'CheckFactory'
-        self['root_dir'] = ''
-        self['param_dir'] = ''
-        self['result_dir'] = ''
-        self['plot_dir'] = ''
         self['strategies'].extend(['check'])
 
 
