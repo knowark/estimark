@@ -7,8 +7,5 @@ json = {
     },
     "ClassifierRepository": {
         "method": "json_classifier_repository"
-    },
-    "SetupSupplier": {
-        "method": "json_setup_supplier"
     }
 }

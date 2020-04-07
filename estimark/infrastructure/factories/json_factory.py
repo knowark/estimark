@@ -3,7 +3,6 @@ from ...application.utilities import QueryParser
 from ..data.json import (
     init_json_database, JsonRepository, JsonClassifierRepository,
     JsonSlotRepository, JsonScheduleRepository)
-from ..core import JsonSetupSupplier
 from .altair_factory import AltairFactory
 
 
@@ -31,6 +30,3 @@ class JsonFactory(AltairFactory):
         repository = JsonSlotRepository(
             self.result_dir, query_parser, file_suffix='result')
         return repository
-
-    def json_setup_supplier(self) -> JsonSetupSupplier:
-        return JsonSetupSupplier(self.result_dir)

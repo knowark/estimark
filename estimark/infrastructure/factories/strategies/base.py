@@ -28,8 +28,5 @@ base = {
     },
     "EstimarkInformer": {
         "method": "standard_estimark_informer"
-    },
-    "SetupSupplier": {
-        "method": "memory_setup_supplier"
     }
 }

@@ -11,7 +11,6 @@ from ...application.services import PlotService, MemoryPlotService
 from ...application.coordinators import EstimationCoordinator
 from ...application.informers import (
     EstimarkInformer, StandardEstimarkInformer)
-from ...infrastructure.core import SetupSupplier, MemorySetupSupplier
 from .factory import Factory
 
 
@@ -80,6 +79,3 @@ class MemoryFactory(Factory):
         return StandardEstimarkInformer(
             task_repository, link_repository, classifier_repository,
             schedule_repository, slot_repository)
-
-    def memory_setup_supplier(self) -> MemorySetupSupplier:
-        return MemorySetupSupplier()
