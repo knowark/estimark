@@ -8,4 +8,4 @@ def test_task_instantiation():
     assert task.id == 'T001'
     assert task.name == 'Deploy Application Server'
     assert task.role_id == 'R1'
-    assert task.state == 'open'
+    assert task.state == 'backlog'

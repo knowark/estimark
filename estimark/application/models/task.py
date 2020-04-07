@@ -8,4 +8,4 @@ class Task(Entity):
         self.summary = attributes.get('summary', False)
         self.parent_id = attributes.get('parent_id')
         self.role_id = attributes.get('role_id')
-        self.state = attributes.get('state', 'open')
+        self.state = attributes.get('state', 'backlog')
