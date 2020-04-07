@@ -1,8 +1,9 @@
 import os
 import time
+from uuid import uuid4
 from pathlib import Path
 from json import loads, load, dump
-from uuid import uuid4
+from collections import defaultdict
 from typing import Dict, List, Union, Any, Type, TypeVar, Callable, Generic
 from ....application.utilities import QueryParser
 from ....application.repositories import Repository, QueryDomain
@@ -24,9 +25,9 @@ class JsonRepository(Repository, Generic[T]):
 
     def add(self, item: Union[T, List[T]]) -> List[T]:
         items = item if isinstance(item, list) else [item]
-        data = {}  # type: Dict[str, Any]
+        data = defaultdict(lambda: {})  # type: Dict[str, Any]
         if self.file_path.exists():
-            data = loads(self.file_path.read_text())
+            data.update(loads(self.file_path.read_text()))
 
         for item in items:
             item.id = item.id or str(uuid4())
