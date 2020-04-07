@@ -26,9 +26,10 @@ def plot_service(slot_repository):
     return AltairPlotService('/tmp', slot_repository)
 
 
-def test_altair_plot_service_plot(plot_service, tmpdir):
-    output_file = str(tmpdir / 'test_output.html')
-    plot_service.output_file = output_file
+def test_altair_plot_service_plot_gantt(plot_service, tmpdir):
+    output_file = str(tmpdir / 'gantt.html')
+    plot_service.plot_dir = str(tmpdir)
+
     schedule = Schedule(id='1', name='Test Schedule')
 
     plot_service.plot_gantt(schedule)
