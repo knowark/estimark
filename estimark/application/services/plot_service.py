@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 class PlotService(ABC):
     @abstractmethod
-    def plot(self, schedule: Schedule) -> str:
-        "Plot method to be implemented."
+    def plot_gantt(self, schedule: Schedule) -> str:
+        "Plot gantt method to be implemented."
 
     @abstractmethod
     def plot_kanban(self, schedule: Schedule) -> str:
@@ -24,7 +24,7 @@ class MemoryPlotService(PlotService):
         self.gantt_plotted = False
         self.kanban_plotted = False
 
-    def plot(self, schedule: Schedule) -> None:
+    def plot_gantt(self, schedule: Schedule) -> None:
         self.gantt_plotted = True
         logging.info(f"MEMORY PLOT. SCHEDULE: {schedule.name}")
 

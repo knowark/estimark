@@ -52,7 +52,7 @@ class EstimationCoordinator:
                 self.schedule_repository.search(domain)), None)
             if not schedule:
                 return False
-            self.plot_service.plot(schedule)
+            self.plot_service.plot_gantt(schedule)
 
         return True
 

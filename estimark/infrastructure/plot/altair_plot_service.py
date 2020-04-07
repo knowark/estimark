@@ -21,7 +21,7 @@ class AltairPlotService(PlotService):
         self.plot_dir = plot_dir
         self.output_file = str(Path(plot_dir).joinpath('chart.html'))
 
-    def plot(self, schedule: Schedule) -> None:
+    def plot_gantt(self, schedule: Schedule) -> None:
         logging.info(f"ALTAIR PLOT SCHEDULE: {schedule.name}")
         slots = self.slot_repository.search(
             [('schedule_id', '=', schedule.id)])

@@ -31,7 +31,7 @@ def test_altair_plot_service_plot(plot_service, tmpdir):
     plot_service.output_file = output_file
     schedule = Schedule(id='1', name='Test Schedule')
 
-    plot_service.plot(schedule)
+    plot_service.plot_gantt(schedule)
 
     assert len(Path(output_file).read_bytes()) > 0
 

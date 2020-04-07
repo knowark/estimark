@@ -7,10 +7,10 @@ def test_plot_service_instantiation(plot_service):
     assert isinstance(plot_service, PlotService)
 
 
-def test_plot_service_plot(plot_service):
+def test_plot_service_plot_gantt(plot_service):
     schedule = Schedule()
 
-    assert plot_service.plot(schedule) is None
+    assert plot_service.plot_gantt(schedule) is None
 
 
 def test_plot_service_plot_kanban(plot_service):
