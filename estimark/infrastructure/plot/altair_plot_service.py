@@ -19,7 +19,6 @@ class AltairPlotService(PlotService):
                  slot_repository: SlotRepository) -> None:
         self.slot_repository = slot_repository
         self.plot_dir = plot_dir
-        self.output_file = str(Path(plot_dir).joinpath('chart.html'))
 
     def plot_gantt(self, schedule: Schedule) -> None:
         logging.info(f"ALTAIR PLOT SCHEDULE: {schedule.name}")
@@ -36,7 +35,9 @@ class AltairPlotService(PlotService):
             y='name'
         ).properties(title=title)
 
-        chart.save(self.output_file)
+        output_file = str(Path(self.plot_dir).joinpath('gantt.html'))
+
+        chart.save(output_file)
 
     def plot_kanban(self, tasks: List[Task]) -> None:
         logging.info(f"ALTAIR KANBAN PLOT. TASKS #: {len(tasks)}")
@@ -77,6 +78,6 @@ class AltairPlotService(PlotService):
 
         chart = bars + text
 
-        self.output_file = str(Path(self.plot_dir).joinpath('kanban.html'))
+        output_file = str(Path(self.plot_dir).joinpath('kanban.html'))
 
-        chart.save(self.output_file)
+        chart.save(output_file)
