@@ -41,7 +41,11 @@ class EstimationCoordinator:
             raise ValueError(f'The plot type should be one of: {plot_types}')
 
         if type == 'kanban':
-            tasks = self.task_repository.search([])
+            domain = []
+            states = context.get('states')
+            if states:
+                domain.append(('state', 'in', states))
+            tasks = self.task_repository.search(domain)
             if not tasks:
                 return False
             self.plot_service.plot_kanban(tasks)
