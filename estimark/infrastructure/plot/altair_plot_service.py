@@ -68,7 +68,7 @@ class AltairPlotService(PlotService):
             height=block_height * max_depth)
 
         bars = base.encode(
-            color='id')
+            color=alt.Color('id', legend=None))
 
         text = base.mark_text(
             dy=-(block_height / 2),
