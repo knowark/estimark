@@ -1,8 +1,8 @@
 import json
 import logging
-from typing import Dict
+from typing import Dict, List
 from abc import ABC, abstractmethod
-from ..models import Schedule, Slot
+from ..models import Schedule, Slot, Task
 from ..repositories import SlotRepository
 
 
@@ -14,10 +14,20 @@ class PlotService(ABC):
     def plot(self, schedule: Schedule) -> str:
         "Plot method to be implemented."
 
+    @abstractmethod
+    def plot_kanban(self, schedule: Schedule) -> str:
+        "Plot kanban method to be implemented."
+
 
 class MemoryPlotService(PlotService):
-    def __init__(self, slot_repository: SlotRepository) -> None:
-        self.slot_repository = slot_repository
+    def __init__(self) -> None:
+        self.gantt_plotted = False
+        self.kanban_plotted = False
 
     def plot(self, schedule: Schedule) -> None:
+        self.gantt_plotted = True
         logging.info(f"MEMORY PLOT. SCHEDULE: {schedule.name}")
+
+    def plot_kanban(self, tasks: List[Task]) -> None:
+        self.kanban_plotted = True
+        logging.info(f"MEMORY KANBAN PLOT. TASKS #: {len(tasks)}")

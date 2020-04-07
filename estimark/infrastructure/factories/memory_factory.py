@@ -53,10 +53,8 @@ class MemoryFactory(Factory):
     ) -> MemorySlotRepository:
         return MemorySlotRepository(query_parser)
 
-    def memory_plot_service(
-            self, slot_repository: SlotRepository
-    ) -> MemoryPlotService:
-        return MemoryPlotService(slot_repository)
+    def memory_plot_service(self) -> MemoryPlotService:
+        return MemoryPlotService()
 
     def estimation_coordinator(
             self, task_repository: TaskRepository,

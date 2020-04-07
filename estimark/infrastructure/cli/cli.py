@@ -1,6 +1,6 @@
 import sys
 import logging
-from json import dumps
+from json import dumps, loads
 from argparse import ArgumentParser, Namespace
 from typing import Dict
 from injectark import Injectark
@@ -36,6 +36,9 @@ class Cli:
 
         # Plot
         plot_parser = subparsers.add_parser('plot')
+        plot_parser.add_argument('-t', '--type', default='gantt')
+        plot_parser.add_argument('-c', '--context', default='{}',
+                                 help='JSON plot parameters context.')
         plot_parser.set_defaults(func=self.plot)
 
         # Version
@@ -72,7 +75,9 @@ class Cli:
     def plot(self, options_dict: Dict[str, str]):
         logger.info('<< PLOT >>')
         estimation_coordinator = self.injector['EstimationCoordinator']
-        estimation_coordinator.plot()
+        type_ = options_dict['type']
+        context = loads(options_dict['context'])
+        estimation_coordinator.plot(type_, context)
 
     def version(self, options_dict: Dict[str, str]):
         logger.info('<< VERSION >>')

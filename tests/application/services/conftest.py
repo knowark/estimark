@@ -10,5 +10,5 @@ def slot_repository():
 
 
 @fixture
-def plot_service(slot_repository):
-    return MemoryPlotService(slot_repository)
+def plot_service():
+    return MemoryPlotService()

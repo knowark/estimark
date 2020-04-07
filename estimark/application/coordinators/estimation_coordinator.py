@@ -33,12 +33,27 @@ class EstimationCoordinator:
             slot_dict.update({'schedule_id': schedule.id})
             self.slot_repository.add(Slot(**slot_dict))
 
-    def plot(self, schedule_id: str = None) -> bool:
-        domain = [('id', '=', schedule_id)] if schedule_id else []
-        schedule = next(iter(self.schedule_repository.search(domain)), None)
-        if not schedule:
-            return False
-        self.plot_service.plot(schedule)
+    def plot(self, type: str = 'gantt',
+             context: Dict[str, Any] = None) -> bool:
+        context = context or {}
+        plot_types = ['gantt', 'kanban']
+        if type not in plot_types:
+            raise ValueError(f'The plot type should be one of: {plot_types}')
+
+        if type == 'kanban':
+            tasks = self.task_repository.search([])
+            if not tasks:
+                return False
+            self.plot_service.plot_kanban(tasks)
+        else:
+            schedule_id = context.get('schedule_id')
+            domain = [('id', '=', schedule_id)] if schedule_id else []
+            schedule = next(iter(
+                self.schedule_repository.search(domain)), None)
+            if not schedule:
+                return False
+            self.plot_service.plot(schedule)
+
         return True
 
     def _calculate_slots(self, state=None) -> List[Dict[str, Any]]:

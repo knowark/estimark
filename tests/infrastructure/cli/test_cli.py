@@ -76,5 +76,6 @@ def test_cli_version(cli):
 
 
 def test_cli_plot(cli):
-    options_dict = {}
+    options_dict = {'type': 'kanban',
+                    'context': '{"schedule_id": "001"}'}
     assert cli.plot(options_dict) is None

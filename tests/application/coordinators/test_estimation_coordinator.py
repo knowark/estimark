@@ -1,5 +1,5 @@
-from pytest import fixture
-from estimark.application.models import Schedule
+from pytest import fixture, raises
+from estimark.application.models import Schedule, Task
 from estimark.application.coordinators import EstimationCoordinator
 
 
@@ -48,8 +48,10 @@ def test_estimation_coordinator_plot_schedule(estimation_coordinator):
     estimation_coordinator.schedule_repository.load({'default': {
         '1': Schedule(**{'id': '1', 'name': 'Sample'}),
     }})
-    result = estimation_coordinator.plot()
+    result = estimation_coordinator.plot('gantt')
     assert result is True
+    assert getattr(estimation_coordinator.plot_service,
+                   'gantt_plotted') is True
 
 
 def test_estimation_coordinator_estimate_merged_tasks(
@@ -84,3 +86,25 @@ def test_estimation_coordinator_calculate_slots_state_missing(
         estimation_coordinator):
     slots = estimation_coordinator._calculate_slots(state='missing')
     assert slots == []
+
+
+def test_estimation_coordinator_plot_kanban(estimation_coordinator):
+    result = estimation_coordinator.plot('kanban')
+    assert result is True
+    assert getattr(estimation_coordinator.plot_service,
+                   'kanban_plotted') is True
+
+
+def test_estimation_coordinator_plot_kanban_no_tasks(estimation_coordinator):
+    estimation_coordinator.task_repository.load({'default': {
+
+    }})
+    result = estimation_coordinator.plot('kanban')
+    assert result is False
+    assert getattr(estimation_coordinator.plot_service,
+                   'kanban_plotted') is False
+
+
+def test_estimation_coordinator_plot_invalid_type(estimation_coordinator):
+    with raises(ValueError):
+        estimation_coordinator.plot('invalid')

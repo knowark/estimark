@@ -15,7 +15,7 @@ coverage-infrastructure:
 
 coverage: 
 	pytest -x --cov=estimark tests/ --cov-report term-missing -W \
-	ignore::DeprecationWarning
+	ignore::DeprecationWarning -s
 
 bundle:
 	pyinstaller estimark.spec
