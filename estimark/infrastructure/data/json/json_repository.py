@@ -5,11 +5,9 @@ from pathlib import Path
 from json import loads, load, dump
 from collections import defaultdict
 from typing import Dict, List, Union, Any, Type, TypeVar, Callable, Generic
-from ....application.utilities import QueryParser
-from ....application.repositories import Repository, QueryDomain
-
-
-T = TypeVar('T')
+from ....application.models import T
+from ....application.utilities import QueryParser, QueryDomain
+from ....application.repositories import Repository
 
 
 class JsonRepository(Repository, Generic[T]):

@@ -3,8 +3,9 @@ from pathlib import Path
 from collections import defaultdict
 from typing import List, Dict, Type, Callable, Union, Generic, Tuple, Any
 from ...application.utilities import QueryParser
-from ...application.repositories import (
-    T, QueryDomain, Repository)
+from ...application.models import T
+from ...application.repositories import Repository
+from ...application.utilities import QueryDomain
 from .rst_analyzer import RstAnalyzer
 from .rst_loader import RstLoader
 
