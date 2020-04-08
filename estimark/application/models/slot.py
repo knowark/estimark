@@ -9,4 +9,3 @@ class Slot(Entity):
         self.schedule_id = attributes['schedule_id']
         self.start = attributes['start']
         self.end = attributes['end']
-        self.executor_id = attributes.get('executor_id')
