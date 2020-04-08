@@ -56,7 +56,7 @@ class AltairPlotService(PlotService):
 
         title = f"Kanban Chart | {date.today()}"
         block_height = 50
-        block_width = block_height * 5
+        block_width = block_height * 8
 
         base = alt.Chart(source).mark_bar(
             color='black'
@@ -71,7 +71,7 @@ class AltairPlotService(PlotService):
             height=block_height * max_depth)
 
         bars = base.encode(
-            color=alt.Color('id', legend=None))
+            color=alt.Color('id:N', legend=None))
 
         text = base.mark_text(
             dy=-(block_height * 0.33),
