@@ -1,8 +1,10 @@
 from ..config import Config
 from ...application.utilities import QueryParser
 from ..data.json import (
-    init_json_database, JsonRepository, JsonClassifierRepository,
-    JsonSlotRepository, JsonScheduleRepository)
+    init_json_database, JsonRepository,
+    JsonClassificationRepository, JsonClassifierRepository,
+    JsonLinkRepository, JsonScheduleRepository,
+    JsonSlotRepository, JsonTaskRepository)
 from .altair_factory import AltairFactory
 
 
@@ -13,9 +15,21 @@ class JsonFactory(AltairFactory):
         self.param_dir = self.config.get('param_dir')
         self.result_dir = self.config.get('result_dir')
 
+    def json_classification_repository(self, query_parser: QueryParser,
+                                       ) -> JsonClassificationRepository:
+        repository = JsonClassificationRepository(
+            self.param_dir, query_parser, file_suffix='param')
+        return repository
+
     def json_classifier_repository(self, query_parser: QueryParser,
                                    ) -> JsonClassifierRepository:
         repository = JsonClassifierRepository(
+            self.param_dir, query_parser, file_suffix='param')
+        return repository
+
+    def json_link_repository(self, query_parser: QueryParser,
+                             ) -> JsonLinkRepository:
+        repository = JsonLinkRepository(
             self.param_dir, query_parser, file_suffix='param')
         return repository
 
@@ -29,4 +43,10 @@ class JsonFactory(AltairFactory):
                              ) -> JsonSlotRepository:
         repository = JsonSlotRepository(
             self.result_dir, query_parser, file_suffix='result')
+        return repository
+
+    def json_task_repository(self, query_parser: QueryParser,
+                             ) -> JsonTaskRepository:
+        repository = JsonTaskRepository(
+            self.param_dir, query_parser, file_suffix='param')
         return repository
