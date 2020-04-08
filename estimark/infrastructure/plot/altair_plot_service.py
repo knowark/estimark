@@ -39,15 +39,18 @@ class AltairPlotService(PlotService):
 
         chart.save(output_file)
 
-    def plot_kanban(self, tasks: List[Task]) -> None:
+    def plot_kanban(self, tasks: List[Task],
+                    sort: List[str] = None, group: str = None) -> None:
         logging.info(f"ALTAIR KANBAN PLOT. TASKS #: {len(tasks)}")
+        group = group or 'state'
+        detail = 'owner' if group == 'state' else 'state'
 
         task_dict_list = [{'weight': 1, **vars(task)}
                           for task in tasks if not task.summary]
 
-        state_counts = Counter(task_dict['state'] for task_dict
-                               in task_dict_list).most_common()
-        _, max_depth = next(iter(state_counts))
+        counts = Counter(task_dict[group] for task_dict
+                         in task_dict_list).most_common()
+        _, max_depth = next(iter(counts))
 
         source = pd.DataFrame(task_dict_list)
 
@@ -58,25 +61,32 @@ class AltairPlotService(PlotService):
         base = alt.Chart(source).mark_bar(
             color='black'
         ).encode(
-            x=alt.X('state', axis=alt.Axis(orient='top', labelAngle=0,
-                                           labelFontSize=15)),
+            x=alt.X(group, axis=alt.Axis(
+                orient='top', labelAngle=0, labelFontSize=15), sort=sort),
             y=alt.Y('sum(weight)', sort='descending', stack='zero'),
             order=alt.Order('id',  sort='ascending')
         ).properties(
             title=title,
-            width=block_width * len(state_counts),
+            width=block_width * len(counts),
             height=block_height * max_depth)
 
         bars = base.encode(
             color=alt.Color('id', legend=None))
 
         text = base.mark_text(
-            dy=-(block_height / 2),
+            dy=-(block_height * 0.33),
             color='black'
         ).encode(
             text='name')
 
-        chart = bars + text
+        info = base.mark_text(
+            dy=-(block_height * 0.67),
+            dx=(block_width * 0.3),
+            color='#2F4F4F'
+        ).encode(
+            text=detail)
+
+        chart = bars + text + info
 
         output_file = str(Path(self.plot_dir).joinpath('kanban.html'))
 

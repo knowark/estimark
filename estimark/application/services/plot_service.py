@@ -15,7 +15,8 @@ class PlotService(ABC):
         "Plot gantt method to be implemented."
 
     @abstractmethod
-    def plot_kanban(self, schedule: Schedule) -> str:
+    def plot_kanban(self, tasks: List[Task], sort: List[str] = None,
+                    group: str = None) -> str:
         "Plot kanban method to be implemented."
 
 
@@ -28,6 +29,7 @@ class MemoryPlotService(PlotService):
         self.gantt_plotted = True
         logging.info(f"MEMORY PLOT. SCHEDULE: {schedule.name}")
 
-    def plot_kanban(self, tasks: List[Task]) -> None:
+    def plot_kanban(self, tasks: List[Task], sort: List[str] = None,
+                    group: str = None) -> None:
         self.kanban_plotted = True
         logging.info(f"MEMORY KANBAN PLOT. TASKS #: {len(tasks)}")

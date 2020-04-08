@@ -111,6 +111,14 @@ def test_estimation_coordinator_plot_kanban_states(estimation_coordinator):
                    'kanban_plotted') is True
 
 
+def test_estimation_coordinator_plot_kanban_owners(estimation_coordinator):
+    context = {'owners': ['unassigned']}
+    result = estimation_coordinator.plot('kanban', context)
+    assert result is True
+    assert getattr(estimation_coordinator.plot_service,
+                   'kanban_plotted') is True
+
+
 def test_estimation_coordinator_plot_invalid_type(estimation_coordinator):
     with raises(ValueError):
         estimation_coordinator.plot('invalid')

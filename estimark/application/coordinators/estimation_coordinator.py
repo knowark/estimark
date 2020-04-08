@@ -42,13 +42,18 @@ class EstimationCoordinator:
 
         if type == 'kanban':
             domain = []
-            states = context.get('states')
-            if states:
-                domain.append(('state', 'in', states))
+            sort = None
+            if context.get('states'):
+                sort = context['states']
+                domain.append(('state', 'in', sort))
+            if context.get('owners'):
+                sort = context['owners']
+                domain.append(('owner', 'in', sort))
             tasks = self.task_repository.search(domain)
             if not tasks:
                 return False
-            self.plot_service.plot_kanban(tasks)
+            self.plot_service.plot_kanban(
+                tasks, sort, context.get('group'))
         else:
             schedule_id = context.get('schedule_id')
             domain = [('id', '=', schedule_id)] if schedule_id else []

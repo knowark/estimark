@@ -65,7 +65,7 @@ def test_cli_show(cli):
 
 
 def test_cli_show_unknown(cli):
-    options_dict = {'model': 'unknowk'}
+    options_dict = {'model': 'unknown'}
     with raises(ValueError):
         cli.show(options_dict)
 
@@ -77,5 +77,5 @@ def test_cli_version(cli):
 
 def test_cli_plot(cli):
     options_dict = {'type': 'kanban',
-                    'context': '{"schedule_id": "001"}'}
+                    'context': '{}'}
     assert cli.plot(options_dict) is None

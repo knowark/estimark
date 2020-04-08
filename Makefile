@@ -18,7 +18,7 @@ coverage:
 	ignore::DeprecationWarning -s
 
 bundle:
-	pyinstaller estimark.spec
+	pyinstaller estimark.spec --clean
 
 PART ?= patch
 
