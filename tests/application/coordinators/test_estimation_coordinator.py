@@ -84,7 +84,8 @@ def test_estimation_coordinator_estimate_merged_tasks(
 
 def test_estimation_coordinator_calculate_slots_state_missing(
         estimation_coordinator):
-    slots = estimation_coordinator._calculate_slots(state='missing')
+    states = ['missing']
+    slots = estimation_coordinator._calculate_slots(states=states)
     assert slots == []
 
 

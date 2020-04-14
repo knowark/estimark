@@ -59,6 +59,11 @@ def test_cli_estimate(cli):
     assert cli.estimate(options_dict) is None
 
 
+def test_cli_estimate_states(cli):
+    options_dict = {"states": "backlog, open"}
+    assert cli.estimate(options_dict) is None
+
+
 def test_cli_show(cli):
     options_dict = {'model': 'task'}
     assert cli.show(options_dict) is None

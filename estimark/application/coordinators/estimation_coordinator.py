@@ -23,18 +23,18 @@ class EstimationCoordinator:
         self.slot_repository = slot_repository
         self.plot_service = plot_service
 
-    def estimate(self, state=None):
-        slot_dict_list = self._calculate_slots(state)
+    def estimate(self, states: List[str] = None):
+        slot_dict_list = self._calculate_slots(states)
 
         schedule, *_ = self.schedule_repository.add(
-            Schedule(name='Project Schedule', state=state))
+            Schedule(name='Project Schedule', state=", ".join(states or [])))
 
         for slot_dict in slot_dict_list:
             slot_dict.update({'schedule_id': schedule.id})
             self.slot_repository.add(Slot(**slot_dict))
 
-    def plot(self, type: str = 'gantt',
-             context: Dict[str, Any] = None) -> bool:
+    def plot(self, type: str='gantt',
+             context: Dict[str, Any]=None) -> bool:
         context = context or {}
         plot_types = ['gantt', 'kanban']
         if type not in plot_types:
@@ -65,10 +65,11 @@ class EstimationCoordinator:
 
         return True
 
-    def _calculate_slots(self, state=None) -> List[Dict[str, Any]]:
+    def _calculate_slots(self, states: List[str]=None
+                         ) -> List[Dict[str, Any]]:
         domain = [('summary', '=', False)]
-        if state:
-            domain.append(('state', '=', state))
+        if states:
+            domain.append(('state', 'in', states))
         effective_tasks = self.task_repository.search(domain)
 
         slots = []
