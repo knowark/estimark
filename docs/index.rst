@@ -9,11 +9,12 @@ Estimark
 Estimation in a frictionless way.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    introduction/index
    architecture/index
    requirements/index
+   issues/index
 
 ..
     Indices and tables

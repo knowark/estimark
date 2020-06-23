@@ -1,5 +1,5 @@
-Estimark Requirements
-=====================
+Requirements
+============
 
 .. toctree::
    :maxdepth: 2
