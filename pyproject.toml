@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "estimark"
-version = "0.2.2"
+version = "0.3.0"
 description = "Frictionless Estimation"
 authors = ["Esteban Echeverry <eecheverry@knowark.com>"]
 
