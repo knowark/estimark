@@ -1,6 +1,9 @@
 Refactor Directory Structure
 ============================
 
+:estimark:
+    state=done
+
 Estimark should have the simplified directory structure of the Knowarkitecture.
 Thus, the infrastructure module should be flatten into the root directory.
 
