@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from ..repositories import (
+from ..domain.repositories import (
     TaskRepository, LinkRepository, ClassifierRepository,
     ScheduleRepository, SlotRepository)
-from ..utilities import QueryDomain, RecordList
+from ..domain.common import QueryDomain, RecordList
 
 
 class EstimarkInformer(ABC):

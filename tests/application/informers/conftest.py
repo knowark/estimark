@@ -1,7 +1,7 @@
 from pytest import fixture
-from estimark.application.models import Task
-from estimark.application.utilities import QueryParser
-from estimark.application.repositories import (
+from estimark.application.domain.models import Task
+from estimark.application.domain.common import QueryParser
+from estimark.application.domain.repositories import (
     MemoryTaskRepository, MemoryLinkRepository, MemoryClassifierRepository,
     MemoryScheduleRepository, MemorySlotRepository)
 from estimark.application.informers import StandardEstimarkInformer

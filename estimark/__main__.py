@@ -5,23 +5,28 @@ Authark entrypoint
 import os
 import sys
 import logging
+from json import loads
+from pathlib import Path
 from injectark import Injectark
-from estimark.infrastructure.config import build_config
-from estimark.infrastructure.factories import build_factory, build_strategy
-from estimark.infrastructure.cli import Cli
+from .core import Config, PRODUCTION_CONFIG
+from .factories import factory_builder, strategy_builder
+from .presenters.shell import Shell
 
 
 def main(args):  # pragma: no cover
-    config_path = os.environ.get('ESTIMARK_CONFIG', 'config.json')
-    config = build_config('PROD', config_path)
+    config_path = Path(os.environ.get('ESTIMARK_CONFIG', 'config.json'))
+    config = loads(config_path.read_text()) if config_path.is_file() else {}
+    config: Config = {**PRODUCTION_CONFIG, **config}
+
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(message)s')
 
-    factory = build_factory(config)
-    strategy = build_strategy(config['strategies'], config['strategy'])
-    injector = Injectark(strategy=strategy, factory=factory)
+    strategy = strategy_builder.build(config['strategies'])
+    factory = factory_builder.build(config)
 
-    Cli(config, injector).run(args)
+    injector = Injectark(strategy, factory)
+
+    Shell(config, injector).run(args or [])
 
 
 if __name__ == '__main__':  # pragma: no cover

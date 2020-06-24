@@ -1,4 +1,3 @@
-from estimark.application.informers import EstimarkInformer
 
 
 def test_estimark_informer_instantiation(estimark_informer):
