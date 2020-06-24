@@ -23,7 +23,7 @@ bundle:
 PART ?= patch
 
 version:
-	bump2version $(PART) estimark/__init__.py --tag --commit
+	bump2version $(PART) pyproject.toml estimark/__init__.py --tag --commit
 
 upgrade:
 	pip-review --local --auto
