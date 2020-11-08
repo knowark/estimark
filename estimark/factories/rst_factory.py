@@ -15,7 +15,7 @@ class RstFactory(JsonFactory):
         return RstAnalyzer()
 
     def rst_loader(self, analyzer: RstAnalyzer):
-        root = self.config.get('root_dir', '.')
+        root = self.config['root_dir']
         return RstLoader(root, analyzer)
 
     def rst_task_repository(self, query_parser: QueryParser,

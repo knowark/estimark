@@ -8,7 +8,7 @@ class AltairFactory(BaseFactory):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config
-        self.plot_dir = self.config.get('plot_dir', '.')
+        self.plot_dir = self.config['plot_dir']
 
     def altair_plot_service(self, slot_repository: SlotRepository,
                             ) -> AltairPlotService:

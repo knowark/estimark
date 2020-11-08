@@ -13,7 +13,6 @@ from ..application.managers import EstimationManager
 from ..application.informers import StandardEstimarkInformer
 
 
-
 class BaseFactory(Factory):
     def __init__(self, config: Config) -> None:
         super().__init__(config)

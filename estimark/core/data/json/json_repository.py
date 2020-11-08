@@ -17,13 +17,13 @@ class JsonRepository(Repository, Generic[T]):
         self.directory_path = directory_path
         self.parser = parser
         self.collection_name = collection_name
-        self.item_class = item_class  # type: Callable[..., T]
+        self.item_class: Callable[..., T] = item_class
         self.file_suffix = file_suffix
         self.max_items = 10_000
 
     def add(self, item: Union[T, List[T]]) -> List[T]:
         items = item if isinstance(item, list) else [item]
-        data = defaultdict(lambda: {})  # type: Dict[str, Any]
+        data: Dict[str, Any] = defaultdict(lambda: {})
         if self.file_path.exists():
             data.update(loads(self.file_path.read_text()))
 
@@ -35,6 +35,7 @@ class JsonRepository(Repository, Generic[T]):
 
             data[self.collection_name][item.id] = vars(item)
 
+        self.file_path.parent.mkdir(parents=True, exist_ok=True)
         with self.file_path.open('w') as f:
             dump(data, f, indent=2)
 
@@ -100,7 +101,7 @@ class JsonRepository(Repository, Generic[T]):
 
     @property
     def _location(self) -> str:
-        return 'default'
+        return 'data'
 
     @property
     def file_path(self) -> Path:

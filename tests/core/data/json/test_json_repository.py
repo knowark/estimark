@@ -24,7 +24,7 @@ def json_repository(tmpdir) -> JsonRepository:
         "3": vars(DummyEntity('3', 'value_3'))
     }
     directory_path = tmpdir.mkdir("authark")
-    file_path = str(directory_path.join('default_data.json'))
+    file_path = str(directory_path.join('data_data.json'))
     collection_name = 'dummies'
     with open(file_path, 'w') as f:
         data = dumps({collection_name: item_dict})
