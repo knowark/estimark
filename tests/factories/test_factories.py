@@ -1,10 +1,8 @@
 import inspect
 from injectark import Injectark
-from estimark.core.common import DEVELOPMENT_CONFIG
+from estimark.core.common import config
 from estimark.factories import factory_builder, strategy_builder
 
-
-config = DEVELOPMENT_CONFIG
 
 test_tuples = [
     ('BaseFactory', ['base']),
@@ -16,7 +14,6 @@ test_tuples = [
 
 
 def test_factories():
-
     for factory_name, strategy_names in test_tuples:
         factory = factory_builder.build(config, name=factory_name)
         strategy = strategy_builder.build(strategy_names)
