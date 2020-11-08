@@ -15,6 +15,7 @@ from estimark.core.common import config
 
 
 def main(args: List[str] = None):  # pragma: no cover
+    args = args or sys.argv[1:]
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(message)s')
 
@@ -23,8 +24,8 @@ def main(args: List[str] = None):  # pragma: no cover
 
     injector = Injectark(strategy, factory)
 
-    Shell(config, injector).run(args or [])
+    Shell(config, injector).run(args)
 
 
 if __name__ == '__main__':  # pragma: no cover
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
