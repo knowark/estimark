@@ -26,7 +26,7 @@ def rst_repository(rst_loader) -> RstRepository:
 
 def test_rst_repository_load(rst_repository) -> None:
     rst_repository.load()
-    assert len(rst_repository.data['default']) > 0
+    assert len(rst_repository.data['data']) > 0
 
 
 def test_rst_repository_add(rst_repository) -> None:
@@ -66,7 +66,7 @@ def test_rst_repository_search_limit(rst_repository):
 
 def test_rst_repository_search_offset(rst_repository):
     items = rst_repository.search([], offset=2)
-    assert len(rst_repository.data['default']) - len(items) == 2
+    assert len(rst_repository.data['data']) - len(items) == 2
 
 
 def test_rst_repository_count(rst_repository):

@@ -26,6 +26,9 @@ base = {
     "EstimationManager": {
         "method": "estimation_manager"
     },
+    "InitializationManager": {
+        "method": "initialization_manager"
+    },
     "EstimarkInformer": {
         "method": "standard_estimark_informer"
     }

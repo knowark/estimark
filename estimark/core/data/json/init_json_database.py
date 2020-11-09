@@ -2,6 +2,7 @@ import os
 from json import dump
 from typing import Dict, Any
 
+
 DEFAULT_SCHEMA = {
     "schedules": {},
     "slots": {}

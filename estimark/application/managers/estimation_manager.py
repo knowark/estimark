@@ -34,15 +34,15 @@ class EstimationManager:
             slot_dict.update({'schedule_id': schedule.id})
             self.slot_repository.add(Slot(**slot_dict))
 
-    def plot(self, type: str='gantt',
-             context: Dict[str, Any]=None) -> bool:
+    def plot(self, type: str = 'gantt',
+             context: Dict[str, Any] = None) -> bool:
         context = context or {}
         plot_types = ['gantt', 'kanban']
         if type not in plot_types:
             raise ValueError(f'The plot type should be one of: {plot_types}')
 
         if type == 'kanban':
-            domain = []
+            domain: QueryDomain = []
             sort = None
             if context.get('states'):
                 sort = context['states']
@@ -66,7 +66,7 @@ class EstimationManager:
 
         return True
 
-    def _calculate_slots(self, states: List[str]=None
+    def _calculate_slots(self, states: List[str] = None
                          ) -> List[Dict[str, Any]]:
         domain: QueryDomain = [('summary', '=', False)]
         if states:

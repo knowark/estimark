@@ -9,7 +9,7 @@ from estimark.core.plot import AltairPlotService
 @fixture
 def slot_repository():
     slot_repository = MemorySlotRepository(QueryParser())
-    slot_repository.load({'default': {
+    slot_repository.load({'data': {
         '1.1':  Slot(id='1.1', schedule_id='1',
                      task_id='1.1', start=0, end=3),
         '1.2':  Slot(id='1.2', schedule_id='1',

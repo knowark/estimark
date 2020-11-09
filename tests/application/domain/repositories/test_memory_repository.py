@@ -21,14 +21,14 @@ def test_memory_repository_implementation() -> None:
 def memory_repository() -> MemoryRepository:
     parser = QueryParser()
     repository: MemoryRepository = MemoryRepository(parser)
-    repository.load({"default": {}})
+    repository.load({"data": {}})
     return repository
 
 
 @fixture
 def filled_memory_repository(memory_repository) -> MemoryRepository:
     data_dict = {
-        "default": {
+        "data": {
             "1": DummyEntity(id='1', field_1='value_1'),
             "2": DummyEntity(id='2', field_1='value_2'),
             "3": DummyEntity(id='3', field_1='value_3')
@@ -43,10 +43,10 @@ def test_memory_repository_add(memory_repository) -> None:
 
     is_saved = memory_repository.add(item)
 
-    assert len(memory_repository.data['default']) == 1
+    assert len(memory_repository.data['data']) == 1
     assert is_saved
-    assert "1" in memory_repository.data['default'].keys()
-    assert item in memory_repository.data['default'].values()
+    assert "1" in memory_repository.data['data'].keys()
+    assert item in memory_repository.data['data'].values()
 
 
 def test_memory_repository_add_update(memory_repository) -> None:
@@ -60,7 +60,7 @@ def test_memory_repository_add_update(memory_repository) -> None:
 
     assert created_entity.created_at == updated_entity.created_at
 
-    items = memory_repository.data['default']
+    items = memory_repository.data['data']
     assert len(items) == 1
     assert "1" in items.keys()
     assert updated_entity in items.values()
@@ -72,7 +72,7 @@ def test_memory_repository_add_no_id(memory_repository) -> None:
 
     is_saved = memory_repository.add(item)
 
-    items = memory_repository.data['default']
+    items = memory_repository.data['data']
     assert len(items) == 1
     assert is_saved
     assert len(list(items.keys())[0]) > 0
@@ -128,10 +128,10 @@ def test_memory_repository_search_offset(filled_memory_repository):
 
 
 def test_memory_repository_remove_true(filled_memory_repository):
-    item = filled_memory_repository.data['default']["2"]
+    item = filled_memory_repository.data['data']["2"]
     deleted = filled_memory_repository.remove(item)
 
-    items = filled_memory_repository.data['default']
+    items = filled_memory_repository.data['data']
     assert deleted is True
     assert len(items) == 2
     assert "2" not in items
@@ -141,16 +141,16 @@ def test_memory_repository_remove_false(filled_memory_repository):
     item = DummyEntity(**{'id': '6', 'field_1': 'MISSING'})
     deleted = filled_memory_repository.remove(item)
 
-    items = filled_memory_repository.data['default']
+    items = filled_memory_repository.data['data']
     assert deleted is False
     assert len(items) == 3
 
 
 def test_memory_repository_remove_idempotent(filled_memory_repository):
-    existing_item = item = filled_memory_repository.data['default']["2"]
+    existing_item = item = filled_memory_repository.data['data']["2"]
     missing_item = DummyEntity(**{'id': '6', 'field_1': 'MISSING'})
 
-    items = filled_memory_repository.data['default']
+    items = filled_memory_repository.data['data']
 
     deleted = filled_memory_repository.remove(
         [existing_item, missing_item])
@@ -173,7 +173,7 @@ def test_memory_repository_add_multiple(memory_repository) -> None:
 
     returned_items = memory_repository.add(items)
 
-    items = memory_repository.data['default']
+    items = memory_repository.data['data']
     assert len(returned_items) == 2
     assert returned_items[0].field_1 == 'value_1'
     assert returned_items[1].field_1 == 'value_2'

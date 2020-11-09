@@ -54,4 +54,4 @@ class RstRepository(Repository, Generic[T]):
 
     @property
     def _location(self) -> str:
-        return 'default'
+        return 'data'

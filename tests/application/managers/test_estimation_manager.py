@@ -35,7 +35,7 @@ def test_estimation_manager_calculate_slots(estimation_manager):
 def test_estimation_manager_estimate(estimation_manager):
     estimation_manager.estimate()
     assert len(
-        estimation_manager.schedule_repository.data['default']) == 1
+        estimation_manager.schedule_repository.data['data']) == 1
 
 
 def test_estimation_manager_plot_empty(estimation_manager):
@@ -44,7 +44,7 @@ def test_estimation_manager_plot_empty(estimation_manager):
 
 
 def test_estimation_manager_plot_schedule(estimation_manager):
-    estimation_manager.schedule_repository.load({'default': {
+    estimation_manager.schedule_repository.load({'data': {
         '1': Schedule(**{'id': '1', 'name': 'Sample'}),
     }})
     result = estimation_manager.plot('gantt')
@@ -96,7 +96,7 @@ def test_estimation_manager_plot_kanban(estimation_manager):
 
 
 def test_estimation_manager_plot_kanban_no_tasks(estimation_manager):
-    estimation_manager.task_repository.load({'default': {}})
+    estimation_manager.task_repository.load({'data': {}})
     result = estimation_manager.plot('kanban')
     assert result is False
     assert getattr(estimation_manager.plot_service,

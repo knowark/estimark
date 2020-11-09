@@ -26,4 +26,4 @@ class RstClassificationRepository(
                         'classifier_id': classifier_id,
                        'task_id': value['id']})
                 self.data[self._location][
-                    str(self.counter)] = item # type: ignore
+                    str(self.counter)] = item  # type: ignore

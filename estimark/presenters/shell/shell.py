@@ -1,7 +1,7 @@
 import logging
 from json import loads
 from argparse import ArgumentParser, Namespace
-from typing import Dict
+from typing import Dict, List
 from injectark import Injectark
 from ... import __version__
 from ...core import Config
@@ -23,6 +23,10 @@ class Shell:
     def parse(self, args) -> Namespace:
         parser = ArgumentParser('Estimark')
         subparsers = parser.add_subparsers(dest='action')
+
+        # Initialize
+        estimate_parser = subparsers.add_parser('init')
+        estimate_parser.set_defaults(func=self.init)
 
         # Estimate
         estimate_parser = subparsers.add_parser('estimate')
@@ -51,11 +55,15 @@ class Shell:
 
         return parser.parse_args(args)
 
+    def init(self, options_dict: Dict[str, str]) -> None:
+        logger.info('<< INIT >>')
+        initialization_manager = self.injector['InitializationManager']
+        initialization_manager.initialize()
+
     def estimate(self, options_dict: Dict[str, str]) -> None:
         logger.info('<< ESTIMATE >>')
-        states = options_dict.get('states')
-        if states:
-            states = [state.strip() for state in states.split(',')]
+        states = [state.strip() for state in
+                  options_dict.get('states', '').split(',')]
         estimation_manager = self.injector['EstimationManager']
         estimation_manager.estimate(states)
 

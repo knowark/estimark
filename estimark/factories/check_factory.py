@@ -18,7 +18,7 @@ class CheckFactory(BaseFactory):
         memory_task_repository = super().memory_task_repository(
             query_parser)
 
-        memory_task_repository.load({'default': {
+        memory_task_repository.load({'data': {
             "1": Task(id='1', name='Define WBS'),
             "2": Task(id='2', name='Deploy Servers'),
             "3": Task(id='3', name='Design Website')

@@ -18,7 +18,7 @@ def test_rst_link_repository_instantiation(rst_link_repository) -> None:
 
 def test_rst_link_repository_load(rst_link_repository) -> None:
     rst_link_repository.load()
-    assert len(rst_link_repository.data['default']) > 0
+    assert len(rst_link_repository.data['data']) > 0
 
 
 def test_rst_link_repository_search(rst_link_repository) -> None:

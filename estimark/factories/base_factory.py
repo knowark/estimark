@@ -9,7 +9,7 @@ from ..application.domain.repositories import (
     ScheduleRepository, MemoryScheduleRepository,
     SlotRepository, MemorySlotRepository)
 from ..application.domain.services import PlotService, MemoryPlotService
-from ..application.managers import EstimationManager
+from ..application.managers import EstimationManager, InitializationManager
 from ..application.informers import StandardEstimarkInformer
 
 
@@ -67,6 +67,11 @@ class BaseFactory(Factory):
             task_repository, classifier_repository,
             classification_repository, link_repository,
             schedule_repository, slot_repository, plot_service)
+
+    def initialization_manager(
+            self, classifier_repository: ClassifierRepository,
+    ) -> InitializationManager:
+        return InitializationManager(classifier_repository)
 
     def standard_estimark_informer(
             self, task_repository: TaskRepository,

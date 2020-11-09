@@ -10,7 +10,7 @@ from estimark.application.informers import StandardEstimarkInformer
 @fixture
 def task_repository():
     memory_task_repository = MemoryTaskRepository(QueryParser())
-    memory_task_repository.load({'default': {
+    memory_task_repository.load({'data': {
         "1": Task(id='1', name='Define WBS'),
         "2": Task(id='2', name='Deploy Servers'),
         "3": Task(id='3', name='Design Website')

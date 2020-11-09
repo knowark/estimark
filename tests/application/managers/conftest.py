@@ -7,13 +7,14 @@ from estimark.application.domain.repositories import (
     MemoryClassificationRepository, MemoryLinkRepository,
     MemoryScheduleRepository, MemorySlotRepository)
 from estimark.application.domain.services import MemoryPlotService
-from estimark.application.managers import EstimationManager
+from estimark.application.managers import (
+    EstimationManager, InitializationManager)
 
 
 @fixture
 def classifier_repository():
     classifier_repository = MemoryClassifierRepository(QueryParser())
-    classifier_repository.load({'default': {
+    classifier_repository.load({'data': {
         "xs": Classifier(**{
             "id": "xs",
             "name": "Extra Small",
@@ -46,7 +47,7 @@ def classifier_repository():
 @fixture
 def task_repository():
     task_repository = MemoryTaskRepository(QueryParser())
-    task_repository.load({'default': {
+    task_repository.load({'data': {
         '0': Task(id='', name='Bicycle Project', summary=True, parent_id=''),
         '1': Task(id='1', name='Frame Set', summary=True, parent_id='0'),
         '1.1': Task(id='1.1', name='Make Frame', parent_id='1'),
@@ -79,7 +80,7 @@ def task_repository():
 def classification_repository():
     classification_repository = MemoryClassificationRepository(
         QueryParser())
-    classification_repository.load({'default': {
+    classification_repository.load({'data': {
         "1": Classification(id="1", task_id="1.1", classifier_id="m"),
         "2": Classification(id="2", task_id="1.2", classifier_id="l"),
         "3": Classification(id="3", task_id="1.3", classifier_id="s"),
@@ -101,7 +102,7 @@ def classification_repository():
 @fixture
 def link_repository():
     link_repository = MemoryLinkRepository(QueryParser())
-    link_repository.load({'default': {
+    link_repository.load({'data': {
         '1': Link(**{'id': '1', 'source': '', 'target': '1.1'}),
         '2': Link(**{'id': '2', 'source': '1.1', 'target': '1.2'}),
         '3': Link(**{'id': '3', 'source': '1.2', 'target': '1.3'}),
@@ -123,7 +124,7 @@ def link_repository():
 @fixture
 def merged_link_repository():
     link_repository = MemoryLinkRepository(QueryParser())
-    link_repository.load({'default': {
+    link_repository.load({'data': {
         '1': Link(**{'id': '1', 'source': '', 'target': '1.1'}),
         '2': Link(**{'id': '2', 'source': '1.1', 'target': '1.2'}),
         '3': Link(**{'id': '3', 'source': '1.2', 'target': '1.3'}),
@@ -163,10 +164,16 @@ def plot_service():
 
 @fixture
 def estimation_manager(task_repository, classifier_repository,
-                           classification_repository, link_repository,
-                           schedule_repository, slot_repository,
-                           plot_service):
+                       classification_repository, link_repository,
+                       schedule_repository, slot_repository,
+                       plot_service):
     estimation_manager = EstimationManager(
         task_repository, classifier_repository, classification_repository,
         link_repository, schedule_repository, slot_repository, plot_service)
     return estimation_manager
+
+
+@fixture
+def initialization_manager(classifier_repository):
+    initialization_manager = InitializationManager(classifier_repository)
+    return initialization_manager

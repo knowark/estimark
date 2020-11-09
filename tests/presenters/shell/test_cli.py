@@ -47,6 +47,11 @@ def test_shell_run(shell):
     assert test_dict['call_dict'] == {'field': 'value'}
 
 
+def test_shell_init(shell):
+    options_dict = {}
+    assert shell.init(options_dict) is None
+
+
 def test_shell_estimate(shell):
     options_dict = {}
     assert shell.estimate(options_dict) is None
