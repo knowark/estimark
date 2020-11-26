@@ -30,7 +30,7 @@ class Shell:
 
         # Estimate
         estimate_parser = subparsers.add_parser('estimate')
-        estimate_parser.add_argument('-s', '--states')
+        estimate_parser.add_argument('-s', '--states', default='')
         estimate_parser.set_defaults(func=self.estimate)
 
         # Show
