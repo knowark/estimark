@@ -1,5 +1,8 @@
 from ..core.common import Config
 from ..application.domain.common import QueryParser
+from ..application.domain.repositories import (
+    TaskRepository, LinkRepository, ClassifierRepository,
+    ClassificationRepository, ScheduleRepository, SlotRepository)
 from ..core.data.json import (
     init_json_database, JsonRepository,
     JsonClassificationRepository, JsonClassifierRepository,
@@ -15,38 +18,38 @@ class JsonFactory(AltairFactory):
         self.param_dir = self.config['param_dir']
         self.result_dir = self.config['result_dir']
 
-    def json_classification_repository(self, query_parser: QueryParser,
-                                       ) -> JsonClassificationRepository:
-        repository = JsonClassificationRepository(
+    def classification_repository(
+        self, query_parser: QueryParser,
+    ) -> ClassificationRepository:
+        return JsonClassificationRepository(
             self.param_dir, query_parser, file_suffix='param')
-        return repository
 
-    def json_classifier_repository(self, query_parser: QueryParser,
-                                   ) -> JsonClassifierRepository:
-        repository = JsonClassifierRepository(
+    def classifier_repository(
+        self, query_parser: QueryParser,
+    ) -> ClassifierRepository:
+        return JsonClassifierRepository(
             self.param_dir, query_parser, file_suffix='param')
-        return repository
 
-    def json_link_repository(self, query_parser: QueryParser,
-                             ) -> JsonLinkRepository:
-        repository = JsonLinkRepository(
+    def link_repository(
+        self, query_parser: QueryParser,
+    ) -> LinkRepository:
+        return JsonLinkRepository(
             self.param_dir, query_parser, file_suffix='param')
-        return repository
 
-    def json_schedule_repository(self, query_parser: QueryParser,
-                                 ) -> JsonScheduleRepository:
-        repository = JsonScheduleRepository(
+    def schedule_repository(
+        self, query_parser: QueryParser,
+    ) -> ScheduleRepository:
+        return JsonScheduleRepository(
             self.result_dir, query_parser, file_suffix='result')
-        return repository
 
-    def json_slot_repository(self, query_parser: QueryParser,
-                             ) -> JsonSlotRepository:
-        repository = JsonSlotRepository(
+    def slot_repository(
+        self, query_parser: QueryParser,
+    ) -> SlotRepository:
+        return JsonSlotRepository(
             self.result_dir, query_parser, file_suffix='result')
-        return repository
 
-    def json_task_repository(self, query_parser: QueryParser,
-                             ) -> JsonTaskRepository:
-        repository = JsonTaskRepository(
+    def task_repository(
+        self, query_parser: QueryParser,
+    ) -> TaskRepository:
+        return JsonTaskRepository(
             self.param_dir, query_parser, file_suffix='param')
-        return repository

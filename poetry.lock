@@ -143,7 +143,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "injectark"
-version = "0.4.1"
+version = "0.6.0"
 description = "Dependency Injector for Python"
 category = "main"
 optional = false
@@ -570,7 +570,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "d4df12f14011f2b454e8055b643c153fd998ddf8c2f669530a2f5f1fa91d08c6"
+content-hash = "3836f933efe71fc128201159be76e714bb28c3c1b3aba39f4af5050a41240197"
 
 [metadata.files]
 alabaster = [
@@ -684,8 +684,8 @@ imagesize = [
     {file = "imagesize-1.2.0.tar.gz", hash = "sha256:b1f6b5a4eab1f73479a50fb79fcf729514a900c341d8503d62a62dbc4127a2b1"},
 ]
 injectark = [
-    {file = "injectark-0.4.1-py3-none-any.whl", hash = "sha256:e987b928be3a4f08cfde46e3f27f18ee792d1327077cb5c2dac844343b8a04f6"},
-    {file = "injectark-0.4.1.tar.gz", hash = "sha256:1ec393ccec33807124ca5bc1a3e631ca24bc223c74fd9b33d71c4ee76b8d6121"},
+    {file = "injectark-0.6.0-py3-none-any.whl", hash = "sha256:4c223b244979d1f1d3e0625e07123f015051a6124d26523d62d4febacbf8ec17"},
+    {file = "injectark-0.6.0.tar.gz", hash = "sha256:9df3739781266153aa24ea84dd4d7ee7c8b970b64265bf71552061eafaa779e5"},
 ]
 jinja2 = [
     {file = "Jinja2-2.11.3-py2.py3-none-any.whl", hash = "sha256:03e47ad063331dd6a3f04a43eddca8a966a26ba0c5b7207a9a9e4e08f1b29419"},

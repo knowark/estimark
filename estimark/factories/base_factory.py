@@ -10,7 +10,7 @@ from ..application.domain.repositories import (
     SlotRepository, MemorySlotRepository)
 from ..application.domain.services import PlotService, MemoryPlotService
 from ..application.managers import EstimationManager, InitializationManager
-from ..application.informers import StandardEstimarkInformer
+from ..application.informers import EstimarkInformer, StandardEstimarkInformer
 
 
 class BaseFactory(Factory):
@@ -21,37 +21,37 @@ class BaseFactory(Factory):
     def query_parser(self) -> QueryParser:
         return QueryParser()
 
-    def memory_task_repository(
+    def task_repository(
             self, query_parser: QueryParser
-    ) -> MemoryTaskRepository:
+    ) -> TaskRepository:
         return MemoryTaskRepository(query_parser)
 
-    def memory_link_repository(
+    def link_repository(
             self, query_parser: QueryParser
-    ) -> MemoryLinkRepository:
+    ) -> LinkRepository:
         return MemoryLinkRepository(query_parser)
 
-    def memory_classifier_repository(
+    def classifier_repository(
             self, query_parser: QueryParser
-    ) -> MemoryClassifierRepository:
+    ) -> ClassifierRepository:
         return MemoryClassifierRepository(query_parser)
 
-    def memory_classification_repository(
+    def classification_repository(
             self, query_parser: QueryParser
-    ) -> MemoryClassificationRepository:
+    ) -> ClassificationRepository:
         return MemoryClassificationRepository(query_parser)
 
-    def memory_schedule_repository(
+    def schedule_repository(
             self, query_parser: QueryParser
-    ) -> MemoryScheduleRepository:
+    ) -> ScheduleRepository:
         return MemoryScheduleRepository(query_parser)
 
-    def memory_slot_repository(
+    def slot_repository(
             self, query_parser: QueryParser
-    ) -> MemorySlotRepository:
+    ) -> SlotRepository:
         return MemorySlotRepository(query_parser)
 
-    def memory_plot_service(self) -> MemoryPlotService:
+    def plot_service(self) -> PlotService:
         return MemoryPlotService()
 
     def estimation_manager(
@@ -73,13 +73,13 @@ class BaseFactory(Factory):
     ) -> InitializationManager:
         return InitializationManager(classifier_repository)
 
-    def standard_estimark_informer(
+    def estimark_informer(
             self, task_repository: TaskRepository,
             link_repository: LinkRepository,
             classifier_repository: ClassifierRepository,
             schedule_repository: ScheduleRepository,
             slot_repository: SlotRepository
-    ) -> StandardEstimarkInformer:
+    ) -> EstimarkInformer:
         return StandardEstimarkInformer(
             task_repository, link_repository, classifier_repository,
             schedule_repository, slot_repository)

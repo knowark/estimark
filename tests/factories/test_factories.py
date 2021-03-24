@@ -1,26 +1,53 @@
 import inspect
 from injectark import Injectark
 from estimark.core.common import config
-from estimark.factories import factory_builder, strategy_builder
+from estimark.factories import factory_builder
 
 
 test_tuples = [
-    ('BaseFactory', ['base']),
-    ('AltairFactory', ['base', 'altair']),
-    ('CheckFactory', ['base', 'check']),
-    ('JsonFactory', ['base', 'altair', 'json']),
-    ('RstFactory', ['base', 'altair', 'json', 'rst'])
+    ('BaseFactory', [
+        ('QueryParser', 'QueryParser'),
+        ('TaskRepository', 'MemoryTaskRepository'),
+        ('LinkRepository', 'MemoryLinkRepository'),
+        ('ClassifierRepository', 'MemoryClassifierRepository'),
+        ('ClassificationRepository', 'MemoryClassificationRepository'),
+        ('ScheduleRepository', 'MemoryScheduleRepository'),
+        ('SlotRepository', 'MemorySlotRepository'),
+        ('PlotService', 'MemoryPlotService'),
+        ('EstimationManager', 'EstimationManager'),
+        ('InitializationManager', 'InitializationManager'),
+        ('EstimarkInformer', 'StandardEstimarkInformer')
+    ]),
+    ('AltairFactory', [
+        ('PlotService', 'AltairPlotService')
+    ]),
+    ('CheckFactory', [
+        ('TaskRepository', 'MemoryTaskRepository')
+    ]),
+    ('JsonFactory', [
+        ('TaskRepository', 'JsonTaskRepository'),
+        ('LinkRepository', 'JsonLinkRepository'),
+        ('ClassifierRepository', 'JsonClassifierRepository'),
+        ('ClassificationRepository', 'JsonClassificationRepository'),
+        ('ScheduleRepository', 'JsonScheduleRepository'),
+        ('SlotRepository', 'JsonSlotRepository')
+    ]),
+    ('RstFactory', [
+        ('RstAnalyzer', 'RstAnalyzer'),
+        ('RstLoader', 'RstLoader'),
+        ('TaskRepository', 'RstTaskRepository'),
+        ('LinkRepository', 'RstLinkRepository'),
+        ('ClassificationRepository', 'RstClassificationRepository'),
+    ]),
 ]
 
 
 def test_factories():
-    for factory_name, strategy_names in test_tuples:
+    for factory_name, dependencies in test_tuples:
         factory = factory_builder.build(config, name=factory_name)
-        strategy = strategy_builder.build(strategy_names)
 
-        injector = Injectark(strategy=strategy, factory=factory)
+        injector = Injectark(factory=factory)
 
-        for resource in strategy.keys():
-            result = injector.resolve(resource)
-            classes = inspect.getmro(type(result))
-            assert resource in [item.__name__ for item in classes]
+        for abstract, concrete in dependencies:
+            result = injector.resolve(abstract)
+            assert type(result).__name__ == concrete
