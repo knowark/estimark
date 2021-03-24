@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "estimark"
-version = "0.4.1"
+version = "0.4.2"
 description = "Frictionless Estimation"
 authors = ["Esteban Echeverry <eecheverry@knowark.com>"]
 
@@ -9,7 +9,7 @@ estimark = "estimark.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-injectark = "^0.4.1"
+injectark = "^0.4.2"
 docutils = "^0.16"
 altair = "^4.1.0"
 
