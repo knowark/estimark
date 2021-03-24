@@ -63,7 +63,7 @@ class Shell:
     def estimate(self, options_dict: Dict[str, str]) -> None:
         logger.info('<< ESTIMATE >>')
         states = [state.strip() for state in
-                  options_dict.get('states', '').split(',')]
+                  options_dict.get('states', '').split(',') if state]
         estimation_manager = self.injector['EstimationManager']
         estimation_manager.estimate(states)
 
